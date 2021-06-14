@@ -16,6 +16,7 @@
     "faunadb": "^4.3.0",
     "fetch": "^1.1.0",
     "ioredis": "^4.27.5",
+    "namor": "^2.0.3",
     "next": "10.2.3",
     "next-auth": "^3.25.0",
     "next-themes": "0.0.14",
@@ -26,8 +27,10 @@
     "react-hot-toast": "^2.0.0",
     "react-markdown": "^6.0.2",
     "react-syntax-highlighter": "^15.4.3",
+    "react-table": "^7.7.0",
     "save": "^2.4.0",
     "slugify": "^1.5.3",
+    "styled-components": "^5.3.0",
     "swr": "^0.5.6",
     "use-debounce": "^6.0.1",
     "uuid": "^8.3.2"
