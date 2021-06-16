@@ -18,7 +18,7 @@ import {GlobalStore} from '../store'
 import Logo from '../components/Logo'
 import DarkModeButton from '../components/DarkModeButton/index'
 import NotificationBell from '../components/NotificationBell/index'
-import Breadcrumbs from '../components/Breadcrumbs/index'
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -172,6 +172,22 @@ function StackedLayout({ children }) {
                                             ))}
                                             </Menu.Items>
                                         </Transition>
+
+                                        {session && !loading ? 
+                                            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+                                                <a href="#" className="flex-shrink-0 group block">
+                                                <div className="flex items-center">
+                                                    <div>
+                                                        <img className="inline-block h-10 w-10 rounded-full" src={session.user.image} alt="" />
+                                                    </div>
+                                                    <div className="ml-3">
+                                                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">{session.user.name}</p>
+                                                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">Account Settings</p>
+                                                    </div>
+                                                </div>
+                                                </a>
+                                            </div>
+                                        : null}
                                     </>
                                 )}
                             </Menu>
@@ -184,6 +200,14 @@ function StackedLayout({ children }) {
                             >
                                 <NotificationBell className="h-6 w-6" aria-hidden="true" />
                             </button>
+
+                            <button
+                                type="button"
+                                className="flex bg-indigo-600 p-1 rounded-full items-center justify-center text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                            >
+                                <PencilIcon className="h-6 w-6" aria-hidden="true" />
+                                <span className="sr-only"> New Link </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -194,17 +218,19 @@ function StackedLayout({ children }) {
                    
                     <section
                         aria-labelledby="primary-heading"
-                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last dark:bg-black light:bg-white px-3 py-1"
+                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
                     >
-                        <Breadcrumbs />
+                        <h1 id="primary-heading" className="sr-only">
+                            Photos
+                        </h1>
 
                         {children}
                     </section>
                 </main>
 
-                {/* <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> */}
+                <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block">
                     {/* Your content */}
-                {/* </aside> */}
+                </aside>
             </div>
         </div>
     </div>

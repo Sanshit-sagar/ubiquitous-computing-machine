@@ -1,24 +1,27 @@
 import React, { Fragment, useState, useContext } from 'react'
 import router from 'next/router'
 
-import { Menu, Transition } from '@headlessui/react'
+import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
-//   CogIcon,
+  CogIcon,
   CollectionIcon,
+  HomeIcon,
   MenuAlt2Icon,
+  PhotographIcon,
   PlusIcon,
   CursorClickIcon,
   PencilIcon,
+  UserGroupIcon,
+  ViewGridIcon,
+  XIcon,
 } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
 
+import {}
 import {useSession, signIn, signOut} from 'next-auth/client'
 import {GlobalStore} from '../store'
-
 import Logo from '../components/Logo'
-import DarkModeButton from '../components/DarkModeButton/index'
-import NotificationBell from '../components/NotificationBell/index'
-import Breadcrumbs from '../components/Breadcrumbs/index'
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -37,7 +40,6 @@ function StackedLayout({ children }) {
         { name: 'New', href: 'new', icon: PlusIcon, current: currentRoute==='new' },
         { name: 'Clicks', href: 'clicks', icon: CursorClickIcon, current: currentRoute==='clicks' },
         { name: 'Saved', href: 'links', icon: CollectionIcon, current: currentRoute==='links' },
-        // { name: 'Settings', href: '#', icon: CogIcon, current: currentRoute==='settings' },
     ];
 
     const userNavigation = [
@@ -176,13 +178,12 @@ function StackedLayout({ children }) {
                                 )}
                             </Menu>
 
-                            <DarkModeButton /> 
-
-                            <button 
+                            <button
                                 type="button"
-                                className="flex bg-yellow-600 p-1 rounded-full items-center justify-center text-white hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                                className="flex bg-indigo-600 p-1 rounded-full items-center justify-center text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
-                                <NotificationBell className="h-6 w-6" aria-hidden="true" />
+                                <PencilIcon className="h-6 w-6" aria-hidden="true" />
+                                <span className="sr-only"> New Link </span>
                             </button>
                         </div>
                     </div>
@@ -194,17 +195,19 @@ function StackedLayout({ children }) {
                    
                     <section
                         aria-labelledby="primary-heading"
-                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last dark:bg-black light:bg-white px-3 py-1"
+                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
                     >
-                        <Breadcrumbs />
+                        <h1 id="primary-heading" className="sr-only">
+                            Photos
+                        </h1>
 
                         {children}
                     </section>
                 </main>
 
-                {/* <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> */}
+                <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block">
                     {/* Your content */}
-                {/* </aside> */}
+                </aside>
             </div>
         </div>
     </div>

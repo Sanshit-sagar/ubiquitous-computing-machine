@@ -227,8 +227,8 @@ const FormWrapper = () => {
 
 function InputForm() {
     return (
-      <div className="w-full h-full bg-white overflow-hidden shadow rounded-lg">
-        <div className="w-full h-full inline-flex justify-between align-stretch px-2 py-2 mx-1 my-1">
+      <div className="w-full bg-white overflow-hidden shadow rounded-lg">
+        <div className="w-full inline-flex justify-between align-center px-2 py-2 mx-1 my-1">
             <aside className="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
                 <nav className="space-y-1">
                     {navigation.map((item) => (

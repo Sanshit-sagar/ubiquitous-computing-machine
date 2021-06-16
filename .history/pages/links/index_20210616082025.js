@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import fetcher from '../../lib/utils'
 import { useSession } from 'next-auth/client'
 import { Layout } from '@/sections/index';
-import {PencilIcon, EyeIcon, TrashIcon, ChevronIcon} from '@heroicons/react/solid'
+import {PencilIcon, EyeIcon, TrashIcon} from '@heroicons/react/solid'
 
 const useListOfSlugs = () => { 
     const [session, loading] = useSession()

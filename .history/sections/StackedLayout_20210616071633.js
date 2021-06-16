@@ -202,9 +202,9 @@ function StackedLayout({ children }) {
                     </section>
                 </main>
 
-                {/* <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> */}
+                <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block">
                     {/* Your content */}
-                {/* </aside> */}
+                </aside>
             </div>
         </div>
     </div>

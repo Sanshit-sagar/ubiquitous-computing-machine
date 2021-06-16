@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import fetcher from '../../lib/utils'
 import { useSession } from 'next-auth/client'
 import { Layout } from '@/sections/index';
-import {PencilIcon, EyeIcon, TrashIcon, ChevronIcon} from '@heroicons/react/solid'
+import {PencilIcon, EyeIcon, TrashIcon} from '@heroicons/react/solid'
 
 const useListOfSlugs = () => { 
     const [session, loading] = useSession()
@@ -106,11 +106,9 @@ const LinkEntry = ({ link, index }) => {
                 </span>
             </td>
 
-            <button type="button" className="bg-rose-600" disabled>
-                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                    <ChevronIcon /> 
-                </svg>
-                {/* Processing */}
+            <button type="button" class="bg-rose-600 ..." disabled>
+                <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
+                Processing
             </button>
 
             {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

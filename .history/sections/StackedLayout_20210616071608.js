@@ -194,7 +194,7 @@ function StackedLayout({ children }) {
                    
                     <section
                         aria-labelledby="primary-heading"
-                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last dark:bg-black light:bg-white px-3 py-1"
+                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last dark:bg-black light:bg-white"
                     >
                         <Breadcrumbs />
 
@@ -202,9 +202,9 @@ function StackedLayout({ children }) {
                     </section>
                 </main>
 
-                {/* <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> */}
+                <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block">
                     {/* Your content */}
-                {/* </aside> */}
+                </aside>
             </div>
         </div>
     </div>

@@ -6,8 +6,8 @@ function Breadcrumbs() {
     const [session, loading] = useSession()
 
     const pages = [
-        { name: session && !loading ? session.user.email : '...', href: '/profile', current: true },
-    ]; 
+        { element: session ? session.user.email : '...', href: '/profile' },
+    ]
 
     return (
         <nav className="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">

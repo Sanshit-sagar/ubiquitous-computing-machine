@@ -1,14 +1,12 @@
 import React, {useState, useContext, useRef, useEffect} from 'react'
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid'
-import {useSession} from 'next-auth/client'
+
+const pages = [
+  { name: 'Projects', href: '#', current: false },
+  { name: 'Project Nero', href: '#', current: true },
+]
 
 function Breadcrumbs() {
-    const [session, loading] = useSession()
-
-    const pages = [
-        { name: session && !loading ? session.user.email : '...', href: '/profile', current: true },
-    ]; 
-
     return (
         <nav className="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
           <ol className="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">

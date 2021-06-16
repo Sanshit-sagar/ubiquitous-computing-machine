@@ -6,7 +6,7 @@ function Breadcrumbs() {
     const [session, loading] = useSession()
 
     const pages = [
-        { name: session && !loading ? session.user.email : '...', href: '/profile', current: true },
+        { name: session ? session.user.email : '...', href: '/profile', current: true },
     ]; 
 
     return (

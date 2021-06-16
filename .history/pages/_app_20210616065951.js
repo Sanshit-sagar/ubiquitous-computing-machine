@@ -18,10 +18,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider enableSystem={true} attribute="class">
         <Store>
           <Component {...pageProps} />
-          <Toaster 
-            position="bottom-right" 
-            reverseOrder={true} 
-          /> 
+          <Toaster position="bottom-right" reverseOrder={true} /> 
         </Store>
       </ThemeProvider>
     </AuthProvider>

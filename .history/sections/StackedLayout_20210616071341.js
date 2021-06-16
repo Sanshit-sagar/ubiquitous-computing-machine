@@ -184,6 +184,14 @@ function StackedLayout({ children }) {
                             >
                                 <NotificationBell className="h-6 w-6" aria-hidden="true" />
                             </button>
+
+                            {/* <button
+                                type="button"
+                                className="flex bg-indigo-600 p-1 rounded-full items-center justify-center text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
+                            >
+                                <PencilIcon className="h-6 w-6" aria-hidden="true" />
+                                <span className="sr-only"> New Link </span>
+                            </button> */}
                         </div>
                     </div>
                 </div>
@@ -194,7 +202,7 @@ function StackedLayout({ children }) {
                    
                     <section
                         aria-labelledby="primary-heading"
-                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last dark:bg-black light:bg-white px-3 py-1"
+                        className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
                     >
                         <Breadcrumbs />
 
@@ -202,9 +210,9 @@ function StackedLayout({ children }) {
                     </section>
                 </main>
 
-                {/* <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> */}
+                <aside className="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block">
                     {/* Your content */}
-                {/* </aside> */}
+                </aside>
             </div>
         </div>
     </div>
