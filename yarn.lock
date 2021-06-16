@@ -1659,6 +1659,11 @@
   "resolved" "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"
   "version" "1.2.1"
 
+"immer@^9.0.3", "immer@>=2.0.0":
+  "integrity" "sha512-mONgeNSMuyjIe0lkQPa9YhdmTv8P19IeHV0biYhcXhbd5dhdB9HSK93zBpyKjp6wersSUgT5QyU0skmejUVP2A=="
+  "resolved" "https://registry.npmjs.org/immer/-/immer-9.0.3.tgz"
+  "version" "9.0.3"
+
 "inflight@^1.0.4":
   "integrity" "sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk="
   "resolved" "https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz"
@@ -2066,6 +2071,11 @@
   dependencies:
     "fault" "^1.0.0"
     "highlight.js" "~10.7.0"
+
+"luxon@^1.27.0":
+  "integrity" "sha512-VKsFsPggTA0DvnxtJdiExAucKdAnwbCCNlMM5ENvHlxubqWd0xhZcdb4XgZ7QFNhaRhilXCFxHuoObP5BNA4PA=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-1.27.0.tgz"
+  "version" "1.27.0"
 
 "make-dir@^3.0.2":
   "integrity" "sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw=="
@@ -2882,7 +2892,7 @@
   "resolved" "https://registry.npmjs.org/react-table/-/react-table-7.7.0.tgz"
   "version" "7.7.0"
 
-"react@^16.8.3 || ^17.0.0-0", "react@>= 0.14.0", "react@>= 16.8.0", "react@17.0.2":
+"react@^16.8.0 || ^17.0.1", "react@^16.8.3 || ^17.0.0-0", "react@>= 0.14.0", "react@>= 16.8.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -3603,6 +3613,11 @@
   "integrity" "sha512-kpvIxpa0vOLz/2I2sfNJ72mUeaT2CMNCu5BT1f2HkV9qZK27UVSOFf1sSSu+wjJE4TcR2VTXS2SM569+m3TN7Q=="
   "resolved" "https://registry.npmjs.org/use-debounce/-/use-debounce-6.0.1.tgz"
   "version" "6.0.1"
+
+"use-immer@^0.5.2":
+  "integrity" "sha512-aHnLa85kftWo05lqJVOy3GLXrydqu6kl0MXvo5k5OW8IoLJixa9NY/48Xdy0LlcqdakBTFLbSDZaYVPMVhYy8Q=="
+  "resolved" "https://registry.npmjs.org/use-immer/-/use-immer-0.5.2.tgz"
+  "version" "0.5.2"
 
 "use-subscription@1.5.1":
   "integrity" "sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA=="

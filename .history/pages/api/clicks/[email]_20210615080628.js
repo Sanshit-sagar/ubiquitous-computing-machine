@@ -1,13 +1,16 @@
 const axios = require('axios');
 
-const url = 'https://analyticly.hashably.workers.dev/api/click-stream'
+const baseUrl = `https://analyticly.hashably.workers.dev`;
 
 export default async function handler(req, res) {
-
-    await axios.get(url)
+    const {email} = req.query 
+    const fetchUrl = `${baseUrl}/api/${email}`
+    console.log(fetchUrl)
+    
+    await axios.get(fetchUrl)
         .then((response) => {
             console.log(response)
-            const clicks = response.data.clicks
+            const clicks = response.clicks
             res.status(200).json({ clicks })
         })
         .catch((error) => {
