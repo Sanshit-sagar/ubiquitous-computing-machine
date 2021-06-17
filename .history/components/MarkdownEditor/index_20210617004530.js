@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDebounce } from 'use-debounce';
+import ReactMarkdown from 'react-markdown';
 import useSWR from 'swr'
 import {fetcher} from '../../lib/utils'
 
@@ -11,8 +12,13 @@ import {fetcher} from '../../lib/utils'
 import {
   EyeIcon,
   PencilIcon,
+  CloudUploadIcon,
+  TrashIcon,
 } from '@heroicons/react/outline';
+import { MarkdownIcon, MDComponents } from '@/components/index';
+// import fetcher from '../../lib/utils'
 import {useRouter} from 'next/router'
+// import PageViewStats from '../Stats/index'
 import InputForm from './InputForm'
 
 const tabs = [
