@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/outline'
 import { SunIcon, MoonIcon } from '@heroicons/react/solid'
 import {GlobalStore} from '../store'
-// import toast from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 const links = [
     {
