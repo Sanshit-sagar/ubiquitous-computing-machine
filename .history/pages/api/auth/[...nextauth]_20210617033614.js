@@ -4,8 +4,8 @@ import Providers from 'next-auth/providers';
 export default NextAuth({
   providers: [
     Providers.GitHub({
-      clientId: 'd2e25bc471e7add5b7d5',
-      clientSecret: '31f552290aca57112e4112e9f675d3da5bd55774',
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     Providers.Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -17,5 +17,6 @@ export default NextAuth({
       accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
       requestTokenUrl: "https://accounts.google.com/o/oauth2/auth",
     }),
+    // ...add more providers here
   ],
 });

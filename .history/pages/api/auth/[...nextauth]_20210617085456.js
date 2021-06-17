@@ -17,5 +17,6 @@ export default NextAuth({
       accessTokenUrl: "https://accounts.google.com/o/oauth2/token",
       requestTokenUrl: "https://accounts.google.com/o/oauth2/auth",
     }),
+    // ...add more providers here
   ],
 });
