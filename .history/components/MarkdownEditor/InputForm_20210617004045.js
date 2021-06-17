@@ -1,7 +1,7 @@
 
 import React, { useContext } from 'react';
 import useSWR from 'swr'
-import { fetcher } from '../../lib/utils'
+import fetcher from '../../lib/utils'
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
