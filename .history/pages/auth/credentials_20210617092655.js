@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client'
-import StackedLayout from '../../sections/StackedLayout'
+import StackedLayout from 'sessions/StackedLayout'
 
 export default function Page () {
   const [response, setResponse] = React.useState(null)
