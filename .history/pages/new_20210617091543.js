@@ -4,6 +4,7 @@ import {useSession, getSession} from 'next-auth/client'
 import StackedLayout from '../sections/StackedLayout'
 import InputForm from '../components/MarkdownEditor/InputForm'
 import CustomSpinner from '../buildingBlocks/Spinner'
+
 import {GlobalStore} from '../store'
 
 // const PageHeadingText = () => {
@@ -25,10 +26,7 @@ export default function NewLinkPage() {
   return (
     <div className="container w-full">
       <StackedLayout 
-        pageMeta={{ 
-          title: 'Create a new Slug',
-          href: '/new' 
-        }} 
+        pageMeta={{ title: 'Write blog post' }} 
         children={<InputForm />}
       />
     </div>

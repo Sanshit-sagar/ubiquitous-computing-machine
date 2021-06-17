@@ -12,34 +12,7 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth?prompt=consent&access_type=offline&response_type=code',
     }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        password: { 
-          label: "Password", 
-          type: "password" 
-        },
-      },
-      async authorize(credentials, req) {
-        if (credentials.password === "password") {
-          return {
-            id: 1,
-            name: "Fill Murray",
-            email: "bill@fillmurray.com",
-            image: "https://www.fillmurray.com/64/64",
-          }
-        }
-        return null
-      },
-    }),
   ],
-  jwt: {
-      encryption: true,
-      secret: process.env.SECRET,
-    },
-    debug: false,
-    theme: "auto",
-  },
   pages: {
     signIn: '/auth/signin',
     signOut: '/auth/signout',
@@ -61,7 +34,7 @@ export default NextAuth({
     async redirect(url, baseUrl) {
       return url.startsWith(baseUrl) ? url : baseUrl
     },
-    async session(session, token) {
+    async session(session, user) {
       session.accessToken = token.accessToken
       return session
     },
