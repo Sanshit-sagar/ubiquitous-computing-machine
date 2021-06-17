@@ -1,0 +1,51 @@
+import React from 'react'
+// import { useSession } from 'next-auth/client'
+
+import StackedLayout from '../sections/StackedLayout'
+import InputForm from '../components/MarkdownEditor/InputForm'
+import Breadcrumbs from '../components/Breadcrumbs/index'
+import StatisticsCards from '../components/StatisticsCards'
+import {GlobalStore} from '../store'
+
+const PageHeadingText = () => {
+  const state = useContext(GlobalStore.State)
+
+  return (
+    <div className="lg:flex lg:items-center lg:justify-between">
+      <div className="flex-1 min-w-0">
+        <h2 className="text-2xl font-bold leading-7 text-white sm:text-3xl sm:truncate">
+          {state.router.current}
+        </h2>
+      </div>
+    </div>
+  )
+}
+
+const NewLinkPage = () => {
+  // const [session, loading] = useSession()
+
+
+  return (
+    <div className="container w-full mx-auto py-0 px-2">
+      <StackedLayout 
+        pageMeta={{ title: 'Write blog post' }} 
+        children={
+          <div className="w-full overflow-auto">
+            <div className="w-full inline-flex justify-items-between align-center">
+              <div className="w-full flex-col justify-start align-start">
+                  <Breadcrumbs />
+                  <PageHeadingText />
+              </div>
+
+              <StatisticsCards /> 
+            </div>
+
+            <InputForm />
+          </div>
+        }
+      />
+    </div>
+  );
+};
+
+export default NewLinkPage;
