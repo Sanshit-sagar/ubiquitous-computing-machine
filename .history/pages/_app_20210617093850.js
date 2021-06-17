@@ -5,7 +5,7 @@ import Router from 'next/router';
 
 import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
-import { Provider as AuthProvider } from 'next-auth/client'
+import { Provider } from 'next-auth/client'
 import { Toaster } from 'react-hot-toast';
 import NProgress from 'nprogress';
 
@@ -15,7 +15,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider 
+    <Provider 
       options={{
         clientMaxAge: 0,
         keepAlive: 0,
@@ -23,14 +23,15 @@ function MyApp({ Component, pageProps }) {
       session={pageProps.session}
     >
       <ThemeProvider enableSystem={true} attribute="class">
-        
         <Store>
           <Component {...pageProps} />
-          <Toaster position="bottom-left" reverseOrder={true} />
+          <Toaster 
+            position="bottom-left" 
+            reverseOrder={true} 
+          /> 
         </Store>
-
       </ThemeProvider>
-    </AuthProvider>
+    </Provider>
   )
 }
 

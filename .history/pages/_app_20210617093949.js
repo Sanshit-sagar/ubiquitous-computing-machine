@@ -26,7 +26,10 @@ function MyApp({ Component, pageProps }) {
         
         <Store>
           <Component {...pageProps} />
-          <Toaster position="bottom-left" reverseOrder={true} />
+          <Toaster 
+            position="bottom-left" 
+            reverseOrder={true} 
+          /> 
         </Store>
 
       </ThemeProvider>

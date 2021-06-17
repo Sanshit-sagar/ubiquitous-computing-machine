@@ -23,12 +23,13 @@ function MyApp({ Component, pageProps }) {
       session={pageProps.session}
     >
       <ThemeProvider enableSystem={true} attribute="class">
-        
         <Store>
           <Component {...pageProps} />
-          <Toaster position="bottom-left" reverseOrder={true} />
+          <Toaster 
+            position="bottom-left" 
+            reverseOrder={true} 
+          /> 
         </Store>
-
       </ThemeProvider>
     </AuthProvider>
   )
