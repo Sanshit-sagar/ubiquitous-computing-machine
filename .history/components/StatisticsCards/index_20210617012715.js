@@ -10,7 +10,7 @@ const useUserCollectionSize = (uid) => {
     return {
         numLinks: data ? data.userLinks : null,
         nlLoading: !data && !error,
-        nlError: error   
+        ernlError: error   
     };
 }
 
