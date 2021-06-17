@@ -47,5 +47,10 @@
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.0",
     "tailwindcss": "^2.0.4"
+  },
+  "globals": {
+    "localStorage": "readonly",
+    "location": "readonly",
+    "fetch": "readonly"
   }
 }
