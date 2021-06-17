@@ -3,8 +3,8 @@ import {useSession, getSession} from 'next-auth/client'
 
 import StackedLayout from '../sections/StackedLayout'
 import InputForm from '../components/MarkdownEditor/InputForm'
-// import CustomSpinner from '../buildingBlocks/Spinner'
-// import {GlobalStore} from '../store'
+import CustomSpinner from '../buildingBlocks/Spinner'
+import {GlobalStore} from '../store'
 
 // const PageHeadingText = () => {
 //   const [session, loading] = useSession()
@@ -23,15 +23,14 @@ export default function NewLinkPage() {
   const [session, loading] = useSession()
 
   return (
+    <div className="container w-full">
       <StackedLayout 
-          pageMeta={{ 
-            title: 'Create a new Slug',
-            href: '/new' 
-          }} 
-          children={
-            <InputForm />
-          }
+        pageMeta={{ 
+          title: 'Create a new Slug',
+          href: '/new' 
+        }} 
+        children={<InputForm />}
       />
-   
+    </div>
   );
 };

@@ -23,15 +23,14 @@ export default function NewLinkPage() {
   const [session, loading] = useSession()
 
   return (
+    <div className="container w-full">
       <StackedLayout 
-          pageMeta={{ 
-            title: 'Create a new Slug',
-            href: '/new' 
-          }} 
-          children={
-            <InputForm />
-          }
+        pageMeta={{ 
+          title: 'Create a new Slug',
+          href: '/new' 
+        }} 
+        children={<InputForm />}
       />
-   
+    </div>
   );
 };

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import StackedLayout from '../../sections/StackedLayout'
 
-const LoginPage = () => {
+export default function Page () {
   const [response, setResponse] = React.useState(null)
   const [email, setEmail] = React.useState('')
 
@@ -81,5 +81,3 @@ const LoginPage = () => {
     </StackedLayout>
   )
 }
-
-export default LoginPage

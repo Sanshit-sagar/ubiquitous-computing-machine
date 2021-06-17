@@ -28,9 +28,7 @@ export default function NewLinkPage() {
             title: 'Create a new Slug',
             href: '/new' 
           }} 
-          children={
-            <InputForm />
-          }
+          children={<InputForm />}
       />
    
   );
