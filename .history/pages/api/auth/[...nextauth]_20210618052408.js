@@ -21,7 +21,12 @@ export default NextAuth({
     },
     callbacks: {
         async signIn(user, account, profile) {
-            return true;
+            const isAllowedToSignIn = true
+            if (isAllowedToSignIn) {
+              return true
+            } else {
+                return false
+            }
         },
         async redirect(url, baseUrl) {
             return url.startsWith(baseUrl) ? url : baseUrl

@@ -183,8 +183,6 @@ function StackedLayout({ children, pageMeta }) {
     //     signOut(); 
     // }
 
-    const SignInButton = () => { router.push('/api/auth/signin')}
-
     return (
         <div className="h-screen bg-gray-900 flex overflow-x-auto overflow-y-scroll">
             <div className="bg-gray-900 border-gray-50 overflow-y-auto md:block">
@@ -245,10 +243,7 @@ function StackedLayout({ children, pageMeta }) {
                                 </div>
                             </div>
 
-                        {/* {   !session.user ? 
-                            <SignInButton /> : */}
-
-                            (<div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
+                            <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
                                 <Menu as="div" className="relative flex-shrink-0">
                                     {({ open }) => (
                                         <> 
@@ -290,9 +285,11 @@ function StackedLayout({ children, pageMeta }) {
                                 <DarkModeButton /> 
                                 <NotificationButton />
                                 <ProfileMenu />
-                            </div>
-                        
 
+                                {/* <button onClick={handleSignOut}>
+                                    signout
+                                </button> */}
+                            </div>
                         </div>
                     </div>
                 </header>
@@ -309,9 +306,12 @@ function StackedLayout({ children, pageMeta }) {
                                    
                                    <div>
                                         <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                            {session ? session.user.email : loading ? <CustomSpinner /> : 'error!'}
+                                            {session ? session.user.email : <CustomSpinner />}
                                         </h3>
                                         
+                                        {/* <p className="text-md font-light text-gray-900">
+                                            {session ? session.user.email : <CustomSpinner />}
+                                        </p> */}
                                     </div>
                                 </div>
                                 <div className="w-full flex-row justify-end items-end">

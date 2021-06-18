@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.4.0",
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
     "@tailwindcss/forms": "^0.3.3",

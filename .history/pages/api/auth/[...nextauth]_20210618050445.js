@@ -7,6 +7,14 @@ export default NextAuth({
         Providers.GitHub({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
+        }),
+        Providers.Facebook({
+            clientId: process.env.FACEBOOK_CLIENT_ID,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        }),
+        Providers.Google({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET
         })
     ],
     session: {
@@ -17,25 +25,12 @@ export default NextAuth({
     },
     pages: {
         signIn: '/auth/signin',
-        signOut: '/auth/signout',
     },
     callbacks: {
-        async signIn(user, account, profile) {
-            return true;
+        session: async (session, user) => {
+            session.id = user.id;
+            return Promise.resolve(session);
         },
-        async redirect(url, baseUrl) {
-            return url.startsWith(baseUrl) ? url : baseUrl
-        },
-        async jwt(token, user, account, profile, isNewUser) {
-            if (account?.accessToken) {
-              token.accessToken = account.accessToken
-            }
-            return token
-        },
-        async session(session, token) {
-            session.accessToken = token.accessToken
-            return session
-        }
     },
     secret: process.env.JWT_SECRET,
     events: {},

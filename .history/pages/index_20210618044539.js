@@ -1,14 +1,13 @@
-import React from 'react'
-
+import React, {useEffect, useState, useContext} from 'react'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {useSession} from 'next-auth/client'
 
 // import { useSession, signIn, signOut } from 'next-auth/client'
 // import { PencilIcon } from '@heroicons/react/outline'
 import StackedLayout from '../sections/StackedLayout'
 import CustomSpinner from '../buildingBlocks/Spinner'
 
-// import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 
 // function LandingPageContent() {
 //   const router = useRouter()
@@ -47,9 +46,7 @@ import CustomSpinner from '../buildingBlocks/Spinner'
 // }
 
 const Home = () => {
-    const router = useRouter()
-    const [session, loading] = useSession()
-
+   
     return (
       <StackedLayout 
         pageMeta={{  
@@ -60,12 +57,12 @@ const Home = () => {
           session && session.user ? 
             <>
             <h2> Welcome {user.name} </h2>
-              <button onClick={() => router.push('/api/auth/signout')}>
+              <button onClick={() => router.push("/api/auth/logout")}>
                 Logout
               </button>
             </>
 
-          : loading ? <CustomSpinner /> :
+          :
           <> 
             <h2> Log in to continue </h2>
               <button onClick={() => router.push('/api/auth/signin')}> 

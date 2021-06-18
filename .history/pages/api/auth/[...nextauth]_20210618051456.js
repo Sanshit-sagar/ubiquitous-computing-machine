@@ -17,24 +17,16 @@ export default NextAuth({
     },
     pages: {
         signIn: '/auth/signin',
-        signOut: '/auth/signout',
     },
     callbacks: {
-        async signIn(user, account, profile) {
-            return true;
+        session: async (session, user) => {
+            session.id = user.id;
+            return Promise.resolve(session);
         },
-        async redirect(url, baseUrl) {
-            return url.startsWith(baseUrl) ? url : baseUrl
-        },
-        async jwt(token, user, account, profile, isNewUser) {
-            if (account?.accessToken) {
-              token.accessToken = account.accessToken
-            }
-            return token
-        },
-        async session(session, token) {
-            session.accessToken = token.accessToken
-            return session
+        redirect: async (url, baseUrl) => {
+            return url.startsWith(baseUrl)
+              ? Promise.resolve(url)
+              : Promise.resolve(baseUrl)
         }
     },
     secret: process.env.JWT_SECRET,

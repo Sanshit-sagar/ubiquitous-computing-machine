@@ -1,12 +1,13 @@
-import React from 'react'
-
+import React, {useEffect, useState, useContext} from 'react'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {useSession} from 'next-auth/client'
 
 // import { useSession, signIn, signOut } from 'next-auth/client'
 // import { PencilIcon } from '@heroicons/react/outline'
 import StackedLayout from '../sections/StackedLayout'
 import CustomSpinner from '../buildingBlocks/Spinner'
+
+import {useSession} from 'next-auth/client'
 
 // import { useUser } from '@auth0/nextjs-auth0';
 
@@ -47,7 +48,6 @@ import CustomSpinner from '../buildingBlocks/Spinner'
 // }
 
 const Home = () => {
-    const router = useRouter()
     const [session, loading] = useSession()
 
     return (
@@ -60,7 +60,7 @@ const Home = () => {
           session && session.user ? 
             <>
             <h2> Welcome {user.name} </h2>
-              <button onClick={() => router.push('/api/auth/signout')}>
+              <button onClick={() => router.push("/api/auth/logout")}>
                 Logout
               </button>
             </>

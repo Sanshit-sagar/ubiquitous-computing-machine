@@ -60,7 +60,7 @@ const Home = () => {
           session && session.user ? 
             <>
             <h2> Welcome {user.name} </h2>
-              <button onClick={() => router.push('/api/auth/signout')}>
+              <button onClick={() => router.push("/api/auth/logout")}>
                 Logout
               </button>
             </>

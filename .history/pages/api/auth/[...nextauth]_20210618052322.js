@@ -21,20 +21,21 @@ export default NextAuth({
     },
     callbacks: {
         async signIn(user, account, profile) {
-            return true;
+            const isAllowedToSignIn = true
+            if (isAllowedToSignIn) {
+              return true
+            } else {
+                return false
+            }
         },
         async redirect(url, baseUrl) {
             return url.startsWith(baseUrl) ? url : baseUrl
+        }
+        async session(session, user) {
+          return session
         },
         async jwt(token, user, account, profile, isNewUser) {
-            if (account?.accessToken) {
-              token.accessToken = account.accessToken
-            }
-            return token
-        },
-        async session(session, token) {
-            session.accessToken = token.accessToken
-            return session
+          return token
         }
     },
     secret: process.env.JWT_SECRET,

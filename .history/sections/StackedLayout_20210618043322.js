@@ -183,8 +183,6 @@ function StackedLayout({ children, pageMeta }) {
     //     signOut(); 
     // }
 
-    const SignInButton = () => { router.push('/api/auth/signin')}
-
     return (
         <div className="h-screen bg-gray-900 flex overflow-x-auto overflow-y-scroll">
             <div className="bg-gray-900 border-gray-50 overflow-y-auto md:block">
@@ -245,8 +243,8 @@ function StackedLayout({ children, pageMeta }) {
                                 </div>
                             </div>
 
-                        {/* {   !session.user ? 
-                            <SignInButton /> : */}
+                        {   !session.user ? 
+                            <SignInButton /> :
 
                             (<div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
                                 <Menu as="div" className="relative flex-shrink-0">
@@ -290,8 +288,8 @@ function StackedLayout({ children, pageMeta }) {
                                 <DarkModeButton /> 
                                 <NotificationButton />
                                 <ProfileMenu />
-                            </div>
-                        
+                            </div>)
+                        }
 
                         </div>
                     </div>
