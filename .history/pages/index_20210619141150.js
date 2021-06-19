@@ -1,6 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
-
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
 import StackedLayout from '../sections/StackedLayout'
@@ -35,12 +33,8 @@ const Home = () => {
     return (
       <>
         <Head>
-          <title> cute.ly </title>
-          
-          <meta property="og:title" content="cutely" key="title" />
-
           {/* <!-- Cloudflare Web Analytics --> */}
-          <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d08fc063d1064064af71f7ac09369e34"}' />
+            <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d08fc063d1064064af71f7ac09369e34"}' />
           {/* <!-- End Cloudflare Web Analytics --> */}
         </Head> 
         

@@ -23,7 +23,6 @@ export default function NewLinkPage() {
   const [session, loading] = useSession()
 
   return (
-    
       <StackedLayout 
           pageMeta={{ 
             title: 'Create a new Slug',
