@@ -3,7 +3,6 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import {useSession} from 'next-auth/client'
 import {GlobalStore} from '../../store'
-import Icon from '@supabase/ui'
 
 const ActionsMenu = () => {
     const [session, loading] = useSession();
@@ -25,7 +24,6 @@ const ActionsMenu = () => {
                 onClick={handleCancel}
                 disabled={!session || !session?.user}
             >
-                {/* { loading ? <Icon spinning={loading} /> : Cancel} */}
                 Cancel
             </button>
 
@@ -35,7 +33,6 @@ const ActionsMenu = () => {
                 onClick={handleSave}
                 disabled={!session || !session?.user}
             >
-               {/* { loading ? <Icon spinning={loading} /> : Save} */}
                Save
             </button>
         </div>
