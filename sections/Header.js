@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 import Link from 'next/link'
-import Icon from '@supabase/ui'
 
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
@@ -67,7 +66,6 @@ const Header = ({ handleNavigation }) => {
                                 disabled={fetchLoading}
                                 className="flex bg-white text-black"
                             />
-                            {fetchLoading && <Icon type="Loader" size={18} strokeWidth={2} className="animate-spin" />}
                             
                         </form>
                     {/* </div> */}

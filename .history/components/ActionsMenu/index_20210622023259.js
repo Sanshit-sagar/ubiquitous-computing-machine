@@ -24,6 +24,7 @@ const ActionsMenu = () => {
                 onClick={handleCancel}
                 disabled={!session || !session?.user}
             >
+                {/* { loading ? <Icon spinning={loading} /> : Cancel} */}
                 Cancel
             </button>
 
@@ -33,6 +34,7 @@ const ActionsMenu = () => {
                 onClick={handleSave}
                 disabled={!session || !session?.user}
             >
+               {/* { loading ? <Icon spinning={loading} /> : Save} */}
                Save
             </button>
         </div>
