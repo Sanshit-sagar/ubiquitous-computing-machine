@@ -1,14 +1,14 @@
 import React, {useContext} from 'react'
 
 import useSWR from 'swr'
+import fetcher from '../../lib/utils'
 import { useRouter } from 'next/router'
 
 import Loader from '../../components/Loader'
 import {GlobalStore} from '../../store'
 
-const fetcher = url => axios.get(url).then(res => res.data);
-
 import { 
+    Windmill,
     Backdrop,
     Modal, 
     ModalHeader, 
