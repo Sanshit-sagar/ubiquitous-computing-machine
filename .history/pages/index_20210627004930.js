@@ -29,7 +29,7 @@ const LandingPage = () => {
           style={{ height: '150vh'}}
         />
         
-        <div className="min-h-screen sm:min-h-full lg:min-h-screen items-center sm:py-0 grid grid-cols-12 gap-x-4 container px-10 sm:px-20 xl:px-28 mx-auto z-10 flex-col-reverse sm:my-56 lg:my-0">
+        <div className="min-h-screen sm:min-h-full lg:min-h-screen items-center py-40 sm:py-0 grid grid-cols-12 gap-x-4 container px-10 sm:px-20 xl:px-28 mx-auto z-10 flex-col-reverse sm:my-56 lg:my-0">
           <div className="row-start-2 lg:row-start-1 col-span-12 lg:col-span-6 relative">
             <div className="mb-10">
               <div className="flex items-center mb-5">

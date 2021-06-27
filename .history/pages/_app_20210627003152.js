@@ -1,6 +1,6 @@
 
-import '../styles/globals.css';
-import '../styles/nprogress.css';
+// import '@/styles/globals.css';
+import '@/styles/nprogress.css';
 
 import Router from 'next/router';
 import { Store } from '../store';

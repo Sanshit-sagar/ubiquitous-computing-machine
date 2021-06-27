@@ -16,19 +16,19 @@ export default NextAuth({
         // secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
     },
     pages: {
-        signIn: '/auth/signin',
+        // signIn: '/auth/signin',
         // signOut: '/auth/signout',
     },
     callbacks: {
-        async signIn(user, account, profile) {
-            return true
-        },
-        async redirect(url, baseUrl) {
-            return baseUrl
-        },
-        async session(session, user) {
-            return session
-        },
+        // async signIn(user, account, profile) {
+        //     return true
+        // },
+        // async redirect(url, baseUrl) {
+        // return baseUrl
+        // },
+        // async session(session, user) {
+        // return session
+        // },
         // async jwt(token, user, account, profile, isNewUser) {
         // return token
         // }

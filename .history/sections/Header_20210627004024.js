@@ -58,19 +58,19 @@ const Header = () => {
         }
     }, [activeSlug])
 
-    // const goToSlug = async(event) => {
-    //     event.preventDefault()
-    //     event.stopPropagation()
+    const goToSlug = async(event) => {
+        event.preventDefault()
+        event.stopPropagation()
     
-    //     setFetchLoading(true)
-    //     const destPath = await fetchAndWait(`https://api.github.com/orgs/${activeSlug.toLowerCase()}`)
-    //     if (destPath.login) {
-    //         router.push(`/${destPath.login}`)
-    //     } else {
-    //         toast.error(`The slug ${activeSlug} cannot be found`)
-    //     }
-    //     setFetchLoading(false)
-    // }
+        setFetchLoading(true)
+        const destPath = await fetchAndWait(`https://api.github.com/orgs/${activeSlug.toLowerCase()}`)
+        if (destPath.login) {
+            router.push(`/${destPath.login}`)
+        } else {
+            toast.error(`The slug ${activeSlug} cannot be found`)
+        }
+        setFetchLoading(false)
+    }
 
     return (
         // <Windmill>
@@ -98,29 +98,26 @@ const Header = () => {
                             </div>
                         </div>
                         
-                       
+                        {session && session.user ? 
                         <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
-                            {session && session.user ? 
-                                <>
-                                    <button onClick={() => signOut()}> 
-                                        signout
-                                    </button> 
+                            <button onClick={() => signOut()}> 
+                                signout
+                            </button> 
 
-                                    <a href="#" class="block relative">
-                                        <img 
-                                            alt={session.user.name} 
-                                            src={session.user.image} 
-                                            class="mx-auto object-cover rounded-full h-10 w-10"
-                                        />
-                                    </a>
-                                </> 
-                            : loading ? <Loader /> 
-                            : 
-                                <button onClick={() => router.push('/')}>
-                                    signin 
-                                </button>
-                            }
+                            <a href="#" class="block relative">
+                                <img 
+                                    alt={session.user.name} 
+                                    src={session.user.image} 
+                                    class="mx-auto object-cover rounded-full h-10 w-10"
+                                />
+                            </a>
                         </div> 
+                        : loading ? <Loader /> : 
+
+                            <button onClick={() => router.push('/')}>
+                                signin 
+                            </button>
+                        }
 
                     </div>
                 </div>

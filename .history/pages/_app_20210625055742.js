@@ -1,6 +1,6 @@
 
-import '../styles/globals.css';
-import '../styles/nprogress.css';
+import '@/styles/globals.css';
+import '@/styles/nprogress.css';
 
 import Router from 'next/router';
 import { Store } from '../store';
@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }) {
 
 
   return (
-    
     <AuthProvider 
       options={{
         clientMaxAge: 0,
@@ -45,7 +44,10 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 
 
-{/*  */}
+{/* <Toaster 
+  position="bottom-right" 
+  reverseOrder={true} 
+/> */}
 
 // const [loaded, setLoaded] = useState(false)
 // // `/api/slugs/aliases/${uid}`

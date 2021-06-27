@@ -29,7 +29,7 @@ const LandingPage = () => {
           style={{ height: '150vh'}}
         />
         
-        <div className="min-h-screen sm:min-h-full lg:min-h-screen items-center sm:py-0 grid grid-cols-12 gap-x-4 container px-10 sm:px-20 xl:px-28 mx-auto z-10 flex-col-reverse sm:my-56 lg:my-0">
+        <div className="min-h-screen sm:min-h-full lg:min-h-screen items-center py-40 sm:py-0 grid grid-cols-12 gap-x-4 container px-10 sm:px-20 xl:px-28 mx-auto z-10 flex-col-reverse sm:my-56 lg:my-0">
           <div className="row-start-2 lg:row-start-1 col-span-12 lg:col-span-6 relative">
             <div className="mb-10">
               <div className="flex items-center mb-5">
@@ -46,7 +46,7 @@ const LandingPage = () => {
             <div className="mb-10">
               <div className="container h-full w-full bg-gray-50 border-black">
                   <h2> { session && session.user ? `Welcome ${session.user.name}` : 'Log in to continue'} </h2>
-                  <button onClick={() => router.push(session && session.user ? '/auth/signout' : '/auth/signin')}>
+                  <button onClick={() => router.push(session && session.user ? '/api/auth/signout' : '/api/auth/singin')}>
                     {  loading ? <Loader /> 
                     :  session && session.user 
                     ? 'Logout' : 'Login'}
