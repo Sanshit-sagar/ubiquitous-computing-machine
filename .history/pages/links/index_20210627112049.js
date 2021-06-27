@@ -247,9 +247,9 @@ const TabulatedLinks = ({ uid, email, user }) => {
     if(loading) return <p> your links are loading... </p> //add skeleton
     if(error) return <h2> {error.message} </h2>
 
-    // let linkEntries = Object.entries(links)
-    let sortedLinks = linkEntries.sort((a, b) => parseInt(JSON.parse(b[1]).timestamp) - parseInt(JSON.parse(a[1]).timestamp).reverse())
-    let linksOnPage = sortedLinks.slice(cursor, cursor + pageSize)
+    let linkEntries = Object.entries(links)
+    // let sortedLinks = linkEntries.sort((a, b) => JSON.parse(b[1]).timestamp - JSON.parse(a[1]).timestamp).reverse();
+    let linksOnPage = linkEntries.slice(cursor, cursor + pageSize)
 
     return (
         // <p> {JSON.stringify(sortedLinks)} </p>

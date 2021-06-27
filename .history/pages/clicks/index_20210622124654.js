@@ -209,7 +209,7 @@ const ClickStreamCache = () => {
             clicks.forEach((click, index) => {
                 tempClicks.push(click)
             });
-            setSortedClicks(tempClicks.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)));
+            setSortedClicks(tempClicks.sort((a, b) => String(b.timestamp).localeCompare(a.timestamp)));
         }
     }, [mounted, clicks, loading,error, sortedClicks, reval]);
 
