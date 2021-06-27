@@ -219,7 +219,7 @@
     "lodash" "^4.17.21"
     "react-motion" "^0.5.2"
 
-"@nivo/core@0.71.0":
+"@nivo/core@^0.71.0", "@nivo/core@0.71.0":
   "integrity" "sha512-cpjEBNzda2eWTu6NPj2NGqDWM1RI4wO/gNt0LgNZqEcscuxaZ95C9VWKi/jV0obr2mCgeKjnIyBO4T44WX9x3w=="
   "resolved" "https://registry.npmjs.org/@nivo/core/-/core-0.71.0.tgz"
   "version" "0.71.0"
