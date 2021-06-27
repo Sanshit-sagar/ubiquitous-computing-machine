@@ -1,25 +1,25 @@
 
 import '@/styles/globals.css';
 import '@/styles/nprogress.css';
-import {Store} from '../store';
 
 import Router from 'next/router';
+import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
-
 import { Provider as AuthProvider } from 'next-auth/client'
-// import { UserProvider } from '@auth0/nextjs-auth0';
-
-import { Toaster } from 'react-hot-toast';
 import NProgress from 'nprogress';
-
-import { Windmill } from '@windmill/react-ui'
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+// import uPlot from 'uplot'
+// import UPlotReact from 'uplot-react'
+// import { useEffect } from 'react';
+
+
 function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
+
 
   return (
     <AuthProvider 
@@ -34,15 +34,7 @@ function MyApp({ Component, pageProps }) {
         attribute="class"
       >
         <Store>
-
-        {/* <Windmill dark> */}
-            <Component  {...pageProps} />
-          {/* </Windmill> */}
-          
-          <Toaster 
-            position="bottom-right" 
-            reverseOrder={true} 
-          />
+          <Component  {...pageProps} />
         </Store>
       </ThemeProvider>
     </AuthProvider>
@@ -50,3 +42,38 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp
+
+
+{/* <Toaster 
+  position="bottom-right" 
+  reverseOrder={true} 
+/> */}
+
+// const [loaded, setLoaded] = useState(false)
+// // `/api/slugs/aliases/${uid}`
+// const [slugs, setSlugs] = useState([])
+// const [selectedSlugs, setSelectedSlugs] = useState([])
+// const [clickEventRetrievers, setClickEventRetrievers] = useState({})
+
+// const references = {
+//   clicks: useRef(null),
+// }
+
+
+// const toggleSlug = (slugName) => {
+//   let updatedSelectedSlugs = selectedSlugs.slice()
+//   if (selectedSlugs.indexOf(slugName) !== -1) {
+//     updatedSelectedSlugs = updatedSelectedSlugs.filter(slug => slug !== slugName)
+//   } else {
+//     updatedSelectedSlugs.push(slugName)
+//   }
+//   setSelectedSlugs(updatedSelectedSlugs)
+// }
+
+// const toggleAllSlugs = () => {
+//   if (selectedSlugs.length === slugs.length) {
+//     setSelectedSlugs([])
+//   } else {
+//     setSelectedSlugs(slugs.map(slug => `${slug}`))
+//   }
+// }

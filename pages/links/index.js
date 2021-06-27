@@ -11,9 +11,7 @@ import toast from 'react-hot-toast'
 
 import StackedLayout from '@/sections/StackedLayout'
 import {useRouter} from 'next/router'
-
-// import { Badge } from '@windmill/react-ui'
-
+import SlugDetailsModal from './modal'
 
 import {
     TableContainer,
@@ -23,7 +21,8 @@ import {
     TableRow,
     TableCell,
     TableFooter,
-    Pagination
+    Pagination,
+    Modal, ModalHeader, ModalBody, ModalFooter, Button
   } from '@windmill/react-ui'
   import { Badge } from '@windmill/react-ui'
 
@@ -38,19 +37,6 @@ const useListOfSlugs = (email) => {
     };
 }
 
-// const SelectAllRowsCheckbox = ({ select, toggleSelect }) => {
-//     return (
-//         <label class="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
-//             <input 
-//                 type="checkbox" 
-//                 class="form-checkbox focus:outline-none focus:shadow-outline"
-//                 value={select}
-//                 onClick={toggleSelect}
-//             />
-//         </label>
-//     )
-// }
-
 function getStatus(ts, exp) {
     if(ts <= exp) {
         return 'active'
@@ -59,128 +45,93 @@ function getStatus(ts, exp) {
     }
 }
 
-const LinkEntry = ({ link, user }) => {
-    const state = useContext(GlobalStore.State)
-    const dispatch = useContext(GlobalStore.Dispatch)
+// const LinkEntry = ({ link, user }) => {
+//     const state = useContext(GlobalStore.State)
+//     const dispatch = useContext(GlobalStore.Dispatch)
 
-    const router = useRouter()
+//     const router = useRouter()
 
 
-    const slug = link[0]
-    const timestamp = JSON.parse(link[1]).timestamp
-    const expiry = JSON.parse(link[1]).ttl || ''
+//     const slug = link[0]
+//     const timestamp = JSON.parse(link[1]).timestamp
+//     const expiry = JSON.parse(link[1]).ttl || ''
     
-    const handleToggleRowSelection = (slug) => {
-        dispatch({
-            type: 'toggle_map_value',
-            payload: {
-                key: `${slug}`
-            }
-        });
-    }
+//     const handleToggleRowSelection = (slug) => {
+//         dispatch({
+//             type: 'toggle_map_value',
+//             payload: {
+//                 key: `${slug}`
+//             }
+//         });
+//     }
 
-    const isValidDate = (new Date(timestamp)).getTime() > 0
+//     const isValidDate = (new Date(timestamp)).getTime() > 0
     
-    const {data, error} = useSWR(`/api/slugs/views/${slug}`, fetcher)
-    const localizedDatetime =  isValidDate ? timestamp && useDateTimeConverter(timestamp) : 'N/A'
-    const localizedExpiry = isValidDate && expiry.length ? useDateTimeConverter(expiry) : 'N/A'
+//     const {data, error} = useSWR(`/api/slugs/views/${slug}`, fetcher)
+//     const localizedDatetime =  isValidDate ? timestamp && useDateTimeConverter(timestamp) : 'N/A'
+//     const localizedExpiry = isValidDate && expiry.length ? useDateTimeConverter(expiry) : 'N/A'
 
-    const fields = {
-        slug: JSON.parse(link[1]).slug,
-        destination: `${JSON.parse(link[1]).url.substring(0, 30)}...`,
-        timestamp: `${localizedDatetime.primaryText} [${localizedDatetime.secondaryText}]`,
-        expiry: `${localizedExpiry.primaryText} [${localizedExpiry.secondaryText}]`,
-    }
-    const currentSlugStatus = getStatus(fields.slug, fields.expiry)
+//     const fields = {
+//         slug: JSON.parse(link[1]).slug,
+//         destination: `${JSON.parse(link[1]).url.substring(0, 30)}...`,
+//         timestamp: `${localizedDatetime.primaryText} [${localizedDatetime.secondaryText}]`,
+//         expiry: `${localizedExpiry.primaryText} [${localizedExpiry.secondaryText}]`,
+//     }
+//     const currentSlugStatus = getStatus(fields.slug, fields.expiry)
 
-    return (
-        <>
-             {/* <td className="py-2 px-3 sticky top-0 border-b">
-                <label className="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
-                    <input 
-                        type="checkbox" 
-                        className="form-checkbox focus:outline-none focus:shadow-outline"
-                        value={state.selectedRows[`${slug}`]}
-                        onClick={handleToggleRowSelection}
-                    />
-                </label>
-            </td> */}
+//     return (
+//         <>
+             
 
-            {Object.entries(fields).map(function(val, ind) {
-                return (
-                    <td 
-                        key={ind} 
-                        className="border-dashed border-t border-gray-200"
-                    >
-                        <div className="flex items-center">
-                            <span className="text-indigo-700 font-light text-xs px-2 py-2 flex items-center">
-                                {val[1]}
-                            </span>
-                        </div>
-                    </td>
-                )
-            })}
+//             {Object.entries(fields).map(function(val, ind) {
+//                 return (
+//                     <td 
+//                         key={ind} 
+//                         className="border-dashed border-t border-gray-200"
+//                     >
+//                         <div className="flex items-center">
+//                             <span className="text-indigo-700 font-light text-xs px-2 py-2 flex items-center">
+//                                 {val[1]}
+//                             </span>
+//                         </div>
+//                     </td>
+//                 )
+//             })}
 
-            {/* <td>
-                <span className={`px-2 py-3 inline-flex text-md leading-5 font-semibold rounded-md ${currentSlugStatus==='active' ?  'bg-green-100 text-green-800' : 'bg-red-400 text-gray-200'}`}>
-                    {currentSlugStatus}
-                </span>
-            </td>
-
-            <td className="px-6 py-4 whitespace-nowrap">
-                <span className="px-2 py-3 inline-flex text-md leading-5 font-semibold rounded-md bg-green-100 text-green-800">
-                    { !data && !error ? <CustomSpinner />  :   error ? 'error!' : data.views + ' views' }
-                </span>
-            </td>
-
-            <td class="py-3 px-6 text-center">
-                <div class="flex item-center justify-center">
-                    <button 
-                        class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        // onClick={() => {fields ? handleLinkEntryAction(fields.slug) : null}}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                    </button>
-
-                    <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </button>
-                    <button 
-                        class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        // onClick={handleDelete}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </button>
-                </div>
-            </td> */}
-        </>
-        // {Object.entries(fields).map((value, index) => {
-        //     return (
-        //         <TableCell>
-        //             <span className="font-semibold ml-2 text-sm">
-        //                 {value}
-        //             </span>
-        //         </TableCell>
-        //     );
-        // })}
-    )
-}
+//             {/*
+//             */}
+//         </>
+//         // {Object.entries(fields).map((value, index) => {
+//         //     return (
+//         //         <TableCell>
+//         //             <span className="font-semibold ml-2 text-sm">
+//         //                 {value}
+//         //             </span>
+//         //         </TableCell>
+//         //     );
+//         // })}
+//     )
+// }
 
 const LinkRow = ({ link, user }) => {
     const fields = JSON.parse(link[1]);
+    
+    const state = useContext(GlobalStore.State)
+    const dispatch = useContext(GlobalStore.Dispatch)
 
     const slug = fields.slug || ''
     const destination = fields.url ? fields.url.substring(0, 30) : ''
     const timestamp = fields.timestamp || ''
     const ttl = fields.ttl || ''
+
+    const handleEdit = () => {
+        dispatch({
+            type: 'toggle_slug_modal',
+            payload: {
+                slug
+            }
+        });
+    }
 
     const {data, error} = useSWR(`/api/slugs/views/${slug}`, fetcher)
   
@@ -218,6 +169,35 @@ const LinkRow = ({ link, user }) => {
                     }
                 </span>
             </TableCell>
+            <TableCell>
+                <td class="py-3 px-6 text-center">
+                    <div class="flex item-center justify-center">
+                        <button 
+                            className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" 
+                            onClick={handleEdit}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+
+                        <button class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                        <button 
+                            class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </td> 
+            </TableCell>
         </TableRow>
     );
 }
@@ -243,7 +223,7 @@ const TabulatedLinks = ({ uid, email, user }) => {
         { Header: 'Expiry (TTL)', Footer: '' },
         { Header: 'Views', Footer: '' },
         // { Header: 'Status', Footer: '' },
-        // { Header: 'Actions', Footer: '' },
+        { Header: 'Actions', Footer: '' },
     ], []);
 
     const handlePaginationChange = () => {
@@ -299,6 +279,18 @@ export default function Links({ user }) {
     const uid = user ? user.email : null 
     const email = user ? user.email : ''
 
+    // const state = useContext(GlobalStore.State)
+    // const dispatch = useContext(GlobalStore.Dispatch)
+
+    // const closeModal = () => {
+    //     dispatch({
+    //         type: 'toggle_slug_modal',
+    //         payload: {
+    //             slug: ''
+    //         }
+    //     });
+    // }
+
     return (
        
         <StackedLayout 
@@ -307,8 +299,15 @@ export default function Links({ user }) {
                 description: 'All your saved slugs' 
             }} 
             children={
-                <TabulatedLinks uid={uid} email={email} user={user} />
-            } 
+                <div className="mt-4">
+                    <SlugDetailsModal/>
+                    <TabulatedLinks 
+                        uid={uid} 
+                        email={email} 
+                        user={user} 
+                    />
+                </div>
+            }
         />
     );
 }

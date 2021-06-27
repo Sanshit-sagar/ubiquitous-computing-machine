@@ -6,32 +6,46 @@ import { useRouter } from 'next/router'
 
 import StackedLayout from '../../sections/StackedLayout'
 import Loader from '../../components/Loader'
-
+import { Card, CardBody, Windmill } from '@windmill/react-ui'
 
 const useSlugDetails = (slug) => {
     const {data, error} = useSWR(`/api/slugs/${slug}`, fetcher);
 
-    if(data && !error) {
-        console.log(JSON.stringify(data))
-    }
-
     return {
-        info: data,
+        details: data.details,
         loading: !data && !error,
-        error
+        error: error
     }; 
 }
 
 const SlugFields = ({ slug }) => {
-    const { info, loading, error } = useSlugDetails(slug)
+    const { details, loading, error } = useSlugDetails(slug)
 
-    if(loading) return <Loader />;
-    if(error) return <p> Error! </p>;
+    if(loading) return <Loader />
+    if(error) return <p> error! </p>
 
     return (
-        <div>
-            <p> {JSON.stringify(info)} </p>
-        </div>
+        // <Windmill dark>
+        <Card className="flex h-48 w-30">
+            <CardBody>
+                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+                    {details.slug}
+                </p>
+                
+                <p className="text-gray-600 dark:text-gray-400">
+                    {details.url}
+                </p>
+
+                <p className="text-gray-600 dark:text-gray-400">
+                    {details.ttl}
+                </p>
+
+                <p className="text-gray-600 dark:text-gray-400"> 
+                    {details.timestamp} 
+                </p>
+            </CardBody>
+        </Card>
+        // </Windmill>
     )
 }
 
@@ -41,10 +55,9 @@ const SlugInfo = () => {
     const givenSlug = router.query.slug
 
     return (
-        <StackedLayout children={
-            <div className="bg-white px-4 py-5 border-b border-gray-200">
-                <SlugFields slug={givenSlug} /> 
-            </div>}
+        <StackedLayout 
+            children={<SlugFields slug={givenSlug} />} 
+            
         />
     );
 }

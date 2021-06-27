@@ -5,22 +5,14 @@ import { fetcher } from '../../lib/utils'
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
-import { CreditCardIcon, KeyIcon, UserCircleIcon, UserGroupIcon, ViewGridAddIcon, SaveIcon } from '@heroicons/react/outline'
-
-// const navigation = [
-//   { name: 'Basic Details', href: '#', icon: UserCircleIcon, current: true },
-//   { name: 'Expiration (TTL)', href: '#', icon: KeyIcon, current: false },
-//   { name: 'SEO & UTM Tags', href: '#', icon: CreditCardIcon, current: false },
-//   { name: 'A/B Testing', href: '#', icon: UserGroupIcon, current: false },
-//   { name: 'IP Blacklist', href: '#', icon: ViewGridAddIcon, current: false },
-// ]
+import {  SaveIcon } from '@heroicons/react/outline'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
 
     return (
         <div className="mt-6 mb-6">
-            <label htmlFor="first_name" className="block text-sm font-large text-gray-700">
+            <label htmlFor="first_name" className="block text-sm font-extralight text-white">
                 Slug
             </label>
             <div className="mt-1">
@@ -47,10 +39,10 @@ const UrlInput = () => {
 
     return (
         <div  className="col-span-3 sm:col-span-3">
-            <label htmlFor="company_website" className="block text-sm font-large text-gray-700">
+            <label htmlFor="company_website" className="block text-sm font-extralight text-white ">
                 Destination URL
             </label>
-            <div className="mt-1 flex rounded-md shadow-sm">
+            <div className="mt-1 flex text-black font-extralight rounded-md shadow-sm">
                 {/* <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     https://
                 </span> */}
@@ -80,14 +72,14 @@ const TtlSelector = () => {
     return (
         <div>
             <div className="flex justify-between">
-                <label htmlFor="email" className="block text-sm font-large text-gray-700">
+                <label htmlFor="email" className="block text-sm font-extralight text-white">
                     Expiration (TTL)
                 </label>
-                <span className="text-sm text-gray-500" id="email-optional">
+                <span className="text-sm font-extralight text-white " id="email-optional">
                     Optional
                 </span>
             </div>
-            <div className="mt-1">
+            <div className="mt-1 font-extralight text-black">
                 <input
                     value={state.ttl}
                     onChange={(event) => {
@@ -177,8 +169,10 @@ const BasicDetailsForm = () => {
     }
 
     return (
+    <div className="container mx-auto m-2 p-2 bg-white rounded-md shadow-lg">
+
         <div className="flex-col content-between align-stretch p-5">
-            <div className="bg-white w-full">
+            <div className="text-black font-extralight w-full">
                 <div className="flex-col justify-items-stretch">
                     <UrlInput /> 
                     <UrlSlug /> 
@@ -186,7 +180,7 @@ const BasicDetailsForm = () => {
                 </div>
             </div>
 
-            <div className="bg-gray-50 mt-6">
+            <div className="text-black  mt-6">
                 <button
                     type="button"
                     className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white dark: text-black bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -199,12 +193,13 @@ const BasicDetailsForm = () => {
                         aria-hidden="true" 
                     />
                 </button>
-
+{/* 
                 <subtitle> 
                     {state.publishedLink.length ? `Destination: ${state.publishedLink}` : null} 
-                </subtitle>
+                </subtitle> */}
             </div>
         </div>
+    </div>
     )
 }
 

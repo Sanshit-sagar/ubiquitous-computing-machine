@@ -1,71 +1,98 @@
 import useSWR from 'swr'
+
 import {fetcher} from '../../lib/utils'
-import CustomSpinner from '../../buildingBlocks/Spinner'
 import { useSession } from 'next-auth/client'
-import { CursorClickIcon, EyeIcon  } from '@heroicons/react/solid'
 
-const useUserCollectionSize = (uid) => {
-    const {data, error} = useSWR(uid.length ? `/api/slugs/user-links/${uid}` : null, fetcher)
+import { 
+    CursorClickIcon, 
+    ExternalLinkIcon, 
+    SparklesIcon, 
+    VideoCameraIcon 
+} from '@heroicons/react/solid'
 
-    return {
-        numLinks: data ? data.userLinks : null,
-        nlLoading: !data && !error,
-        nlError: error   
-    };
-}
+import Loader from '../Loader'
+import Statistic from '../StatisticalGraphic/index'
 
-const useUserClickStreamSize = (uid) => {
+const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)
 
     return {
-        numViews: data ? data.userViews : null,
-        nvLoading: !data && !error,
-        nvError: error
+        views: data ? data.views : null,
+        loading: !data && !error,
+        error: error
     }
 }
 
-function StatisticsCards({ uid }) {
-    const { numViews, nvLoading, nvError } = useUserClickStreamSize(uid)
-    const { numLinks, nlLoading, nlError } = useUserCollectionSize(uid)
-    
-    const stats = {
-        numClicks: { 
-            name: 'Views', 
-            value: numViews ? `${numViews}` : !nvError ? <CustomSpinner /> : '0',
-            icon: <CursorClickIcon className="w-6 h-6 text-indigo-700" />,
-        },
-        numLinks: { 
-            name: 'Links', 
-            value: numLinks ? `${numLinks}` : !nlError ? <CustomSpinner /> : '0',
-            icon: <EyeIcon className="w-6 h-6 text-indigo-700" />,
-        },
-    };
+function StatisticsCardsBase({ uid, email, details, timeseries, statistics }) {
+
+    const custom_icon_class = "w-6 h-6 text-indigo-700 dark:text-white"
+    let unitsList = [
+        { value: 1, title: '1 day', str: 'day', secs: 24*60*60 },
+        { value: 7, title: '7 days', str: 'week', secs: 7*24*60*60 },
+        { value: 30, title: '30 days', str: 'month', secs: 30*7*24*60*60 },
+        { value: 100, title: 'all time', str: `since the start`, secs: 100*7*24*60*60 }, 
+    ];
+    const { views, loading, error } = useUserSummarizedData(uid)
+
+    const availableStats = [{    
+        key: 'mostViews',
+        name: 'Most Views', 
+        value: loading ? <Loader /> : !error ? views.maxViews : null,
+        icon: <VideoCameraIcon className={`${custom_icon_class}`} />,
+        unit: 1,
+        delta: '50%',
+        fallback: <p> --/-- </p>
+    }, {   
+        key: 'uniqueViews',
+        name: 'Unique Views', 
+        value: loading ? <Loader /> : !error ? views.numUnique : null,
+        icon: <SparklesIcon className={`${custom_icon_class}`} />,
+        unit: 2,
+        delta: '50%',
+        fallback: <p> --/-- </p>
+    }, {
+        key: 'totalViews',
+        name: 'Total Views', 
+        value: loading ? <Loader /> : !error ? views.totalViews : null,
+        icon: <CursorClickIcon className={`${custom_icon_class}`} />,
+        unit: 2,
+        delta: '50%',
+        fallback: <p> --/-- </p>
+    }, {
+        key: 'numLinks',
+        name: 'Links Created', 
+        value: loading ? <Loader /> : !error ? views.numLinks : null,
+        icon: <ExternalLinkIcon className={`${custom_icon_class}`} />,
+        unit: 0,
+        delta: '50%',
+        fallback: <p> --/-- </p>
+    },
+];
 
     return (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.entries(stats).map(function(val, index, array) {
+        <div className="inline-flex justify-start align-stretch space-x-2">
+            {Object.entries(availableStats).map(function(stat, i) {
                 return (
-                    <div key={index}>
-                        <div class="bg-white hover:bg-black border-black text-black hover:text-white shadow-lg rounded-md flex items-stretch justify-between border-b-1 font-lightest group">
-                            <span class="flex justify-start items-stretch w-8 h-8">
-                                {array[index][1].icon}    
-                            </span>
-
-                            <div class="text-right">
-                                <p class="text-2xl">
-                                    {array[index][1].value}
-                                </p>
-                                <p> {array[index][1].name}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <span 
+                        key={i} 
+                        className="rounded-md shadow-lg"
+                    >
+                        <Statistic 
+                            stat={stat[1]} 
+                            unitsList={unitsList} 
+                            loading={loading} 
+                        />
+                    </span>
                 );
             })}
         </div>
     );  
 }
 
-function StatisticsCardsWrapper() {
+function StatisticsCards({ 
+    lastUpdatedAt, statistics, timeFilter, email,
+    updateStatistics, updateTimeFilter, setTimeseries, setDetails,
+}) {
     const [session, loading] = useSession()
 
     if(loading) return <p> loading... </p> //TODO: SKELETON
@@ -73,8 +100,18 @@ function StatisticsCardsWrapper() {
 
     const uid = session && session.user ? session.user.email : '';
 
-    return <StatisticsCards uid={uid} />;
+    return (
+        <>
+            <StatisticsCardsBase 
+                uid={uid}
+                email={uid}  
+                statistics={statistics} 
+                lastUpdatedAt={lastUpdatedAt} 
+                timeFilter={timeFilter}
+            />
+        </>
+    ); 
 }
 
 
-export default StatisticsCardsWrapper
+export default StatisticsCards

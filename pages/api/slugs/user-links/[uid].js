@@ -4,12 +4,16 @@ export default async function handler(req, res) {
     try {
         const { uid } = req.query
 
-        var userLinks = await redis.hget('user::links', uid)
-        if(!userLinks) {
-            userLinks = 0
-        }
+        // var numUnique = await redis.zcard('user.sasagar@ucsd.edu.pageviews')
+        var userViews = await redis.hget('user::views', uid)
 
-        res.status(200).json({ userLinks }); 
+        var views = {
+            'total': totalViews || '0', // llen clickstream
+            'unique': numUniqueLinks || '0', 
+            'daily': dailyViews || '0' // scard user.uid.page pageview
+        };
+
+        res.status(200).json({ numUniqueLinks }); 
     } catch (error) {
         res.status(400).json({ error }); 
     }

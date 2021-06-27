@@ -9,11 +9,11 @@ function Profile() {
   if (!session && !loading) return <div> <p> error...</p></div>;
   
   return (  
-    <StackedLayout>
-      <img src={session.user.image} alt="user profile" height={200} width={200} /> 
-      <h1> {session.user.name} </h1>
-      <subtitle> {session.user.email} </subtitle>
-    </StackedLayout>
+      <StackedLayout>
+        <img src={session.user.image} alt="user profile" height={200} width={200} /> 
+        <h1> {session.user.name} </h1>
+        <subtitle> {session.user.email} </subtitle>
+      </StackedLayout>
   );
 }
 

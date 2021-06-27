@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useSession, signIn, signOut } from 'next-auth/client'
 
 import { GlobalStore } from '../../store'
-import { Button } from '@windmill/react-ui'
+import { Button, Avatar } from '@windmill/react-ui'
 // import { UserIcon, KeyIcon } from '@heroicons/react/outline'
 
 const ProfileMenu = () => {
@@ -80,13 +80,16 @@ const ProfileMenu = () => {
         >
             {
                 session && session.user  ? 
-                    <img 
+                    <Avatar 
                         src={`${session.user.image}`}
                         alt="Profile Pic" 
-                        height={50} 
-                        width={50} 
-                        className="rounded-md"
+                        size="large"
+                        className="ml-2"
                     />
+                        // height={50} 
+                        // width={50} 
+                        // className="rounded-md"
+                    // />
                 : loading ? <p> 'loading...' </p> 
                 : <p> 'error' </p> 
             }

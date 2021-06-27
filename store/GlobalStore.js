@@ -66,6 +66,23 @@ const reducer = (state, action) => {
                     // [action.payload.key]: !state[`${action.payload.key}`] ? true : !state.action.payload.key
                 }
             };
+        case 'toggle_slug_modal':
+            return {
+                ...state,
+                showSlugDetails: !state.showSlugDetails,
+                activeSlug: {
+                    ...state.activeSlug,
+                    slug: action.payload.slug
+                },
+            };
+        case 'toggle_dropdown':
+            return {
+                ...state,
+                timeSelector: {
+                    ...state.timeSelector,
+                    isOpen: state.timeSelector.isOpen ? false : true,
+                }
+            }; 
         case 'toggle':
             return {
                 ...state,
@@ -94,6 +111,13 @@ const initialState = {
     },
     menuOpen: false,
     selectedRows: {},
+    timeSelector: {
+        isOpen: false
+    },
+    showSlugDetails: false,
+    activeSlug: {
+        slug: ''
+    }
 };
 
 export const Provider = ({ children }) => {

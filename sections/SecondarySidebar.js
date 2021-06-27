@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../store';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { formatPathAsMenuHeader } from '../lib/utils'
+import Toolbar from '../components/Toolbar'
 
 import { 
     CreditCardIcon, 
@@ -61,14 +62,14 @@ const SecondarySidebar = ({ handleNavigation }) => {
                         </p> */}
                     </div>
 
-                    <div className="flex-1 min-h-0 overflow-y-auto">
+                    {/* <div className="flex-1 min-h-0 overflow-y-auto">
                         {menuItems.map((item) => (
                             <a
                                 key={item.name}
                                 href={item.href}
                                 className={classNames(
                                     item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-50 hover:bg-opacity-50',
-                                    'flex p-6 border-b border-blue-gray-200'
+                                    'flex p-6 border-b border-blue-gray-200 text-black'
                                 )}
                                 aria-current={item.current ? 'page' : undefined}
                             >
@@ -80,7 +81,8 @@ const SecondarySidebar = ({ handleNavigation }) => {
                                 </div>
                             </a>
                         ))}
-                    </div>
+                    </div> */}
+                     <Toolbar /> 
                 </nav>
 
             </div>

@@ -54,10 +54,6 @@ const Click = ({ value, index, uid }) => {
     const localizedDatetime = useDateTimeConverter(value.timestamp)
     
     const fields =  {   
-        // 'id': {
-        //     primaryText: `#${index}`,
-        //     secondaryText: '', //assign mutation or uuid here?
-        // },
         'timestamp': {
             primaryText: localizedDatetime.primaryText,
             secondaryText: localizedDatetime.secondaryText,
@@ -120,20 +116,16 @@ const ClickStreamTable = ({ clicks, reval }) => {
   
 
     const columns = React.useMemo(() => [
-        // { Header: '#', Footer: '' },
         { Header: 'Timestamp', Footer: '' },
         { Header: 'Slug', Footer: '' },
         { Header: 'User Agent ', Footer: '' },
         { Header: 'Geodata', Footer: '' },
         { Header: 'IP Address', Footer: '' },
-        // { Header: 'Actions', Footer: '' },
       ], []);
 
     let clickStream = clicks ? clicks.slice(0, 6) : []
 
     return (
-        <div className="p-2 mb-4">
-
         <TableContainer>
             <Table>
                 <TableHeader>
@@ -151,7 +143,7 @@ const ClickStreamTable = ({ clicks, reval }) => {
                 <TableBody>
                     { clickStream.map((value, index) => {
                         // if(!value.slug) return null;
-
+                        // if(vale)
                         return (
                             <TableRow key={index}>
                                 <Click value={value} index={index} uid={uid} />  
@@ -172,7 +164,6 @@ const ClickStreamTable = ({ clicks, reval }) => {
                 />
             </TableFooter>
         </TableContainer>
-        </div>
     );
 }
 
