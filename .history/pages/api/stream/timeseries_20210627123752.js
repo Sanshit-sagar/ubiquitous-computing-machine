@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     var count = 0;
     var skipped = 0; 
     var freqs = {}
+
     let baseline = 0
 
     try {
@@ -30,8 +31,8 @@ export default async function handler(req, res) {
         const clickstream = sortClickstream(rawClickstream)
 
         var max = Number.MIN_SAFE_INTEGER
-        let earliestEvent = 0
-        let latestEvent = 0
+        let minTime = 0
+        let maxTime = 0
         let maxIndex = -1
 
         clickstream.forEach((click) => {
@@ -49,16 +50,16 @@ export default async function handler(req, res) {
                 let currFreq = freqs[datestr] ?  freqs[datestr] + 1 : 1
                 freqs[datestr] = currFreq
 
-                earliestEvent = earliestEvent===0 ? parseInt(timestamp) : Math.min(earliestEvent, parseInt(timestamp))
-                latestEvent = latestEvent===0 ? parseInt(timestamp) : Math.max(latestEvent, parseInt(timestamp))
+                minTime = minTime===0 ? parseInt(timestamp) : Math.min(minTime, parseInt(timestamp))
+                maxTime = maxTime===0 ? parseInt(timestamp) : Math.max(maxTime, parseInt(timestamp))
                 
                 max = Math.max(max, freqs[datestr])
-                if(max===freqs[datestr]) {
+                if(max===freqs[hourlyStr]) {
                     maxIndex = datestr
                 }
 
                 timeseries.push({
-                    x: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                    x: details.timestamp || details.misc?.finalTimestamp,
                     y: count,
                 }); 
             } else {
@@ -66,10 +67,9 @@ export default async function handler(req, res) {
             }
             count++;
         }); 
-        console.log(`RETURNING THIS**** ${JSON.stringify(timeseries)}`)
-        console.log(freqs)
+        
         let average = count===1 ? timeseries[0].x : count===0 ? 0 : -1 * (timeseries[count -skipped - 1].x - timeseries[0].x)/(count - skipped)
-        res.status(200).json({ timeseries, skipped, count, freqs, average, max, maxIndex, earliestEvent, latestEvent })
+        res.status(200).json({ timeseries, skipped, count, freqs, average })
 
     } catch (error) {
         console.log(error.message)

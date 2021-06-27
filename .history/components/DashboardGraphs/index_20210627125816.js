@@ -171,7 +171,7 @@ const TimeseriesVisualizers = () => {
 
     return (
         <div className="container mx-auto">
-            <div class="h-screen w-full p-2 m-1 flex-col flex-start align-stretch">
+            <div class="flex-col justify-between align-stretch">
                 <HeatedCalendar /> 
                 <ClickstreamTimeseries />  
             </div>

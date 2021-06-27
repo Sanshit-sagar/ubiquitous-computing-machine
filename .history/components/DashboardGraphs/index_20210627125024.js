@@ -1,11 +1,18 @@
 import React,{ useState, useEffect } from 'react'
 
-import toast from 'react-hot-toast'
-
 import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
+// import { Windmill } from '@windmill/react-ui'
+// import Toolbar from '../Toolbar'
+// import GraphError from '../Error'
+// import ButtonGroup from '../ButtonGroup'
+// import TimeseriesList from './TimeseriesList'
+// import TimeseriesGraph from './TimeseriesGraph'
+// import StatisticsCards from '../StatisticsCards'
+
+import toast from 'react-hot-toast'
 import Loader from '../Loader'
 import HeatedCalendar from '../Charts/HeatedCalendar'
 import ClickstreamTimeseries from './ClickstreamTimeseries'
@@ -22,15 +29,6 @@ function useUserClickstreams(email, timeFilter)  {
         error: err
     };
 }
-
-
-// import { Windmill } from '@windmill/react-ui'
-// import Toolbar from '../Toolbar'
-// import GraphError from '../Error'
-// import ButtonGroup from '../ButtonGroup'
-// import TimeseriesList from './TimeseriesList'
-// import TimeseriesGraph from './TimeseriesGraph'
-// import StatisticsCards from '../StatisticsCards'
 
 // const options = [
 //     {
@@ -171,10 +169,8 @@ const TimeseriesVisualizers = () => {
 
     return (
         <div className="container mx-auto">
-            <div class="h-screen w-full p-2 m-1 flex-col flex-start align-stretch">
-                <HeatedCalendar /> 
-                <ClickstreamTimeseries />  
-            </div>
+            <HeatedCalendar /> 
+            <ClickstreamTimeseries />  
         </div>
     )
 }

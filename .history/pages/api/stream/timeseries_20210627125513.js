@@ -66,8 +66,8 @@ export default async function handler(req, res) {
             }
             count++;
         }); 
-        console.log(`RETURNING THIS**** ${JSON.stringify(timeseries)}`)
-        console.log(freqs)
+        
+        console.log(timeseries)
         let average = count===1 ? timeseries[0].x : count===0 ? 0 : -1 * (timeseries[count -skipped - 1].x - timeseries[0].x)/(count - skipped)
         res.status(200).json({ timeseries, skipped, count, freqs, average, max, maxIndex, earliestEvent, latestEvent })
 

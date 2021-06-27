@@ -208,6 +208,18 @@
     "lodash" "^4.17.21"
     "react-motion" "^0.5.2"
 
+"@nivo/calendar@^0.71.0":
+  "integrity" "sha512-3+JNzpRr574jZW4hd+PydbaGsO69ELMU0GpZP/bvTU9wwoqhst25PcrfU7/Fmf+q1mDndUACgLYsOvsbZle8Fg=="
+  "resolved" "https://registry.npmjs.org/@nivo/calendar/-/calendar-0.71.0.tgz"
+  "version" "0.71.0"
+  dependencies:
+    "@nivo/legends" "0.71.0"
+    "@nivo/tooltip" "0.71.0"
+    "d3-scale" "^3.2.3"
+    "d3-time" "^1.0.10"
+    "d3-time-format" "^3.0.0"
+    "lodash" "^4.17.21"
+
 "@nivo/colors@0.71.0":
   "integrity" "sha512-B847RX5w7+82h8zDP/sS1UshHajcbzoS1fvbKg0MHd1YBLXJVh3/BIX2o0s57iufQKy3h0v2hcWBeYveytO/Cg=="
   "resolved" "https://registry.npmjs.org/@nivo/colors/-/colors-0.71.0.tgz"
@@ -1663,7 +1675,7 @@
   dependencies:
     "d3-time" "1 - 2"
 
-"d3-time@^1.0.11", "d3-time@^1.1.0", "d3-time@1 - 2":
+"d3-time@^1.0.10", "d3-time@^1.0.11", "d3-time@^1.1.0", "d3-time@1 - 2":
   "integrity" "sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA=="
   "resolved" "https://registry.npmjs.org/d3-time/-/d3-time-1.1.0.tgz"
   "version" "1.1.0"
@@ -1686,6 +1698,11 @@
   "integrity" "sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og=="
   "resolved" "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-3.0.1.tgz"
   "version" "3.0.1"
+
+"dayjs@^1.10.5":
+  "integrity" "sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g=="
+  "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.10.5.tgz"
+  "version" "1.10.5"
 
 "debug@^2.2.0", "debug@2":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="

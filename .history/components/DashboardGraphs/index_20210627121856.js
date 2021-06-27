@@ -1,13 +1,21 @@
-import React,{ useState, useEffect } from 'react'
-
-import toast from 'react-hot-toast'
+import React,{ useState, useEffect, useRef, useContext } from 'react'
 
 import { useSession } from 'next-auth/client'
+import { GlobalStore } from '../../store'
+import toast from 'react-hot-toast'
+
 import useSWR from 'swr'
 import axios from 'axios'
 
+import { Windmill } from '@windmill/react-ui'
+
 import Loader from '../Loader'
-import HeatedCalendar from '../Charts/HeatedCalendar'
+import Toolbar from '../Toolbar'
+import GraphError from '../Error'
+import ButtonGroup from '../ButtonGroup'
+import TimeseriesList from './TimeseriesList'
+import TimeseriesGraph from './TimeseriesGraph'
+import StatisticsCards from '../StatisticsCards'
 import ClickstreamTimeseries from './ClickstreamTimeseries'
 
 export const fetcher = url => axios.get(url).then(res => res.data);
@@ -23,89 +31,91 @@ function useUserClickstreams(email, timeFilter)  {
     };
 }
 
+const options = [
+    {
+        key: 'allTime',
+        label: 'All time',
+    },
+    {
+        key: 'pastNinetyDays',
+        label: 'Past 90 days',
+        duration: 90*24*60*60*1000,
+    },
+    {
+        key: 'pastThirtyDays',
+        label: 'Past 30 days',
+        duration: 30*24*60*60*1000,
+    },
+    {
+        key: 'pastWeek',
+        label: 'Past week',
+        duration: 7*24*60*60*1000,
+    },
+];
 
-// import { Windmill } from '@windmill/react-ui'
-// import Toolbar from '../Toolbar'
-// import GraphError from '../Error'
-// import ButtonGroup from '../ButtonGroup'
-// import TimeseriesList from './TimeseriesList'
-// import TimeseriesGraph from './TimeseriesGraph'
-// import StatisticsCards from '../StatisticsCards'
+function seriesGenerator(clickstream) {
+    let timeseries = [];
+    let details = []; 
 
-// const options = [
-//     {
-//         key: 'allTime',
-//         label: 'All time',
-//     },
-//     {
-//         key: 'pastNinetyDays',
-//         label: 'Past 90 days',
-//         duration: 90*24*60*60*1000,
-//     },
-//     {
-//         key: 'pastThirtyDays',
-//         label: 'Past 30 days',
-//         duration: 30*24*60*60*1000,
-//     },
-//     {
-//         key: 'pastWeek',
-//         label: 'Past week',
-//         duration: 7*24*60*60*1000,
-//     },
-// ];
+    var numUnique = 0; 
+    var numInvalid = 0; 
+    var ipSet = new Map();
+    var uaSet = new Map();
+    var locSet = new Map(); 
 
-// function seriesGenerator(clickstream) {
-//     let timeseries = [];
-//     let details = []; 
+    clickstream.forEach((e, i) => {
+        let ip = e.user ? e.user.ip : e.visitor ? e.visitor.ip : ''
+        let ua = e.ser ? e.user.ip : e.visitor ? e.visitor.ip : ''
+        let loc = e.geo ? e.geo.country : e.geodata ? e.geodata.country : ''
 
-//     var numUnique = 0; 
-//     var numInvalid = 0; 
-//     var ipSet = new Map();
-//     var uaSet = new Map();
-//     var locSet = new Map(); 
+        if(!ip.length || !ua.length || !loc.length) {
+            return;
+        }
 
-//     clickstream.forEach((e, i) => {
-//         let ip = e.user ? e.user.ip : e.visitor ? e.visitor.ip : ''
-//         let ua = e.ser ? e.user.ip : e.visitor ? e.visitor.ip : ''
-//         let loc = e.geo ? e.geo.country : e.geodata ? e.geodata.country : ''
-
-//         if(!ip.length || !ua.length || !loc.length) {
-//             return;
-//         }
-
-//         let seen = ipSet.has(ip) || uaSet.has(ua) || locSet.has(loc) 
+        let seen = ipSet.has(ip) || uaSet.has(ua) || locSet.has(loc) 
         
-//         if(!seen) {
-//             ++numUnique;
-//             ipSet.set(ip, e);
-//             uaSet.set(ua, e);
-//             locSet.set(loc, e);
-//         }
+        if(!seen) {
+            ++numUnique;
+            ipSet.set(ip, e);
+            uaSet.set(ua, e);
+            locSet.set(loc, e);
+        }
 
-//         var clickDetails = {
-//             index: i,
-//             timestamp: e.misc.finalTimestamp,
-//             destination: e.destination,
-//             slug: e.slug,
-//             isUnique: seen
-//         };
+        var clickDetails = {
+            index: i,
+            timestamp: e.misc.finalTimestamp,
+            destination: e.destination,
+            slug: e.slug,
+            isUnique: seen
+        };
 
-//         details.push(clickDetails);
-//         timeseries.push({
-//             'x': e.misc.finalTimestamp, 
-//             'y': i 
-//         })
-//     });
+        details.push(clickDetails);
+        timeseries.push({
+            'x': e.misc.finalTimestamp, 
+            'y': i 
+        })
+    });
 
-//     let series = { 'details': details, 'timeseries': timeseries, numUnique, numInvalid };
+    let series = { 'details': details, 'timeseries': timeseries, numUnique, numInvalid };
 
-//     console.log(`details ${details}`)
-//     console.log(`timeseries ${timeseries}`)
-//     console.log(`Unique Count: ${numUnique}`)
-//     console.log(`Invalid Count: ${numInvalid}`)
+    console.log(`details ${details}`)
+    console.log(`timeseries ${timeseries}`)
+    console.log(`Unique Count: ${numUnique}`)
+    console.log(`Invalid Count: ${numInvalid}`)
 
-//     return series;
-// }
+    return series;
+}
+
+const EmptyGraph = () => {
+
+    return (
+        <div class="container mx-auto">
+            <h1> NO DATA 
+                <a href="/new"> Create </a>
+            </h1>
+        </div>
+    )
+}
 
 // const Nav = ({ children }) =>  {
 //     return (
@@ -135,49 +145,23 @@ function useUserClickstreams(email, timeFilter)  {
 //     );
 // }
 
-const EmptyGraph = () => {
+const TimeseriesVisualizers = ({  
+    email, lastUpdatedAt, timeseries, setTimeseries, timeseriesLoading, timeseriesError,
+    details, setDetails, statistics, updateStatistics, timeFilter, updateTimeFilter
+}) => {
 
     return (
-        <div class="container mx-auto">
-            <h1> NO DATA 
-                <a href="/new"> Create </a>
-            </h1>
-        </div>
-    )
-}
-
-
-// const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
-
-//     return (
-//         <div className="w-full h-full container mx-auto mt-3 inline-flex justify-between align-stretch">
-//             <div className="w-90 max-w-90 flex-col justify-between align-stretch">
-//                 <TimeseriesList />
-//             </div>
-//             <div className="w-full h-full flex-col justify-start align-stretch ml-4 m-2">
-//                 {
-//                         timeseriesLoading   ? <Loader /> 
-//                     :   timeseriesError     ? <h1> !Error!! </h1> 
-//                     :   <StatisticsCards />
-//                 }   
-//                 <ClickstreamTimeseries /> 
-//             </div>
-//         </div> 
-//     )
-// }    
-
-
-const TimeseriesVisualizers = () => {
-
-    return (
-        <div className="container mx-auto">
-            <div class="h-screen w-full p-2 m-1 flex-col flex-start align-stretch">
-                <HeatedCalendar /> 
-                <ClickstreamTimeseries />  
+        <div className="w-full h-full container mx-auto mt-3 inline-flex justify-between align-stretch">
+            <div className="w-90 max-w-90 flex-col justify-between align-stretch">
+                <TimeseriesList />
             </div>
-        </div>
+            <div className="w-full h-full flex-col justify-start align-stretch ml-4 m-2">
+                {timeseriesLoading ? <Loader /> : timeseriesError ? <h1> !Error!! </h1> :  <StatisticsCards />}   
+                <ClickstreamTimeseries /> 
+            </div>
+        </div> 
     )
-}
+}    
 
 const TimeseriesWrapper = ({ email, mounted, setMounted }) => {
     const [fetchCount, setFetchCount] = useState(0)

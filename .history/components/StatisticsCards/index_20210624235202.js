@@ -23,7 +23,7 @@ const useUserSummarizedData = (uid) => {
     }
 }
 
-function StatisticsCardsBase({ uid }) {
+function StatisticsCardsBase({ uid, email, details, timeseries, statistics }) {
 
     const custom_icon_class = "w-6 h-6 text-indigo-700 dark:text-white"
     let unitsList = [
@@ -89,7 +89,10 @@ function StatisticsCardsBase({ uid }) {
     );  
 }
 
-function StatisticsCards() {
+function StatisticsCards({ 
+    lastUpdatedAt, statistics, timeFilter, email,
+    updateStatistics, updateTimeFilter, setTimeseries, setDetails,
+}) {
     const [session, loading] = useSession()
 
     if(loading) return <p> loading... </p> //TODO: SKELETON
@@ -97,7 +100,17 @@ function StatisticsCards() {
 
     const uid = session && session.user ? session.user.email : '';
 
-    return <StatisticsCardsBase uid={uid} />;
+    return (
+        <>
+            <StatisticsCardsBase 
+                uid={uid}
+                email={uid}  
+                statistics={statistics} 
+                lastUpdatedAt={lastUpdatedAt} 
+                timeFilter={timeFilter}
+            />
+        </>
+    ); 
 }
 
 

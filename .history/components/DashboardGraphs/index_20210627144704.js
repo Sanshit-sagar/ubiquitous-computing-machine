@@ -170,7 +170,7 @@ const EmptyGraph = () => {
 const TimeseriesVisualizers = () => {
 
     return (
-        <div className="container mx-auto">
+        <div className="flexw-full container mx-auto">
             <div class="h-screen w-full p-2 m-1 flex-col flex-start align-stretch">
                 <HeatedCalendar /> 
                 <ClickstreamTimeseries />  

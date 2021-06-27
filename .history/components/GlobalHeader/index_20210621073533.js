@@ -13,6 +13,10 @@ import FlyoutMenu from '../FlyoutMenu'
 
 const Header = () => {
     const menuRef = useRef()
+    // const router = useRouter()
+    // const state = useContext(GlobalStore.State)
+    // const dispatch = useContext(GlobalStore.Dispatch)
+
     const [session, loading] = useSession()
     const [menuOpen, setMenuOpen] = useState(false) 
 
