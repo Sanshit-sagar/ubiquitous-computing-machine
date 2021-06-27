@@ -29,7 +29,9 @@ export default NextAuth({
             }
         },
         async redirect(url, baseUrl) {
-            return url.startsWith(baseUrl) ? url : baseUrl
+            return url.startsWith(baseUrl)
+            ? url
+            : baseUrl
         },
         async session(session, token) {
             session.accessToken = token.accessToken
