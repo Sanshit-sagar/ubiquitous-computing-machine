@@ -27,6 +27,7 @@
     "d3-time-format": "^3.0.0",
     "dayjs": "^1.10.5",
     "fetch": "^1.1.0",
+    "formik": "^2.2.9",
     "fs": "^0.0.1-security",
     "immer": "^9.0.3",
     "install": "^0.13.0",
