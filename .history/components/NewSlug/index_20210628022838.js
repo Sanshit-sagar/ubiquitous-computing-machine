@@ -66,9 +66,12 @@ const UrlInput = () => {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     return (
-        <div  className="flex-col justify-start align-stretch">
+        <div  className="col-span-3 sm:col-span-3">
+            {/* <label htmlFor="company_website" className="block text-sm font-extralight text-gray-600 ">
+                Destination URL
+            </label> */}
             <div className="mt-1 flex text-gray-600 font-extralight rounded-md shadow-sm">
-                <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     https://
                 </span>
                 <input
@@ -82,7 +85,7 @@ const UrlInput = () => {
                     type="url"
                     name="destination"
                     id="destination"
-                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                     placeholder="www.example.com"
                 />
             </div>
@@ -207,16 +210,7 @@ const BasicDetailsForm = () => {
                         }
                         {state.currentTab === 'expiry' && <CustomExpirationSelector />}
                         {state.currentTab === 'rateLimit' && <RateLimitSelector />}
-                        {state.currentTab === 'password' && 
-                            <ExpirationSelector 
-                                isOptional={false} 
-                                title="Encryption" 
-                                instruction="Would you like to append any SEO tags to your link to enrich your analytics."
-                                outputMessage=''
-                                isSuccessful={false}
-                                content={<MyDynamicForm />}
-                            /> 
-                        }
+                        {state.currentTab === 'password' && <MyDynamicForm /> }
                     </div>
                 </div>
             </div>

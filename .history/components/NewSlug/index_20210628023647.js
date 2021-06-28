@@ -67,6 +67,9 @@ const UrlInput = () => {
 
     return (
         <div  className="flex-col justify-start align-stretch">
+            {/* <label htmlFor="company_website" className="block text-sm font-extralight text-gray-600 ">
+                Destination URL
+            </label> */}
             <div className="mt-1 flex text-gray-600 font-extralight rounded-md shadow-sm">
                 <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     https://

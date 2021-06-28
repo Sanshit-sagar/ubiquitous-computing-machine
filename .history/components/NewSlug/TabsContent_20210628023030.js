@@ -6,7 +6,7 @@ function ExpirationSelector({ isOptional, title, instruction, outputMessage, isS
     const dispatch = useContext(GlobalStore.Dispatch)
 
     return (
-        <div className=" w-full flex-col justify-start align-start p-5 m-3 pr-5 border border-black rounded-md bg-white text-gray-700 font-extralight">
+        <div className="flex-col justify-start align-start p-5 m-3 pr-5 border border-black rounded-md bg-white text-gray-700 font-extralight">
             <div className="flex justify-between">
                 <label htmlFor="email" className="block text-sm font-extralight text-gray-600">
                     {title}

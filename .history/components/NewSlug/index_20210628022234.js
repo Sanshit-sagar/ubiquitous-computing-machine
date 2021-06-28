@@ -41,9 +41,9 @@ const UrlSlug = () => {
 
     return (
         <div className="mt-6 mb-6">
-            {/* <label htmlFor="first_name" className="block text-sm font-extralight text-gray-600">
+            <label htmlFor="first_name" className="block text-sm font-extralight text-gray-600">
                 Slug
-            </label> */}
+            </label>
             <div className="mt-1">
                 {
                     !data && !error ? <p> loading...</p> 
@@ -66,9 +66,12 @@ const UrlInput = () => {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     return (
-        <div  className="flex-col justify-start align-stretch">
+        <div  className="col-span-3 sm:col-span-3">
+            {/* <label htmlFor="company_website" className="block text-sm font-extralight text-gray-600 ">
+                Destination URL
+            </label> */}
             <div className="mt-1 flex text-gray-600 font-extralight rounded-md shadow-sm">
-                <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     https://
                 </span>
                 <input
@@ -82,7 +85,7 @@ const UrlInput = () => {
                     type="url"
                     name="destination"
                     id="destination"
-                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-none rounded-r-md sm:text-sm border-gray-300"
+                    className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                     placeholder="www.example.com"
                 />
             </div>
@@ -181,42 +184,26 @@ const BasicDetailsForm = () => {
                     <NewSlugHeader /> 
                     <div className="w-full inline-flex justify-between items-stretch">
                         
-                        <div className="w-100 bg-white text-gray-700 mr-3 font-extralight">
+                        <div className="w-1/4 bg-white text-gray-700 mr-3 font-extralight">
                             <SideNav /> 
                         </div>
                         
                         {state.currentTab === 'basics' &&
-                            <div className="w-full flex-col justify-start align-stretch">
+                            <>
                                 <ExpirationSelector 
                                     isOptional={false} 
                                     title="Destination URL"
                                     instruction="Where should visitors be redirected?"
-                                    outputMessage=''
+                                    outputMessage='incorrect input format'
                                     isSuccessful={false}
                                     content={<UrlInput />}
                                 />
-                                <ExpirationSelector 
-                                    isOptional={false} 
-                                    title="Custom Slug" 
-                                    instruction="Enter or select a link that fits your needs"
-                                    outputMessage=''
-                                    isSuccessful={false}
-                                    content={<UrlSlug />}
-                                /> 
-                            </div>
+                                <UrlSlug /> 
+                            </>
                         }
                         {state.currentTab === 'expiry' && <CustomExpirationSelector />}
                         {state.currentTab === 'rateLimit' && <RateLimitSelector />}
-                        {state.currentTab === 'password' && 
-                            <ExpirationSelector 
-                                isOptional={false} 
-                                title="Encryption" 
-                                instruction="Would you like to append any SEO tags to your link to enrich your analytics."
-                                outputMessage=''
-                                isSuccessful={false}
-                                content={<MyDynamicForm />}
-                            /> 
-                        }
+                        {state.currentTab === 'password' && <MyDynamicForm /> }
                     </div>
                 </div>
             </div>

@@ -66,7 +66,7 @@ const UrlInput = () => {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     return (
-        <div  className="flex-col justify-start align-stretch">
+        <div  className="w-5/6 flex-col justify-start align-stretch">
             <div className="mt-1 flex text-gray-600 font-extralight rounded-md shadow-sm">
                 <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     https://
