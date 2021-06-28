@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
 import {  SaveIcon } from '@heroicons/react/outline'
 
-import SideMenu from './SideMenu'
+import SideNav from './SideNav'
 import SeoTags from './SeoTags'
 import { Card } from '@supabase/ui'
   
@@ -234,7 +234,7 @@ function NewSlugCard() {
 
                     <div className="w-full inline-flex justify-between items-stretch">
                         <div className="w-100 bg-white text-gray-700 mr-3 font-extralight">
-                            <SideMenu /> 
+                            <SideNav /> 
                         </div>
 
                         {state.currentTab === 'basics' && <BasicDetailsForm /> }

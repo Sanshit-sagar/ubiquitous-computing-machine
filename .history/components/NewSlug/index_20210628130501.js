@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
 import {  SaveIcon } from '@heroicons/react/outline'
 
-import SideMenu from './SideMenu'
+import SideNav from './SideNav'
 import SeoTags from './SeoTags'
 import { Card } from '@supabase/ui'
   
@@ -113,18 +113,23 @@ const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
 
     return (
-        <div className="mt-1">
-            {
-                !data && !error ? <p> loading...</p> 
-                : error ? <p> error... </p> 
-                : <input
-                        value={data.slug}
-                        type="text"
-                        name="slug"
-                        id="slug"
-                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
-            }
+        <div className="mt-6 mb-6">
+            <label htmlFor="first_name" className="block text-sm font-extralight text-gray-600">
+                Slug
+            </label>
+            <div className="mt-1">
+                {
+                    !data && !error ? <p> loading...</p> 
+                    : error ? <p> error... </p> 
+                    : <input
+                            value={data.slug}
+                            type="text"
+                            name="slug"
+                            id="slug"
+                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                }
+            </div>
         </div>
     )
 }
@@ -173,28 +178,27 @@ const CustomExpirationSelector = () => {
     const state = useContext(GlobalStore.State)
 
     return (
-        <InputElementCardWrapper
-            title="Expiration Date / Time To Live"
-            children={
-                <input 
-                    name="expiry" 
-                    id="expiry" 
-                    value={state.ttl}
-                    onChange={(event) => {
-                        dispatch({
-                            type: 'update_ttl',
-                            payload: {
-                                value: event.target.value
-                            }
-                        })
-                    }}
-                    type="datetime-local"
-                    className="mt-2 mb-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    placeholder="MM/DD/YYYY"
-                    aria-describedby="expiry-optional"
-                />
-            }
-        />
+        <InputElementCardWrapper> 
+
+            {/* <label> Expiration Datetime </label> */}
+            <input 
+                name="expiry" 
+                id="expiry" 
+                value={state.ttl}
+                onChange={(event) => {
+                    dispatch({
+                        type: 'update_ttl',
+                        payload: {
+                            value: event.target.value
+                        }
+                    })
+                }}
+                type="datetime-local"
+                className="mt-2 mb-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="MM/DD/YYYY"
+                aria-describedby="expiry-optional"
+            />
+        </InputElementCardWrapper>
     );
 }
 
@@ -224,7 +228,7 @@ function NewSlugCard() {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     return (
-    <div className="container mx-auto m-2 rounded-m">
+    <div className="container mx-auto m-2 rounded-md bg-white">
 
         <div className="flex-col content-between bg-white rounded-md align-stretch p-4">
             <div className="text-black bg-white font-extralight w-full rounded-md ">
@@ -234,7 +238,7 @@ function NewSlugCard() {
 
                     <div className="w-full inline-flex justify-between items-stretch">
                         <div className="w-100 bg-white text-gray-700 mr-3 font-extralight">
-                            <SideMenu /> 
+                            <SideNav /> 
                         </div>
 
                         {state.currentTab === 'basics' && <BasicDetailsForm /> }

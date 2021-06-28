@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
 import {  SaveIcon } from '@heroicons/react/outline'
 
-import SideMenu from './SideMenu'
+import SideNav from './SideNav'
 import SeoTags from './SeoTags'
 import { Card } from '@supabase/ui'
   
