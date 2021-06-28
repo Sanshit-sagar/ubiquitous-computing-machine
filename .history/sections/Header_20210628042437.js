@@ -86,31 +86,26 @@ const Header = () => {
                         <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                            
                                 <>
-                                    <button 
-                                        disabled={loading}
-                                        onClick={() => {
-                                            if(session && session.user) {
-                                                return signOut();
-                                            } else {
-                                                return signIn();
-                                            }
-                                        }}
-                                        className="px-3 py-2 border border-black outlined-md bg-white text-black shadow-lg"
-                                    > 
-                                        {       session && session.user ?  'signout' 
+                                    <button onClick={() => {
+                                        if(session && session.user) {
+                                            return signOut();
+                                        } else {
+                                            return signIn();
+                                        }
+                                    }}> 
+                                        {   session && session.user ?  'signout' 
                                             :   !loading ?  'signin' 
-                                            :    <Loader />
+                                            :   <Loader />
                                         }
                                     </button> 
 
-                                    { session && session.user && 
-                                        <a href="#" class="block relative">
+                                    <a href="#" class="block relative">
                                         <img 
                                             alt={session.user.name} 
                                             src={session.user.image} 
                                             class="mx-auto object-cover rounded-full h-10 w-10"
                                         />
-                                    </a>}
+                                    </a>
                                 </> 
                         </div> 
 

@@ -45,6 +45,9 @@ const Header = () => {
     const router = useRouter()
     const [session, loading] = useSession()
 
+    // const state = useContext(GlobalStore.State)
+    // const dispatch = useContext(GlobalStore.Dispatch)
+
     const [activeSlug, setActiveSlug] = useState('')
     const [fetchLoading, setFetchLoading] = useState(false)
     const [searchInput, setSearchInput] = useState('')
@@ -55,7 +58,20 @@ const Header = () => {
         }
     }, [activeSlug])
 
-  
+    // const goToSlug = async(event) => {
+    //     event.preventDefault()
+    //     event.stopPropagation()
+    
+    //     setFetchLoading(true)
+    //     const destPath = await fetchAndWait(`https://api.github.com/orgs/${activeSlug.toLowerCase()}`)
+    //     if (destPath.login) {
+    //         router.push(`/${destPath.login}`)
+    //     } else {
+    //         toast.error(`The slug ${activeSlug} cannot be found`)
+    //     }
+    //     setFetchLoading(false)
+    // }
+
     return (
         // <Windmill>
             <header className="w-90 mx-5 shadow-md bg-white dark:bg-gray-600 items-center h-16 rounded-md z-20">
@@ -84,34 +100,26 @@ const Header = () => {
                         
                        
                         <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
-                           
+                            {session && session.user ? 
                                 <>
-                                    <button 
-                                        disabled={loading}
-                                        onClick={() => {
-                                            if(session && session.user) {
-                                                return signOut();
-                                            } else {
-                                                return signIn();
-                                            }
-                                        }}
-                                        className="px-3 py-2 border border-black outlined-md bg-white text-black shadow-lg"
-                                    > 
-                                        {       session && session.user ?  'signout' 
-                                            :   !loading ?  'signin' 
-                                            :    <Loader />
-                                        }
+                                    <button onClick={() => signOut()}> 
+                                        signout
                                     </button> 
 
-                                    { session && session.user && 
-                                        <a href="#" class="block relative">
+                                    <a href="#" class="block relative">
                                         <img 
                                             alt={session.user.name} 
                                             src={session.user.image} 
                                             class="mx-auto object-cover rounded-full h-10 w-10"
                                         />
-                                    </a>}
+                                    </a>
                                 </> 
+                            : loading ? <Loader /> 
+                            : 
+                                <button onClick={() => router.push('/')}>
+                                    signin 
+                                </button>
+                            }
                         </div> 
 
                     </div>
