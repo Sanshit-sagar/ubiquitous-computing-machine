@@ -1,16 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import {useRouter} from 'next/router'
 
 import { Toaster, toast } from 'react-hot-toast'
 import { GlobalStore } from '../store'
+import { useSession } from 'next-auth/client'
+
 import Sidebar from './Sidebar'
 import Header from './Header'
+// import Footer from './Footer'
+// import Loader from '../components/Loader'
 
 function StackedLayout({ children, pageMeta }) {
+
     const router = useRouter()
     const state = useContext(GlobalStore.State)
     const dispatch = useContext(GlobalStore.Dispatch)
-
+ 
     const renavigate = (route) => {
         if(route !== state.router.current) {
             dispatch({
@@ -42,22 +47,18 @@ function StackedLayout({ children, pageMeta }) {
             />
 
             <div className="w-full inline-flex space-between items-stretch">
-                <Sidebar 
-                    handleNavigation={renavigate}
-                    broadcastToast={sendToasty}
-                /> 
+                <Sidebar /> 
 
                 <div className="w-full h-full flex-col justify-start items-stretch order-last">
-                    <Header 
-                        handleNavigation={renavigate}
-                        broadcastToast={sendToasty}
-                    />
+                    <Header />
                 
                     <div className="container mx-auto my-auto verflow-y-scroll rounded-md">
                         <div className="w-full h-full shadow rounded-md">
                             <> {children}  </>
                         </div>
                     </div>
+
+                    {/* <Footer />  */}
                 </div>
             </div>
         </div>

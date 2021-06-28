@@ -1,5 +1,8 @@
 import React from 'react'
+
+import {useRouter} from 'next/router'
 import {useSession} from 'next-auth/client'
+import {GlobalStore} from '../../store'
 
 const ActionsMenu = () => {
     const [session, loading] = useSession();

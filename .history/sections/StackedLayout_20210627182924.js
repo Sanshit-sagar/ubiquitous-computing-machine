@@ -3,8 +3,12 @@ import {useRouter} from 'next/router'
 
 import { Toaster, toast } from 'react-hot-toast'
 import { GlobalStore } from '../store'
+import { useSession } from 'next-auth/client'
+
 import Sidebar from './Sidebar'
 import Header from './Header'
+// import Footer from './Footer'
+// import Loader from '../components/Loader'
 
 function StackedLayout({ children, pageMeta }) {
     const router = useRouter()

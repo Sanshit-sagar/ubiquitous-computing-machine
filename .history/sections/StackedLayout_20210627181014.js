@@ -3,13 +3,33 @@ import {useRouter} from 'next/router'
 
 import { Toaster, toast } from 'react-hot-toast'
 import { GlobalStore } from '../store'
-import Sidebar from './Sidebar'
-import Header from './Header'
+import { useSession } from 'next-auth/client'
 
-function StackedLayout({ children, pageMeta }) {
+import Sidebar from './Sidebar'
+import Header from '.Header'
+import Footer from './Footer'
+import Loader from '../components/Loader'
+
+function StackedLayout({ 
+    children, 
+    pageMeta, 
+    references, 
+    loaded, 
+    slugs, 
+    selectedSlugs,  
+    toggleRepo = () => {},
+    toggleAllRepos = () => {}, 
+}) {
+
     const router = useRouter()
     const state = useContext(GlobalStore.State)
     const dispatch = useContext(GlobalStore.Dispatch)
+    const [session, loading] = useSession()
+    const [uPlotLoaded, setUPlotLoaded] = useState(false)
+
+    useEffect(() => {
+        if (uPlot) setUPlotLoaded(true)
+    }, [])
 
     const renavigate = (route) => {
         if(route !== state.router.current) {
@@ -58,6 +78,8 @@ function StackedLayout({ children, pageMeta }) {
                             <> {children}  </>
                         </div>
                     </div>
+
+                    {/* <Footer />  */}
                 </div>
             </div>
         </div>
