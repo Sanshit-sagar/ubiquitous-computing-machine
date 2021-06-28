@@ -1,13 +1,10 @@
 import React,{ useState, useEffect } from 'react'
 
-import toast from 'react-hot-toast'
-
 import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
 import Loader from '../Loader'
-import HeatedCalendar from '../Charts/HeatedCalendar'
 import StatisticsCards from '../StatisticsCards'
 import TimeseriesList from './TimeseriesList'
 import ClickstreamTimeseries from './ClickstreamTimeseries'
@@ -41,19 +38,7 @@ const EmptyGraph = () => {
 const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
 
     return (
-        // <div className="w-full h-full container mx-auto mt-3 inline-flex justify-between align-stretch">
-        //     <div className="w-90 max-w-90 flex-col justify-between align-stretch">
-        //         <TimeseriesList />
-        //     </div>
-        //     <div className="w-full h-full flex-col justify-start align-stretch ml-4 m-2">
-        //         {
-        //                 timeseriesLoading   ? <Loader /> 
-        //             :   timeseriesError     ? <h1> !Error!! </h1> 
-        //             :   <StatisticsCards />
-        //         }   
-        //         <ClickstreamTimeseries /> 
-        //     </div>
-        // </div> 
+        
         <div className="grid grid-rows-3 grid-flow-col gap-4">
             <div class="row-span-3">
                 <TimeseriesList />
@@ -61,7 +46,7 @@ const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
             
             <div class="col-span-2">
                 { timeseriesLoading   ? <Loader />  :   
-                  timeseriesError ? <h1> !Error!! </h1> :  
+                  timeseriesError     ? <h1> !Error!! </h1> :  
                   <StatisticsCards />
                 }
             </div>
