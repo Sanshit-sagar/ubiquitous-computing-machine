@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 
 import { useSession, getSession } from 'next-auth/client'
-// import {fetcher} from '../../lib/utils'
+import {fetcher} from '../../lib/utils'
 import { GlobalStore } from '../../store'
 import CustomSpinner from '../../buildingBlocks/Spinner'
 import toast from 'react-hot-toast'
@@ -25,8 +25,6 @@ import {
     Modal, ModalHeader, ModalBody, ModalFooter, Button
   } from '@windmill/react-ui'
   import { Badge } from '@windmill/react-ui'
-
-  const fetcher = url => axios.get(url).then(res => res.data);
 
 const useListOfSlugs = (email) => { 
     
