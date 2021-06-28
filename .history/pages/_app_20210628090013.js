@@ -27,14 +27,13 @@ function MyApp({ Component, pageProps }) {
         enableSystem={true} 
         attribute="class"
       >
-        <Store>
-            {Component.auth ?(
+        <Store>{
+                  Component.auth ?
                   <AuthWrapper>
                      (<Component  {...pageProps} />) 
-                  </AuthWrapper>)
-                  : (
+                  </AuthWrapper>
+                  : 
                   <Component {...pageProps} /> 
-                )
               }
         </Store>
       </ThemeProvider>

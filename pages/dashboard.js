@@ -262,7 +262,6 @@ const DashboardTable = () => {
         { Header: 'IP Address', icon: <LocationMarkerIcon  className="h-4 w-4" />},
         { Header: 'User-Agent', icon: <DeviceMobileIcon  className="h-4 w-4" />},
         { Header: 'Status', icon: <BadgeCheckIcon className="h-4 w-4" /> },
-        // { Header: 'Response', icon: <ChatIcon className="h-4 w-4" />},
     ], []);
 
     if(error) return <p> !!! ERROR!!! </p>
@@ -270,69 +269,66 @@ const DashboardTable = () => {
     const clicksOnPage = clickstream.slice(cursor, pageSize);
  
     return (
-        // <Windmill dark>
-            <div className="container h-full w-full shadow-lg mt-2 rounded-md bg-gray-900">
-              
-                <TableContainer>
-                    <div className="table w-full">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    {columns.map(function(value, i) {
-                                        return (
-                                            <TableCell key={i}>
-                                                <span className="text-xs inline-flex justify-start align-stretch font-extralight"> 
-                                                    <span className="ml-1">
-                                                        {loading ? <Loader /> : value.icon}
-                                                    </span>
-                                                    <span className="ml-1"> 
-                                                        {loading  ? <Loader /> : `${value.Header}`} 
-                                                    </span>
+        <div className="container h-full w-full shadow-lg mt-2 rounded-md bg-gray-900">
+            <TableContainer>
+                <div className="table w-full">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                {columns.map(function(value, i) {
+                                    return (
+                                        <TableCell key={i}>
+                                            <span className="text-xs inline-flex justify-start align-stretch font-extralight"> 
+                                                <span className="ml-1">
+                                                    {loading ? <Loader /> : value.icon}
                                                 </span>
-                                            </TableCell>
+                                                <span className="ml-1"> 
+                                                    {loading  ? <Loader /> : `${value.Header}`} 
+                                                </span>
+                                            </span>
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        </TableHeader>
+
+                        <TableBody>  
+                            <> { 
+                                loading  ?
+                                <TableSkeleton 
+                                    pageSize={pageSize} 
+                                    rowSize={clickstream && clickstream.length ? clickstream[0].length : Object.entries(columns).length} 
+                                    loading={loading} 
+                                /> 
+                                : clickstream ?
+                                <>
+                                    {clicksOnPage.map(function(rowCells, index) {
+                                        if(!rowCells.visitor || !rowCells.destination || !rowCells.owner) return null;
+                                        
+                                        return (
+                                            <ClickStreamEntry 
+                                                click={clickstream[index]} 
+                                                index={index} 
+                                                loading={loading} 
+                                            />
                                         );
-                                    })}
-                                </TableRow>
-                            </TableHeader>
+                                    })} 
+                                </> : undefined }
+                            </>
+                        </TableBody>    
+                    </Table>
+                </div>
 
-                            <TableBody>  
-                                <> { 
-                                    loading  ?
-                                    <TableSkeleton 
-                                        pageSize={pageSize} 
-                                        rowSize={clickstream && clickstream.length ? clickstream[0].length : Object.entries(columns).length} 
-                                        loading={loading} 
-                                    /> 
-                                    : clickstream ?
-                                    <>
-                                        {clicksOnPage.map(function(rowCells, index) {
-                                            if(!rowCells.visitor || !rowCells.destination || !rowCells.owner) return null;
-                                            
-                                            return (
-                                                <ClickStreamEntry 
-                                                    click={clickstream[index]} 
-                                                    index={index} 
-                                                    loading={loading} 
-                                                />
-                                            );
-                                        })} 
-                                    </> : undefined }
-                                </>
-                            </TableBody>    
-                        </Table>
-                    </div>
-
-                    <TableFooter>
-                        <Pagination 
-                            totalResults={clickstream.length} 
-                            resultsPerPage={pageSize} 
-                            onChange={(event) => {handlePagination(event)}} 
-                            label="Pagination" 
-                        />
-                    </TableFooter>
-                </TableContainer>  
-            </div>
-        // </Windmill>
+                <TableFooter>
+                    <Pagination 
+                        totalResults={clickstream.length} 
+                        resultsPerPage={pageSize} 
+                        onChange={(event) => {handlePagination(event)}} 
+                        label="Pagination" 
+                    />
+                </TableFooter>
+            </TableContainer>  
+        </div>
     )
 }
 

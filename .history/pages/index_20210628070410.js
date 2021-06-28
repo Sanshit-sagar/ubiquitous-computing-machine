@@ -1,11 +1,16 @@
 import React from 'react'
 import Head from 'next/head'
 
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
-
-import AuthButton from '../components/Auth/AuthButton'
+import { Button } from '@windmill/react-ui'
 import Loader from '../components/Loader'
 import StackedLayout from '../sections/StackedLayout'
+
+import { 
+  KeyIconSvg, 
+  LogoutIconSvg 
+} from '../buildingBlocks/svgIcons'
 
 const emphasize = (needsEmph) => {
   return (
@@ -13,6 +18,26 @@ const emphasize = (needsEmph) => {
       {needsEmph}
     </span> 
   );
+}
+
+const AuthButton = () => {
+  const router = useRouter()
+  const [session, loading] = useSession()
+
+  return (
+    <Button 
+      layout="outline"
+      disabled={loading} 
+      onClick={() => {
+        router.push(session && session.user ? 'api/auth/signin' : 'api/auth/signout')
+      }}
+    >
+        { 
+            loading ? <Loader />  
+          : session && session.user ? <LogoutIconSvg />  : <div> <KeyIconSvg className="h-6 w-6 text-green-400" /> </div>
+        }
+    </Button>
+  )
 }
 
 const Greeting = () => {

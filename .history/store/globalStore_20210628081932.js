@@ -45,7 +45,18 @@ const reducer = (state, action) => {
         case 'navigate':
             return {
                 ...state,
-                currentPage: action.payload.value, 
+                router: {
+                    ...state.router,
+                    history: [
+                        ...state.router.history, 
+                        { 
+                            index: state.router.history.length + 1,
+                            route: `${state.router.current}`,
+                            timestamp: new Date().getTime().toString(),
+                        },
+                    ],
+                    current: action.payload.route,
+                }
             };
         case 'toggle_map_value':
             return {
@@ -100,7 +111,6 @@ const initialState = {
         }
     },
     currentTab: 'basics',
-    currentPage: 'new',
     router: {
         current: '/home',
         history:  [],

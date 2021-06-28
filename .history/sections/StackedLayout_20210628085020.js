@@ -37,6 +37,9 @@ function StackedLayout({ children, pageMeta }) {
     return (
     
         <div className="h-screen flex">
+            <h1 className="text-red-500 text-lg font-extralight">
+                {JSON.stringify(state.currentPage)} 
+            </h1> 
             <Toaster 
                 position="bottom-right" 
                 reverseOrder={true} 

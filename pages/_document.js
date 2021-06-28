@@ -1,19 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx)
-    return { ...initialProps }
-  }
 
   render() {
     return (
       <Html>
-        <Head>
-            <link rel="stylesheet" href="https://leeoniya.github.io/uPlot/src/uPlot.css" />
-            <script src="https://leeoniya.github.io/uPlot/dist/uPlot.iife.min.js"></script> 
-        </Head>
-
+        <Head />
         <body>
           <Main />
           <NextScript />
@@ -24,4 +16,3 @@ class MyDocument extends Document {
 }
 
 export default MyDocument
-            

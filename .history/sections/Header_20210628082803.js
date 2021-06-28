@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, signIn, signOut } from 'next-auth/client'
 
 import DarkModeButton from '../components/DarkModeButton/index'
 import Loader from '../components/Loader'
 import { 
     InputContainerSvg, 
     SearchIconSvg, 
+    LogoutIconSvg, 
+    LoginIconSvg 
 } from '../buildingBlocks/svgIcons'
-import AuthButton from '../components/Auth/AuthButton'
+import { Button } from '@supabase/ui'
 
 
 const Header = () => {
@@ -23,6 +25,7 @@ const Header = () => {
         }
     }, [activeSlug])
 
+  
     return (
         <header className="w-90 mx-5 shadow-md bg-white dark:bg-gray-600 items-center h-16 rounded-md z-20">
             <div className="relative z-20 flex flex-col justify-center h-full px-3 mx-auto flex-center">
@@ -51,7 +54,34 @@ const Header = () => {
                     
                     <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                         <DarkModeButton /> 
-                        <AuthButton /> 
+                        
+                        {/* <Button 
+                            disabled={loading}
+                            onClick={() => {
+                                if(session && session.user) {
+                                    return signOut();
+                                } else {
+                                    return signIn();
+                                }
+                            }}
+                            layout="outline"
+                        > 
+                                {loading ?  <Loader /> 
+                                    : session && session.user ? <LoginIcon />  :  <LogoutIcon /> 
+                                }
+                            
+                        </Button>  */}
+                        <CustomAuthButton /> 
+                        
+                        <> {session && session.user && 
+                            <a href="#" className="block relative">
+                                <img 
+                                    alt={session.user.name} 
+                                    src={session.user.image} 
+                                    className="mx-auto object-cover rounded-md h-6 w-6"
+                                />
+                            </a>}
+                        </> 
                     </div> 
 
                 </div>

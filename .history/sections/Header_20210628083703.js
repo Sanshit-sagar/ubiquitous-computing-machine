@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, signIn, signOut } from 'next-auth/client'
 
 import DarkModeButton from '../components/DarkModeButton/index'
 import Loader from '../components/Loader'
 import { 
     InputContainerSvg, 
     SearchIconSvg, 
+    LogoutIconSvg, 
+    LoginIconSvg 
 } from '../buildingBlocks/svgIcons'
+import { Button } from '@supabase/ui'
 import AuthButton from '../components/Auth/AuthButton'
 
 
@@ -51,7 +54,18 @@ const Header = () => {
                     
                     <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                         <DarkModeButton /> 
+                        
                         <AuthButton /> 
+                        
+                        {/* <> {session && session.user && 
+                            <a href="#" className="block relative">
+                                <img 
+                                    alt={session.user.name} 
+                                    src={session.user.image} 
+                                    className="mx-auto object-cover rounded-md h-6 w-6"
+                                />
+                            </a>}
+                        </>  */}
                     </div> 
 
                 </div>

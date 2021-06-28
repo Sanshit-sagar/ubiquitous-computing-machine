@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import {useRouter} from 'next/router'
 
 import { Toaster, toast } from 'react-hot-toast'
@@ -8,23 +8,23 @@ import Header from './Header'
 
 function StackedLayout({ children, pageMeta }) {
     const router = useRouter()
+
     const state = useContext(GlobalStore.State)
     const dispatch = useContext(GlobalStore.Dispatch)
 
-    const renavigate = (route) => {
-        if(route !== state.currentPage) {
+    const handleNavigation = (route) => {
+        // if(route !== state.router.current) {
             dispatch({
                 type: 'navigate',
                 payload: {
                     route: `${route}`,
-                    value: `${route}`,
                 }
             });
             router.push(`${route}`)
-            toast.success(`Navigated to ${state.currentPage}`)
-        } else {
-            toast.error(`Already at ${route}`)
-        }
+            toast.success(`Navigated to ${state.router.current}`)
+        // } else {
+        //     toast.error(`Already at ${route}`)
+        // }
     }
 
     const sendToasty = (toastyMessage) => {
@@ -36,7 +36,7 @@ function StackedLayout({ children, pageMeta }) {
    
     return (
     
-        <div className="h-screen flex">
+        <div className="h-screen flex bg-gray-200">
             <Toaster 
                 position="bottom-right" 
                 reverseOrder={true} 
@@ -44,7 +44,7 @@ function StackedLayout({ children, pageMeta }) {
 
             <div className="w-full inline-flex space-between items-stretch">
                 <Sidebar 
-                    handleNavigation={renavigate}
+                    handleNavigation={handleNavigation}
                     broadcastToast={sendToasty}
                 /> 
 

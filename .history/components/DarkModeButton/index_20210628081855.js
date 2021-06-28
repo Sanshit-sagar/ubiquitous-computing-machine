@@ -69,7 +69,7 @@ const DarkModeButton = () => {
         <>
             { mounted ? 
                 <Switch
-                    checked={false}
+                    checked=false
                     onChange={toggleDarkMode}
                     className={classNames(
                         false ? 'bg-indigo-600' : 'bg-red-400',

@@ -12,16 +12,15 @@ function StackedLayout({ children, pageMeta }) {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     const renavigate = (route) => {
-        if(route !== state.currentPage) {
+        if(route !== state.router.current) {
             dispatch({
                 type: 'navigate',
                 payload: {
                     route: `${route}`,
-                    value: `${route}`,
                 }
             });
             router.push(`${route}`)
-            toast.success(`Navigated to ${state.currentPage}`)
+            toast.success(`Navigated to ${state.router.current}`)
         } else {
             toast.error(`Already at ${route}`)
         }
@@ -36,7 +35,8 @@ function StackedLayout({ children, pageMeta }) {
    
     return (
     
-        <div className="h-screen flex">
+        <div className="h-screen flex bg-white">
+            <h1 className="text-white text-sm font-extralight">YOYOYO </h1> 
             <Toaster 
                 position="bottom-right" 
                 reverseOrder={true} 

@@ -6,7 +6,6 @@ import Router from 'next/router';
 import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
 import { Provider as AuthProvider } from 'next-auth/client'
-import AuthWrapper from '../components/Auth/index'
 import NProgress from 'nprogress';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -17,26 +16,19 @@ function MyApp({ Component, pageProps }) {
   
   return (
     <AuthProvider 
-      options={{
-        clientMaxAge: 0,
-        keepAlive: 0,
-      }}
+      options={{ clientMaxAge: 0, keepAlive: 0 }}
       session={pageProps.session}
     >
-      <ThemeProvider 
-        enableSystem={true} 
-        attribute="class"
-      >
-        <Store>
-            {Component.auth ?(
-                  <AuthWrapper>
-                     (<Component  {...pageProps} />) 
-                  </AuthWrapper>)
-                  : (
-                  <Component {...pageProps} /> 
-                )
-              }
-        </Store>
+      <ThemeProvider enableSystem={true} attribute="class">
+        <AuthWrapper>
+          <Store>
+
+            <Component 
+              {...pageProps} 
+            />
+          
+          </Store>
+        </AuthWrapper>
       </ThemeProvider>
     </AuthProvider>
   )
