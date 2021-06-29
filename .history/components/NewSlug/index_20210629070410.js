@@ -328,7 +328,7 @@ function NewSlugCard() {
                     {/* {state.currentTab === 'rateLimit' && <RateLimitSelector />} */}
                     {/* {state.currentTab === 'password' && } */}
                     { state.currentTab === 'redirects' && <CustomRoutingRulesSelector /> }
-                    { state.currentTab === 'seo' && <TagManager />}
+                    { state.currentTab === 'seo' && <SeoTagManager />}
                 </div>
 
                 <div className="inline-flex justify-end align-stretch w-full">

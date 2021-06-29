@@ -15,4 +15,3 @@ export async function handler(req, res) {
         res.status(500).json({ error: `Ran into an error: ${error.message}`})
     }
 }
-

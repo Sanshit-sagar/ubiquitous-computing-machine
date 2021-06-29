@@ -1,115 +1,116 @@
 
 import React, { useState, useContext } from 'react';
+import useSWR from 'swr'
+
 import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
 import { SaveIcon } from '@heroicons/react/outline'
 
 import toast from 'react-hot-toast';
 import axios from 'axios'
-import useSWR from 'swr'
 import SideMenu from './SideMenu'
-import TagManager from './TagManager'
+import SeoTags from './SeoTags'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
 import { Card, Typography, IconActivity, Input, Button, Radio } from '@supabase/ui'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
   
-// function NewSlugActions() {
-//     const [session, loading] = useSession()
+function NewSlugActions() {
+    const [session, loading] = useSession()
 
-//     const state = useContext(GlobalStore.State)
-//     const dispatch = useContext(GlobalStore.Dispatch)
+    const state = useContext(GlobalStore.State)
+    const dispatch = useContext(GlobalStore.Dispatch)
 
-//     const { data, error } = useSWR('/api/slugs/new')
+    const { data, error } = useSWR('/api/slugs/new')
 
-//     const mutateGlobalCache = ({ slug }) => {
-//         dispatch({
-//             type: 'publish_link',
-//             payload: {
-//                 slug
-//             }
-//         });
-//     }
+    const mutateGlobalCache = ({ slug }) => {
+        dispatch({
+            type: 'publish_link',
+            payload: {
+                slug
+            }
+        });
+    }
 
-//     const clearStaleInput = () => {
-//         dispatch({
-//             type: 'clear_stale_input',
-//         })
-//     }
+    const clearStaleInput = () => {
+        dispatch({
+            type: 'clear_stale_input',
+        })
+    }
 
 
-//     const publish = async ({ slug, url, ttl }) => {
-//         if(!session || loading) return;
-//         if(!slug || !slug.length || !url || !url.length) return;
+    const publish = async ({ slug, url, ttl }) => {
+        if(!session || loading) return;
+        if(!slug || !slug.length || !url || !url.length) return;
 
-//         const res = await fetch('/api/slugs/save', {
-//             body: JSON.stringify({ 
-//                 slug, 
-//                 url, 
-//                 ttl,
-//                 userEmail: session.user.email
-//             }),
-//             headers: {
-//               'Content-Type': 'application/json',
-//             },
-//             method: 'POST',
-//         })
-//         const { didSave, message, error } = await res.json()
+        const res = await fetch('/api/slugs/save', {
+            body: JSON.stringify({ 
+                slug, 
+                url, 
+                ttl,
+                userEmail: session.user.email
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+        })
+        const { didSave, message, error } = await res.json()
         
-//         if(error) {
-//             toast.error(`Error! ${error}`)
-//         } else if(!didSave && message) {
-//             toast.error(`Unknown Error: ${message}`)
-//         } else {
-//             toast.success(`Success! ${message}`)
-//             mutateGlobalCache({ slug, url, ttl });
-//             clearStaleInput();
-//         }
-//     }   
+        if(error) {
+            toast.error(`Error! ${error}`)
+        } else if(!didSave && message) {
+            toast.error(`Unknown Error: ${message}`)
+        } else {
+            toast.success(`Success! ${message}`)
+            mutateGlobalCache({ slug, url, ttl });
+            clearStaleInput();
+        }
+    }   
 
-//     const handleSubmit = () => {
-//         if(error) {
-//             toast.error(`Error! ${error.message}`)
-//             return; 
-//         }
+    const handleSubmit = () => {
+        if(error) {
+            toast.error(`Error! ${error.message}`)
+            return; 
+        }
 
-//         const slug = data ? `${data.slug}` : null
-//         const ttl = `${state.ttl}` || '';
-//         publish({ slug, url, ttl })
-//     }
+        const slug = data ? `${data.slug}` : null
+        const ttl = `${state.ttl}` || '';
+        publish({ slug, url, ttl })
+    }
 
-//     const PublishButton = () => {
-//         return (
-//             <div className="text-black mt-6 inline-flex justify-end align-stretch w-full">
-//                 <Button
-//                     className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-//                     onClick={handleSubmit}
-//                     disabled={!session || loading}
-//                 >
-//                     <SaveIcon className="ml-2 -mr-0.5 h-4 w-4" />
-//                 </Button>
-//             </div> 
-//         )
-//     }
+    const PublishButton = () => {
+        return (
+            <div className="text-black mt-6 inline-flex justify-end align-stretch w-full">
+                <Button
+                    className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    onClick={handleSubmit}
+                    disabled={!session || loading}
+                >
+                    <SaveIcon className="ml-2 -mr-0.5 h-4 w-4" />
+                </Button>
+            </div> 
+        )
+    }
 
-//     return (
-//       <div className="bg-white px-2 py-4 mb-5 border-b border-gray-200 sm:px-3">
-//         <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-//           <div className="ml-4 mt-4">
+    return (
+      <div className="bg-white px-2 py-4 mb-5 border-b border-gray-200 sm:px-3">
+        <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+          <div className="ml-4 mt-4">
             
-//             <Typography.Title level={3}>
-//                 Create new Slugs
-//             </Typography.Title>
+            <Typography.Title level={3}>
+                Create new Slugs
+            </Typography.Title>
             
-//           </div>
-//           <div className="ml-4 mt-4 flex-shrink-0">
-//             <PublishButton /> 
-//           </div>
-//         </div>
-//       </div>
-//     )
-// }
+          </div>
+          <div className="ml-4 mt-4 flex-shrink-0">
+            <PublishButton /> 
+          </div>
+        </div>
+      </div>
+    )
+}
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
@@ -196,7 +197,6 @@ const CustomExpirationSelector = () => {
             title='Expiration [Time To Live]'
             description='When should this link go offline?'
             children={
-               
                 <input 
                     name="ttl" 
                     id="ttl" 
@@ -327,8 +327,8 @@ function NewSlugCard() {
                     {state.currentTab === 'ttl' && <CustomExpirationSelector />}
                     {/* {state.currentTab === 'rateLimit' && <RateLimitSelector />} */}
                     {/* {state.currentTab === 'password' && } */}
-                    { state.currentTab === 'redirects' && <CustomRoutingRulesSelector /> }
-                    { state.currentTab === 'seo' && <TagManager />}
+                    {state.currentTab === 'redirects' && <CustomRoutingRulesSelector /> }
+                    { state.currentTab === 'seo' && <SeoTags />}
                 </div>
 
                 <div className="inline-flex justify-end align-stretch w-full">

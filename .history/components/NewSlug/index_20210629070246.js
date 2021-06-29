@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios'
 import useSWR from 'swr'
 import SideMenu from './SideMenu'
-import TagManager from './TagManager'
+import SeoTagManager from './TagManager'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -328,7 +328,7 @@ function NewSlugCard() {
                     {/* {state.currentTab === 'rateLimit' && <RateLimitSelector />} */}
                     {/* {state.currentTab === 'password' && } */}
                     { state.currentTab === 'redirects' && <CustomRoutingRulesSelector /> }
-                    { state.currentTab === 'seo' && <TagManager />}
+                    { state.currentTab === 'seo' && <SeoTagManager />}
                 </div>
 
                 <div className="inline-flex justify-end align-stretch w-full">
