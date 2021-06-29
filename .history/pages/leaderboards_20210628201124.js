@@ -27,7 +27,7 @@ function useUserClickstreams(email, time)  {
 const LeaderboardTables = ({ email, time, loading }) => {
     const {clickstream, clickstreamLoading, clickstreamError} = useUserClickstreams(email, time) 
 
-    if(!loading && !email || clickstreamError) return <AccessDenied /> 
+    if(!session && !loading) return <AccessDenied /> 
 
     let aggreatedStats = clickstream && clickstream.length ? aggregateStats(clickstream) : {}
     let leaderboards = [

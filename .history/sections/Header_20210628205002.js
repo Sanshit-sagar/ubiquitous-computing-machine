@@ -30,14 +30,14 @@ const Header = () => {
                     <div className="container w-1/2 h-auto">
                         {   loading ? <Loader /> : 
                             <>
-                                {!session || !session?.user &&  <LockClosedIcon className="h-4 w-4 text-black" /> }
-                                <Input
-                                    value={searchInput}
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                    placeholder="Search"
-                                    disabled={loading}
-                                    type="text"
-                                /> 
+                            {!session || !session?.user &&  <LockClosedIcon className="h-4 w-4 text-black" /> }
+                            <Input
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                placeholder="Search"
+                                disabled={loading}
+                                type="text"
+                            /> 
                             </>
                         }
                    </div>

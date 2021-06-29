@@ -12,16 +12,13 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 const Header = () => {
     const [session, loading] = useSession()
 
-    const [searchQuery, setSearchQuery] = useState('')
     const [searchInput, setSearchInput] = useState('')
 
     useEffect(() => {
-        if (searchInput && searchInput.length > 4) {
-            setSearchQuery(searchInput.toLowerCase())
+        if (activeSlug) {
+            setActiveSlug(activeSlug.toLowerCase())
         }
-    }, [searchQuery, searchInput]);
-
-    // use SWR to get matches for search query from redis here -> use lexicographical indexes
+    }, [activeSlug])
 
     return (
         <header className="w-90 mx-5 mb-10 shadow-md bg-white items-center h-18 rounded-md">
@@ -29,16 +26,14 @@ const Header = () => {
                 <div className="relative items-center pl-1 flex w-full lg:max-w-68 sm:pr-2 sm:ml-0">
                     <div className="container w-1/2 h-auto">
                         {   loading ? <Loader /> : 
-                            <>
-                                {!session || !session?.user &&  <LockClosedIcon className="h-4 w-4 text-black" /> }
-                                <Input
-                                    value={searchInput}
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                    placeholder="Search"
-                                    disabled={loading}
-                                    type="text"
-                                /> 
-                            </>
+                            !session || !session.user ? <LockClosedIcon />  :
+                            <Input
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                placeholder="Search"
+                                disabled={loading}
+                                type="text"
+                            /> 
                         }
                    </div>
                 </div>
@@ -46,7 +41,7 @@ const Header = () => {
                 <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                     {
                             loading ?  <Loader /> 
-                        :   !session && !session?.user ?  <LockClosedIcon className="h-4 w-4 text-black" /> 
+                        :   !session && !user ?  <LockedComponent /> 
                         :   <DarkModeButton />
                     }
                     <Dropdown />

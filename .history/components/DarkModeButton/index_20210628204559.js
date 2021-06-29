@@ -1,4 +1,4 @@
-import React, { useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Switch} from '@headlessui/react'
 import {MoonIcon, SunIcon} from '@heroicons/react/solid'
 import toast from 'react-hot-toast'

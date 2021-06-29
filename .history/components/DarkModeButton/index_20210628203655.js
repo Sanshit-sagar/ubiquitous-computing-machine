@@ -1,15 +1,15 @@
-import React, { useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Switch} from '@headlessui/react'
 import {MoonIcon, SunIcon} from '@heroicons/react/solid'
 import toast from 'react-hot-toast'
 import {GlobalStore} from '../../store'
 import Loader from '../Loader'
+
+
 import useMediaQuery from '../../hooks/useMediaQuery'
 import { useTheme } from 'next-themes'
 
-function broadcastCustomToast(title, message, isSuccess) { 
-    // (_, _, 1) for success (_, _, -1) for failure 
-    
+const customToast = (theme, title, message, isSuccess, isFailure) => {
     return toast.custom((t) => (
         <div
           className={`${
@@ -30,23 +30,25 @@ function broadcastCustomToast(title, message, isSuccess) {
               </div>
             </div>
           </div>
-            <div className="flex border-l border-indigo-600">
-                <button
-                    onClick={() => toast.dismiss(t.id)}
-                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                    Close
-                    </button>
-                </div>
-            </div>
-        ))
-    }
+          <div className="flex border-l border-indigo-600">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+    ));
+}
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const DarkModeButton = () => {
+    // const [mounted, setMounted] = useState(false)
+    
     const state = useContext(GlobalStore.State)
     const dispatch = useContext(GlobalStore.Dispatch)
 
@@ -61,7 +63,7 @@ const DarkModeButton = () => {
         dispatch({
             type: 'toggle_dark_mode'
         });
-        broadcastCustomToast('Theme Changed', `Changed theme to ${state.darkMode ? "Dark" : "Light"}`, 1); 
+        customToast(false ? 'Turning on dark mode' : 'Reverting Theme', true, false); 
     }
 
     return (
@@ -81,7 +83,7 @@ const DarkModeButton = () => {
                             'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                         )}
                     >
-                        <span
+                        {/* <span
                             className={classNames(
                                 state.darkMode ? 'opacity-100 ease-out duration-100' : 'opacity-100 ease-in duration-200',
                                 'absolute inset-0 h-full w-full flex items-center justify-center transition-opacity'
@@ -89,7 +91,7 @@ const DarkModeButton = () => {
                             aria-hidden="true"
                         >
                             { state.darkMode ?  <MoonIcon className="w-7 h-7" /> : <SunIcon className="w-7 h-7" /> }
-                        </span> 
+                        </span> */}
                     </span>
                 </Switch>
             : <Loader />}

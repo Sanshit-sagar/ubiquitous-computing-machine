@@ -1,4 +1,4 @@
-import React, { useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Switch} from '@headlessui/react'
 import {MoonIcon, SunIcon} from '@heroicons/react/solid'
 import toast from 'react-hot-toast'
@@ -7,9 +7,7 @@ import Loader from '../Loader'
 import useMediaQuery from '../../hooks/useMediaQuery'
 import { useTheme } from 'next-themes'
 
-function broadcastCustomToast(title, message, isSuccess) { 
-    // (_, _, 1) for success (_, _, -1) for failure 
-    
+function broadcastCustomToast(title, message, isSuccess) { // (_, _, 1) for success (_, _, -1) for failure 
     return toast.custom((t) => (
         <div
           className={`${

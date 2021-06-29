@@ -84,6 +84,7 @@ const reducer = (state, action) => {
             };
         case 'mount':
             if(state.mounted) return;
+
             return {
                 ...state,
                 mounted: true,
