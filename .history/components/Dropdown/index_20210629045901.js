@@ -7,7 +7,7 @@ import {
   IconChevronDown,
 } from '@supabase/ui'
 
-import { UserCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
+import ExclamationCircleIcon from '@heroicons/react/solid'
 
 import Loader from '../Loader'
 import { useSession } from 'next-auth/client'
@@ -22,7 +22,7 @@ const DropdownMenu = () => {
         <Dropdown.Misc 
           icon={
               loading ? <Loader />  
-            : session && session.user ? <UserCircleIcon /> 
+            : session && session.user ? <UserIcon /> 
             : <ExclamationCircleIcon className="h-6 w-6 text-black" /> 
           }
         >
@@ -33,7 +33,7 @@ const DropdownMenu = () => {
                     session.user.email 
                   </span>
 
-              : loading ? '...'
+              : loading ? <Loader /> 
               : 'Unauthenticated' 
             }
           </Typography.Text>

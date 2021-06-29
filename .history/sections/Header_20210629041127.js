@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/client'
 import DarkModeButton from '../components/DarkModeButton/index'
 import Loader from '../components/Loader'
 
-import DropdownMenu from '../components/Dropdown'
+import Dropdown from '../buildingBlocks/Dropdown'
 import {Input} from '@supabase/ui'
 import { LockClosedIcon } from '@heroicons/react/solid'
 
@@ -45,7 +45,7 @@ const Header = () => {
                 
                 <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                     <DarkModeButton />
-                    <DropdownMenu />
+                    <Dropdown />
                 </div> 
 
             </div>

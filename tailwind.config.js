@@ -10,212 +10,72 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
-      animation: {
-        bounce200: 'bounce 1s infinite 200ms',
-        bounce400: 'bounce 1s infinite 400ms',
+      colors: {
+        'blue-opaque': 'rgb(13 42 148 / 18%)'
       },
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
-      typography: theme => ({
+      typography: (theme) => ({
         DEFAULT: {
           css: {
+            color: theme('colors.gray.700'),
             a: {
-              color: theme('colors.blue.600'),
+              color: theme('colors.blue.500'),
               '&:hover': {
-                color: theme('colors.blue.700'),
+                color: theme('colors.blue.700')
               },
+              code: { color: theme('colors.blue.400') }
             },
-          },
+            code: { color: theme('colors.pink.500') },
+            'blockquote p:first-of-type::before': false,
+            'blockquote p:last-of-type::after': false
+          }
         },
         dark: {
           css: {
-            color: theme('colors.gray.100'),
-
-            h1: {
-              color: theme('colors.indigo.700'),
-            },
-            h2: {
-              color: theme('colors.gray.100'),
-            },
-            h3: {
-              color: theme('colors.indigo.600'),
-            },
-            h4: {
-              color: theme('colors.gray.200'),
-            },
-            h5: {
-              color: theme('colors.indigo.500'),
-            },
-            h6: {
-              color: theme('colors.gray.300'),
-            },
-            strong: {
-              color: theme('colors.gray.700'),
+            color: theme('colors.gray.300'),
+            a: {
+              color: theme('colors.blue.400'),
+              '&:hover': {
+                color: theme('colors.blue.600')
+              },
+              code: { color: theme('colors.blue.400') }
             },
             blockquote: {
+              borderLeftColor: theme('colors.gray.700'),
+              color: theme('colors.gray.300')
+            },
+            'h2,h3,h4': {
               color: theme('colors.gray.100'),
             },
-            code: {
-              color: theme('colors.indigo.900'),
+            hr: { borderColor: theme('colors.gray.700') },
+            ol: {
+              li: {
+                '&:before': { color: theme('colors.gray.500') }
+              }
             },
-            figcaption: {
-              color: theme('colors.gray.500'),
+            ul: {
+              li: {
+                '&:before': { backgroundColor: theme('colors.gray.500') }
+              }
             },
-            hr: {
-              borderColor: theme('colors.red.700'),
+            strong: { color: theme('colors.gray.300') },
+            thead: {
+              color: theme('colors.gray.100')
             },
-          },
-        },
-      }),
-    },
+            tbody: {
+              tr: {
+                borderBottomColor: theme('colors.gray.700')
+              }
+            }
+          }
+        }
+      })
+    }
   },
   variants: {
-    accessibility: ['responsive', 'focus-within', 'focus'],
-    alignContent: ['responsive'],
-    alignItems: ['responsive'],
-    alignSelf: ['responsive'],
-    animation: ['responsive'],
-    appearance: ['responsive'],
-    backdropBlur: ['responsive'],
-    backdropBrightness: ['responsive'],
-    backdropContrast: ['responsive'],
-    backdropDropShadow: ['responsive'],
-    backdropFilter: ['responsive'],
-    backdropGrayscale: ['responsive'],
-    backdropHueRotate: ['responsive'],
-    backdropInvert: ['responsive'],
-    backdropSaturate: ['responsive'],
-    backdropSepia: ['responsive'],
-    backgroundAttachment: ['responsive'],
-    backgroundBlendMode: ['responsive'],
-    backgroundClip: ['responsive'],
-    backgroundColor: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    backgroundImage: ['responsive'],
-    backgroundOpacity: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    backgroundPosition: ['responsive'],
-    backgroundRepeat: ['responsive'],
-    backgroundSize: ['responsive'],
-    blur: ['responsive'],
-    borderCollapse: ['responsive'],
-    borderColor: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    borderOpacity: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    borderRadius: ['responsive'],
-    borderStyle: ['responsive'],
-    borderWidth: ['responsive'],
-    boxDecorationBreak: ['responsive'],
-    boxShadow: ['responsive', 'group-hover', 'focus-within', 'hover', 'focus'],
-    boxSizing: ['responsive'],
-    brightness: ['responsive'],
-    clear: ['responsive'],
-    container: ['responsive'],
-    contrast: ['responsive'],
-    cursor: ['responsive'],
-    display: ['responsive'],
-    divideColor: ['responsive', 'dark'],
-    divideOpacity: ['responsive', 'dark'],
-    divideStyle: ['responsive'],
-    divideWidth: ['responsive'],
-    dropShadow: ['responsive'],
-    fill: ['responsive'],
-    filter: ['responsive'],
-    flex: ['responsive'],
-    flexDirection: ['responsive'],
-    flexGrow: ['responsive'],
-    flexShrink: ['responsive'],
-    flexWrap: ['responsive'],
-    float: ['responsive'],
-    fontFamily: ['responsive'],
-    fontSize: ['responsive'],
-    fontSmoothing: ['responsive'],
-    fontStyle: ['responsive'],
-    fontVariantNumeric: ['responsive'],
-    fontWeight: ['responsive'],
-    gap: ['responsive'],
-    gradientColorStops: ['responsive', 'dark', 'hover', 'focus'],
-    grayscale: ['responsive'],
-    gridAutoColumns: ['responsive'],
-    gridAutoFlow: ['responsive'],
-    gridAutoRows: ['responsive'],
-    gridColumn: ['responsive'],
-    gridColumnEnd: ['responsive'],
-    gridColumnStart: ['responsive'],
-    gridRow: ['responsive'],
-    gridRowEnd: ['responsive'],
-    gridRowStart: ['responsive'],
-    gridTemplateColumns: ['responsive'],
-    gridTemplateRows: ['responsive'],
-    height: ['responsive'],
-    hueRotate: ['responsive'],
-    inset: ['responsive'],
-    invert: ['responsive'],
-    isolation: ['responsive'],
-    justifyContent: ['responsive'],
-    justifyItems: ['responsive'],
-    justifySelf: ['responsive'],
-    letterSpacing: ['responsive'],
-    lineHeight: ['responsive'],
-    listStylePosition: ['responsive'],
-    listStyleType: ['responsive'],
-    margin: ['responsive'],
-    maxHeight: ['responsive'],
-    maxWidth: ['responsive'],
-    minHeight: ['responsive'],
-    minWidth: ['responsive'],
-    mixBlendMode: ['responsive'],
-    objectFit: ['responsive'],
-    objectPosition: ['responsive'],
-    opacity: ['responsive', 'group-hover', 'focus-within', 'hover', 'focus'],
-    order: ['responsive'],
-    outline: ['responsive', 'focus-within', 'focus'],
-    overflow: ['responsive'],
-    overscrollBehavior: ['responsive'],
-    padding: ['responsive'],
-    placeContent: ['responsive'],
-    placeItems: ['responsive'],
-    placeSelf: ['responsive'],
-    placeholderColor: ['responsive', 'dark', 'focus'],
-    placeholderOpacity: ['responsive', 'dark', 'focus'],
-    pointerEvents: ['responsive'],
-    position: ['responsive'],
-    resize: ['responsive'],
-    ringColor: ['responsive', 'dark', 'focus-within', 'focus'],
-    ringOffsetColor: ['responsive', 'dark', 'focus-within', 'focus'],
-    ringOffsetWidth: ['responsive', 'focus-within', 'focus'],
-    ringOpacity: ['responsive', 'dark', 'focus-within', 'focus'],
-    ringWidth: ['responsive', 'focus-within', 'focus'],
-    rotate: ['responsive', 'hover', 'focus'],
-    saturate: ['responsive'],
-    scale: ['responsive', 'hover', 'focus'],
-    sepia: ['responsive'],
-    skew: ['responsive', 'hover', 'focus'],
-    space: ['responsive'],
-    stroke: ['responsive'],
-    strokeWidth: ['responsive'],
-    tableLayout: ['responsive'],
-    textAlign: ['responsive'],
-    textColor: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    textDecoration: ['responsive', 'group-hover', 'focus-within', 'hover', 'focus'],
-    textOpacity: ['responsive', 'dark', 'group-hover', 'focus-within', 'hover', 'focus'],
-    textOverflow: ['responsive'],
-    textTransform: ['responsive'],
-    transform: ['responsive'],
-    transformOrigin: ['responsive'],
-    transitionDelay: ['responsive'],
-    transitionDuration: ['responsive'],
-    transitionProperty: ['responsive'],
-    transitionTimingFunction: ['responsive'],
-    translate: ['responsive', 'hover', 'focus'],
-    userSelect: ['responsive'],
-    verticalAlign: ['responsive'],
-    visibility: ['responsive'],
-    whitespace: ['responsive'],
-    width: ['responsive'],
-    wordBreak: ['responsive'],
-    zIndex: ['responsive', 'focus-within', 'focus'],
-    extend: {
-    borderCollapse: ['hover', 'focus'],
-    },
+    typography: ['dark']
   },
   plugins: [
     require('@tailwindcss/typography'),

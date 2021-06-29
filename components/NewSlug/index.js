@@ -1,16 +1,17 @@
 
 import React, { useState, useContext } from 'react';
 import useSWR from 'swr'
-import { fetcher } from '../../lib/utils'
 
 import { useSession } from 'next-auth/client';
 import { GlobalStore } from '../../store';
 import { SaveIcon } from '@heroicons/react/outline'
 
 import toast from 'react-hot-toast';
-
+import axios from 'axios'
 import SideMenu from './SideMenu'
 import SeoTags from './SeoTags'
+
+const fetcher = url => axios.get(url).then(res => res.data)
 
 import { Card, Typography, IconActivity, Input, Button, Radio } from '@supabase/ui'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
@@ -21,7 +22,7 @@ function NewSlugActions() {
     const state = useContext(GlobalStore.State)
     const dispatch = useContext(GlobalStore.Dispatch)
 
-    const { data, error } = useSWR('/api/slugs/new', fetcher)
+    const { data, error } = useSWR('/api/slugs/new')
 
     const mutateGlobalCache = ({ slug }) => {
         dispatch({
@@ -330,21 +331,22 @@ function NewSlugCard() {
                     { state.currentTab === 'seo' && <SeoTags />}
                 </div>
 
-                <div className="inline-flex justify-end align-stretch mb-3 w-full">
+                <div className="inline-flex justify-end align-stretch w-full">
                     <Button 
                         type="outline"
-                        size="medium"
-                        icon={<XCircleIcon className="h-6 w-6 text-green mr-4" />}
+                        size="small"
+                        icon={<XCircleIcon className="h-6 w-6 text-green" />}
                         loading={sessionLoading}
                         disabled={!session || !session?.user || submitLoading}
                         onClick={handleCancel}
                         shadow={true}
+                        className="mr-4"
                     >
                         cancel
                     </Button>
                     <Button 
                         type="primary"
-                        size="medium"
+                        size="small"
                         icon={<CheckCircleIcon className="h-6 w-6 text-white" />}
                         loading={submitLoading || sessionLoading}
                         disabled={!session || !session?.user}

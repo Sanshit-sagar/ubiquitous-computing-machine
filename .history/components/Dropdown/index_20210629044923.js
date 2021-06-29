@@ -4,38 +4,22 @@ import {
   Divider,
   Typography,
   IconLogOut,
+  IconSettings,
   IconChevronDown,
 } from '@supabase/ui'
-
-import { UserCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 
 import Loader from '../Loader'
 import { useSession } from 'next-auth/client'
 
-const DropdownMenu = () => {
+const DropdownBasic = () => {
   const [session, loading] = useSession()
 
   return (
     <Dropdown
       overlay={[
-        
-        <Dropdown.Misc 
-          icon={
-              loading ? <Loader />  
-            : session && session.user ? <UserCircleIcon /> 
-            : <ExclamationCircleIcon className="h-6 w-6 text-black" /> 
-          }
-        >
+        <Dropdown.Misc icon={loading ? <Loader /> : session && session.user ? <UserIcon /> : }>
           <Typography.Text>
-            { 
-                session && session?.user ? 
-                  <span className="text-black text-sm"> 
-                    session.user.email 
-                  </span>
-
-              : loading ? '...'
-              : 'Unauthenticated' 
-            }
+            {session && session?.user ? session.user.email : loading ? '...' : 'Unauthenticated' }
           </Typography.Text>
         </Dropdown.Misc>,
         <Divider light />,
@@ -61,16 +45,11 @@ const DropdownMenu = () => {
       ]}
     >
       <Button type="outline" iconRight={<IconChevronDown />}>
-        { 
-           session && session.user 
-         ? session.user.name : loading  
-         ? <Loader /> 
-         : <span className="text-sm text-gray-700 font-extralight"> unauthenticated </span>
-        }
+        Click for dropdown
       </Button>
     </Dropdown>
   )
 }
 
 
-export default DropdownMenu
+export default DropdownBasic

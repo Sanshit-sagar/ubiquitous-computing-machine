@@ -1,7 +1,5 @@
 import React, { useState, useReducer, useCallback, useMemo } from 'react';
 import { Input, Button,  Card } from '@supabase/ui'
-import StackedLayout from '../../sections/StackedLayout'
-
 import { getInitialUserState, getTagDetails, tagManagerReducer } from './Tag'
 
 
@@ -59,7 +57,7 @@ const TagsList = () => {
           /> 
 
           <Button onClick={handleAdd}>
-            Hi hellllo
+            Add tag
           </Button>
 
         </div>

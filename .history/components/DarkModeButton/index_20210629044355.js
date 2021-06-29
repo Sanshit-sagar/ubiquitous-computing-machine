@@ -8,7 +8,7 @@ import Loader from '../Loader'
 import toast from 'react-hot-toast'
 import { useTheme } from 'next-themes'
 
-function broadcastCustomToast(title, message, isSuccess, theme) { 
+function broadcastCustomToast(title, message, isSuccess) { 
     // (_, _, 1) for success (_, _, -1) for failure 
     
     
@@ -38,9 +38,9 @@ function broadcastCustomToast(title, message, isSuccess, theme) {
                     className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                     Close
-                </button>
+                    </button>
+                </div>
             </div>
-        </div>
         ))
     }
 
@@ -66,9 +66,9 @@ const DarkModeButton = () => {
                 type: 'toggle_dark_mode'
             });
             setTheme(theme === 'dark' ? 'light' : 'dark') 
-            broadcastCustomToast('Theme Change', `Theme was changed to: ${theme} mode`, 1, theme)
+            broadcastCustomToast('Theme Change', `Theme was changed to: ${theme} mode`, 1)
         } catch(error) {
-            broadcastCustomToast('Theme Change', `Couldn't change theme to: ${theme} mode`, -1, theme)
+            broadcastCustomToast('Theme Change', `Couldn't change theme to: ${theme} mode`, -1)
         }
     }
 
