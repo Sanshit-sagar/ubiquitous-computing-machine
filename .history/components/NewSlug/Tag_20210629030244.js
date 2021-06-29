@@ -1,0 +1,51 @@
+import produce from "immer"
+import { useSession } from "next-auth/client";
+
+export const tagManagerReducer = produce((draft, action) => {
+  switch(action.type) {
+    case 'add':
+        const { slugId, name, value } = action
+        draft.tags.push({
+            slugId,
+            name, 
+            value,
+            usedBy: undefined
+        })
+        break; 
+    case 'toggle':
+        const tag = draft.tags.find(tag => tag.id===action.id)
+        tag.usedBy = tag.usedBy===undefined 
+            ? draft.currentSlug.id 
+            : tag.usedBy===draft.currentSlug.id 
+            ? undefined : draft.usedBy;     
+        break; 
+    case 'update': 
+        let { updatedValue } = update_tag_value
+        if(updatedValue && updatedValue.length) {
+            const tag = draft.tags[draft.tags.findIndex(tag => tag.id===action.id)]
+            tag.value = updatedValue
+        }
+        break; 
+    case "reset":
+        return initialState; 
+  }
+}); 
+
+export function getInitialUserState() {
+    const [session, loading] = useSession();
+    let email = session && session?.user ? session.user.email : ''
+
+    let allLinks = [];
+    if(email && email.length) {
+        allLinks = await fetch(`/api/slugs/getAll/${email}`);
+    }
+    
+    return {
+        links: allLinks || [],
+        currentUser: {
+            email: session && session?.user ? session.user.email : '',
+            name: session && session?.user ? session.user.name : ''
+        },
+        tags: []
+    }
+}
