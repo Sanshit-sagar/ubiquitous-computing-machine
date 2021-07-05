@@ -9,6 +9,8 @@ import toast from 'react-hot-toast'
 import { useTheme } from 'next-themes'
 
 function broadcastCustomToast(title, message, isSuccess, theme) { 
+    // (_, _, 1) for success (_, _, -1) for failure 
+    
     
     return toast.custom((t) => (
         <div
@@ -92,11 +94,7 @@ const DarkModeButton = () => {
                                 'absolute inset-0 h-full w-full flex items-center justify-center transition-opacity'
                             )}
                         >
-                            { 
-                                  state.darkMode 
-                                ? <MoonIcon className="w-7 h-7" /> 
-                                : <SunIcon className="w-7 h-7" /> 
-                            }
+                            { state.darkMode ?  <MoonIcon className="w-7 h-7" /> : <SunIcon className="w-7 h-7" /> }
                         </span> 
                     </span>
                 </Switch>
