@@ -8,7 +8,7 @@ import {fetcher} from '../../lib/utils'
 import StackedLayout from '../../sections/StackedLayout'
 import CustomSpinner from '../../buildingBlocks/Spinner'
 
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { DateTime } from "luxon";
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 
@@ -228,3 +228,22 @@ const ClickStreamCache = () => {
 }
 
 export default ClickStreamCache
+
+
+export async function getServerSideProps(ctx) {
+    const session = await getSession(ctx)
+
+    if (!session) {
+      ctx.res.writeHead(302, { Location: '/' })
+      ctx.res.end()
+      return {}
+    }
+  
+    return {
+      props: {
+        user: session.user,
+      },
+    }
+  }
+
+

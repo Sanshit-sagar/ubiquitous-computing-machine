@@ -1,15 +1,11 @@
 import React from 'react'
 
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import StackedLayout from '../sections/StackedLayout'
 import DashboardGraphs from '../components/DashboardGraphs'
 
 const Metrics = () => {
-    const [session, loading] = useSession();
-    const router = useRouter()
    
-
     return (
         <div className="container mx-auto">
             <div className="inline-flex justify-start align-start">
@@ -19,8 +15,7 @@ const Metrics = () => {
     )
 }
 
-const MetricsWrapper = () => {
-
+const MetricsWrapper = ({ user }) => {
     const metricsMetadata = {
         title: 'Metrics',
         description: 'TODO'
@@ -37,3 +32,12 @@ const MetricsWrapper = () => {
 }
 
 export default MetricsWrapper
+
+
+export async function getServerSideProps(context) {
+    return {
+      props: {
+        session: await getSession(context)
+      }
+    }
+}

@@ -8,11 +8,10 @@ import { ThemeProvider } from 'next-themes'
 import { Provider as AuthProvider } from 'next-auth/client'
 import NProgress from 'nprogress';
 
-// import AuthWrapper from '../components/Auth/index'
-
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
+
 
 function MyApp({ Component, pageProps }) {
   
@@ -27,13 +26,31 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider 
         enableSystem={true} 
         attribute="class"
-      >
-        <Store>
-          <Component  {...pageProps} />
-        </Store>
+      > 
+          <Store>
+            <Component  {...pageProps} />
+          </Store>
       </ThemeProvider>
     </AuthProvider>
   )
 }
 
 export default MyApp
+
+// function Auth({ children }) {
+//   const [session, loading] = useSession()
+//   const isUser = !!session?.user
+  
+//   React.useEffect(() => {
+//     if (loading) return <Loader /> // Do nothing while loading
+//     if (!isUser) signIn() // If not authenticated, force log in
+//   }, [isUser, loading])
+
+//   if (isUser) {
+//     return children
+//   }
+
+//   // Session is being fetched, or no user.
+//   // If no user, useEffect() will redirect.
+//   return <div>Loading...</div>
+// }

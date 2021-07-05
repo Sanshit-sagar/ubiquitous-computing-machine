@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
@@ -26,8 +26,6 @@ function useUserClickstreams(email, time)  {
 
 const LeaderboardTables = ({ email, time, loading }) => {
     const {clickstream, clickstreamLoading, clickstreamError} = useUserClickstreams(email, time) 
-
-    if(!loading && !email || clickstreamError) return <AccessDenied /> 
 
     let aggreatedStats = clickstream && clickstream.length ? aggregateStats(clickstream) : {}
     let leaderboards = [
@@ -58,11 +56,19 @@ const LeaderboardTables = ({ email, time, loading }) => {
     )
 }
 
-const Leaderboards = () => {
+const Leaderboards = ({ user }) => {
     const [session, loading] = useSession()
-    const [time, setTime] = useState('30')
+    const [time, setTime] = useState('')
+    const [email, setEmail] = useState('')
 
-    const email = session && session.user ? session.user.email : ''
+    useEffect(() => {
+        if(user) {
+            setEmail(user.email)
+            setTime('30')
+        } 
+    }, []);
+   
+    if(!user) return <AccessDenied /> 
 
     return (
         <StackedLayout

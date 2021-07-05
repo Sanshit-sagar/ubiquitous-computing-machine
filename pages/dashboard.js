@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../store'
 
 import useSWR from 'swr'
@@ -18,13 +18,11 @@ import {
     TableCell,
     Pagination, 
     TableFooter,
-    Badge,
-    Windmill,
+    Badge
   } from '@windmill/react-ui'
 
 import { 
     DeviceMobileIcon, 
-    ChatIcon, 
     LinkIcon, 
     LocationMarkerIcon, 
     KeyIcon, 
@@ -33,6 +31,7 @@ import {
     ClockIcon,
     GlobeIcon
 } from '@heroicons/react/outline'
+
 import { EyeIcon } from '@heroicons/react/solid'
 
 export const fetcher = url => axios.get(url).then(res => res.data);
@@ -350,3 +349,12 @@ const DashboardWrapper = () => {
 }
 
 export default DashboardWrapper
+
+
+export async function getServerSideProps(context) {
+    return {
+      props: {
+        session: await getSession(context)
+      }
+    }
+}

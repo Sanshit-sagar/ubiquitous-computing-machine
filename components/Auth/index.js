@@ -1,5 +1,5 @@
 import React from "react"
-import { Provider, signIn, useSession } from "next-auth/client"
+import { signIn, useSession } from "next-auth/client"
 
 import Loader from '../Loader'
 
