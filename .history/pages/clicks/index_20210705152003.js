@@ -110,7 +110,7 @@ const Click = ({ value, index, uid }) => {
 
 const ClickStreamTable = ({ clicks, reval }) => {
     const [session, loading] = useSession()
-    // const [backupLoading, setBackupLoading] = React.useState(false)
+    const [backupLoading, setBackupLoading] = React.useState(false)
 
     const uid = session && !loading ? session.user.email : ''
   

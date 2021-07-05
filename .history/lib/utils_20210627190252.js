@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { getSession } from 'next-auth/client';
 
-export const fetcher = url => axios.get(url).then(res => res.data)
-
 export default function parseUrl (url) {
   // Default values
   const defaultHost = 'http://localhost:3000'

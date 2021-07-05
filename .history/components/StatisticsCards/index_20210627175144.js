@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 
-import { fetcher } from '../../lib/utils'
+import {fetcher} from '../../lib/utils'
 import { useSession } from 'next-auth/client'
 
 import { 

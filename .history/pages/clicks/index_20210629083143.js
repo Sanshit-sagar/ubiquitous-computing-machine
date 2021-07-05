@@ -3,7 +3,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router'
 import useSWR from 'swr'
 
-import { fetcher } from '../../lib/utils'
+import {fetcher} from '../../lib/utils'
 
 import StackedLayout from '../../sections/StackedLayout'
 import CustomSpinner from '../../buildingBlocks/Spinner'
@@ -110,7 +110,7 @@ const Click = ({ value, index, uid }) => {
 
 const ClickStreamTable = ({ clicks, reval }) => {
     const [session, loading] = useSession()
-    // const [backupLoading, setBackupLoading] = React.useState(false)
+    const [backupLoading, setBackupLoading] = React.useState(false)
 
     const uid = session && !loading ? session.user.email : ''
   
