@@ -30,17 +30,8 @@ const HomePage = ({ meta }) => {
         <Head>
           <title> cute.ly </title>
           <meta property="og:title" content="cutely" key="title" />
-          
-          <script 
-            defer 
-            src='https://static.cloudflareinsights.com/beacon.min.js' 
-            data-cf-beacon='{"token": "d08fc063d1064064af71f7ac09369e34"}' 
-          />
-          
-          <link 
-            href="https://fonts.googleapis.com/css?family=Inter&display=swap" 
-            rel="stylesheet" 
-          />
+          <script defer  src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d08fc063d1064064af71f7ac09369e34"}' />
+          <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
         </Head> 
         
         <StackedLayout 

@@ -1,6 +1,8 @@
 import React, {useContext} from 'react'
 
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
+
 import Loader from '../../components/Loader'
 import {GlobalStore} from '../../store'
 

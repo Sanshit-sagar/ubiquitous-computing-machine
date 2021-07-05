@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import axios from 'axios'
 import { useSession } from 'next-auth/client'
 
-import Loader from '../Loader'
-import Modal from '../../buildingBlocks/Modal'
+// import Loader from '../Loader'
+// import Modal from '../../buildingBlocks/Modal'
 
 const fetcher = url => axios.get(url).then(res => res.data);
 
@@ -33,9 +33,9 @@ function useUserClickstreams(email, timeFilter)  {
 const TimeseriesGraph = () => {
     const [session, sessionLoading] = useSession()
 
-    const [showModal, setShowModal] = useState(false)
+    // const [showModal, setShowModal] = useState(false)
     const [timeFilter, setTimeFilter] = useState(30)
-    const [reval, setReval] = useState(0)
+    // const [reval, setReval] = useState(0)
 
     const email = session && session?.user && !loading ? session.user.email : ''
     const { clickstream, loading, error } = useUserClickstreams(email, timeFilter)
@@ -76,6 +76,9 @@ const TimeseriesGraph = () => {
     //         setSortedClicks(tempClicks.sort((a, b) => String(b.timestamp).localeCompare(a.timestamp)));
     //     }
     // }, [mounted, clickstream, clicksOnPage, loading, error, reval]);
+
+    if(loading) return <Loader />
+    if(error) return <p> {`{Error: ${error.message}`} </p>
   
     return (
         <div className="w-auto min-w-100 ml-2 bg-gray-700 rounded-md shadow-lg">
