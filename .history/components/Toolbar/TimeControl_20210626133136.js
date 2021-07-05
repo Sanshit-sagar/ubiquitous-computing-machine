@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Button } from '@supabase/ui'
+import { Button, Windmill } from '@windmill/react-ui'
 
 const options = [
     { id: 0, timeControl: 1, title: '1 Day', key: '1'},
