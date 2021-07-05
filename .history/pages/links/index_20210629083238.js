@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../../store'
 
 import CustomSpinner from '../../buildingBlocks/Spinner'
@@ -19,8 +19,9 @@ import {
     TableCell,
     TableFooter,
     Pagination,
-    Badge
+    Modal, ModalHeader, ModalBody, ModalFooter, Button
   } from '@windmill/react-ui'
+  import { Badge } from '@windmill/react-ui'
 
 const fetcher = url => axios.get(url).then(res => res.data);
 

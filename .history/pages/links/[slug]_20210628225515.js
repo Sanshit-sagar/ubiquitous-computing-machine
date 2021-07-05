@@ -27,6 +27,7 @@ const SlugFields = ({ slug }) => {
     if(error) return <p> error! </p>
 
     return (
+        // <Windmill dark>
         <Card className="flex h-48 w-30">
             <CardBody>
                 <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
@@ -46,6 +47,7 @@ const SlugFields = ({ slug }) => {
                 </p>
             </CardBody>
         </Card>
+        // </Windmill>
     )
 }
 

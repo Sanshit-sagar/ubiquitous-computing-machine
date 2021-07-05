@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../../store'
 
 import CustomSpinner from '../../buildingBlocks/Spinner'

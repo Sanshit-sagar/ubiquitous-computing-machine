@@ -193,7 +193,7 @@ const TimeseriesList = () => {
     return (
         <div className="container mx-auto mt-2">
             <CustomSortedTable 
-                loading={loading || sessionLoading} 
+                loading={loading} 
                 sortedData={data.topSlugs} 
                 title="Most Viewed Slugs"
             />
