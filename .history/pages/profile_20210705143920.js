@@ -37,6 +37,7 @@ const useTimeseries = () => {
 }
 
 const LineChartPage = () => {
+  // const [status, setStatus] = useState('loading')
   const {timeseries, frequencies, statistics, loading, error} = useTimeseries(); 
 
   if(loading && !error) return <Loader />

@@ -37,10 +37,8 @@ const useTimeseries = () => {
 }
 
 const LineChartPage = () => {
+  // const [status, setStatus] = useState('loading')
   const {timeseries, frequencies, statistics, loading, error} = useTimeseries(); 
-
-  if(loading && !error) return <Loader />
-  if(error) return <p> {`Error! ${error.message}`} </p>
 
   return (  
       <StackedLayout>
@@ -50,7 +48,18 @@ const LineChartPage = () => {
             </Typography.Title>
           }
         >
-          <p> { JSON.stringify(timeseries) } </p> 
+        <>
+          {loading ? <Loader /> : !error ?  <p> {JSON.stringify(statistics)} </p> :<p> `Error: ${error.message}` </p> }
+          <div style={{ height: '450px', width: '100%' }}>
+           {
+              loading ?
+              <Loader /> : !error ?  
+              <p> { JSON.stringify(timeseries) } </p> 
+              : 
+                <p> Error! </p>
+            }
+          </div>  
+        </>
         </Card> 
       </StackedLayout>
   );

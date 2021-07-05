@@ -1,8 +1,9 @@
-import React from 'react'
-import { Card, Typography } from '@supabase/ui'
+import React, { useState, useEffect, useMemo, useReducer, useContext } from 'react'
+import { useSession } from 'next-auth/client'
+import { Card, Typography, Button  } from '@supabase/ui'
 
 import Loader from '../components/Loader'
-// import LineChart from '../components/Charts/LineChart/index'
+import LineChart from '../components/LineChart'
 import StackedLayout from '../sections/StackedLayout'
 
 import useSWR from 'swr'
@@ -37,10 +38,8 @@ const useTimeseries = () => {
 }
 
 const LineChartPage = () => {
+  const [status, setStatus] = useState('loading')
   const {timeseries, frequencies, statistics, loading, error} = useTimeseries(); 
-
-  if(loading && !error) return <Loader />
-  if(error) return <p> {`Error! ${error.message}`} </p>
 
   return (  
       <StackedLayout>
@@ -50,7 +49,21 @@ const LineChartPage = () => {
             </Typography.Title>
           }
         >
-          <p> { JSON.stringify(timeseries) } </p> 
+        <>
+          {loading ? <Loader /> : !error ?  <p> {JSON.stringify(statistics)} </p> :<p> `Error: ${error.message}` </p> }
+          <div style={{ height: '450px', width: '100%' }}>
+           {
+              loading ?
+              <Loader /> : !error ?  
+              <LineChart 
+                timeseries={timeseries}
+                frequencies={frequencies}
+                statistics={statistics}
+              /> : 
+                <p> Error! </p>
+            }
+          </div>  
+        </>
         </Card> 
       </StackedLayout>
   );
