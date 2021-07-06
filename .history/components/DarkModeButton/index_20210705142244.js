@@ -70,8 +70,6 @@ const DarkModeButton = () => {
         }
     }
 
-    if(!mounted) return <Loader /> 
-
     return (
         <span className="mr-5">
            

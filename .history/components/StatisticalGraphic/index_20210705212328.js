@@ -23,11 +23,11 @@ const Statistic = ({ stat, unitsList, loading }) => {
     }, [delta, value, statValue, statDelta, loadingStat, error, loading])
 
     return (
-            <div class="bg-white text-gray-700 shadow-lg rounded-md p-2">
+            <div class="bg-white shadow-lg rounded-md p-4 dark:text-white dark:bg-gray-700">
                 <div class="flex items-center">
                     {icon}
                     <span class="text-md text-black dark:text-white ml-2 text-extralight">
-                        {name}
+                        {loading ? <Loader /> : name}
                     </span>
                 </div>
             

@@ -37,11 +37,10 @@ function StatisticsCardsBase({ uid }) {
     const { views, links, clicks, loading, error } = useUserSummarizedData(uid)
 
     // calculate delta using links and clicks here 
-
     const availableStats = [{    
         key: 'mostViews',
         name: 'Most Views', 
-        value: loading ? <Loader /> : !error ? views.maxViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.maxViews : null,
         icon: <VideoCameraIcon className={`${custom_icon_class}`} />,
         unit: 1,
         delta: '50%',
@@ -49,7 +48,7 @@ function StatisticsCardsBase({ uid }) {
     }, {   
         key: 'uniqueViews',
         name: 'Unique Views', 
-        value: loading ? <Loader /> : !error ? views.numUnique : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numUnique : null,
         icon: <SparklesIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -57,7 +56,7 @@ function StatisticsCardsBase({ uid }) {
     }, {
         key: 'totalViews',
         name: 'Total Views', 
-        value: loading ? <Loader /> : !error ? views.totalViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.totalViews : null,
         icon: <CursorClickIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -65,7 +64,7 @@ function StatisticsCardsBase({ uid }) {
     }, {
         key: 'numLinks',
         name: 'Links Created', 
-        value: loading ? <Loader /> : !error ? views.numLinks : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numLinks : null,
         icon: <ExternalLinkIcon className={`${custom_icon_class}`} />,
         unit: 0,
         delta: '50%',
@@ -96,6 +95,8 @@ function StatisticsCardsBase({ uid }) {
 function StatisticsCards() {
     const [session] = useSession()
     const uid = session ? session.user.email : '';
+
+    if(!uid) return <p> error, invalid session </p>
 
     return <StatisticsCardsBase uid={uid} />;
 }

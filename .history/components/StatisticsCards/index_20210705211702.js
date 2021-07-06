@@ -18,8 +18,6 @@ const useUserSummarizedData = (uid) => {
 
     return {
         views: data ? data.views : null,
-        links: data ? data.slugsSortedByViews : [],
-        clicks: data ? data.viewsSortedByTime : [],
         loading: !data && !error,
         error: error
     }
@@ -34,14 +32,12 @@ function StatisticsCardsBase({ uid }) {
         { value: 30, title: '30 days', str: 'month', secs: 30*7*24*60*60 },
         { value: 100, title: 'all time', str: `since the start`, secs: 100*7*24*60*60 }, 
     ];
-    const { views, links, clicks, loading, error } = useUserSummarizedData(uid)
-
-    // calculate delta using links and clicks here 
+    const { views, loading, error } = useUserSummarizedData(uid)
 
     const availableStats = [{    
         key: 'mostViews',
         name: 'Most Views', 
-        value: loading ? <Loader /> : !error ? views.maxViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.maxViews : null,
         icon: <VideoCameraIcon className={`${custom_icon_class}`} />,
         unit: 1,
         delta: '50%',
@@ -49,7 +45,7 @@ function StatisticsCardsBase({ uid }) {
     }, {   
         key: 'uniqueViews',
         name: 'Unique Views', 
-        value: loading ? <Loader /> : !error ? views.numUnique : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numUnique : null,
         icon: <SparklesIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -57,7 +53,7 @@ function StatisticsCardsBase({ uid }) {
     }, {
         key: 'totalViews',
         name: 'Total Views', 
-        value: loading ? <Loader /> : !error ? views.totalViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.totalViews : null,
         icon: <CursorClickIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -65,7 +61,7 @@ function StatisticsCardsBase({ uid }) {
     }, {
         key: 'numLinks',
         name: 'Links Created', 
-        value: loading ? <Loader /> : !error ? views.numLinks : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numLinks : null,
         icon: <ExternalLinkIcon className={`${custom_icon_class}`} />,
         unit: 0,
         delta: '50%',
@@ -74,21 +70,23 @@ function StatisticsCardsBase({ uid }) {
 ];
 
     return (
-        <div className="contaner mx-auto p-2 m-2 rounded-md inline-flex justify-start align-stretch space-x-2">
-            {Object.entries(availableStats).map(function(stat, i) {
-                return (
-                    <span 
-                        key={i} 
-                        className="rounded-md shadow-lg"
-                    >
-                        <Statistic 
-                            stat={stat[1]} 
-                            unitsList={unitsList} 
-                            loading={loading} 
-                        />
-                    </span>
-                );
-            })}
+        <div className="contaner mx-auto bg-gray-700 mb-4 mr-4 p-3 rounded-md shadow-lg">
+            <div className="inline-flex justify-start align-stretch space-x-2">
+                {Object.entries(availableStats).map(function(stat, i) {
+                    return (
+                        <span 
+                            key={i} 
+                            className="rounded-md shadow-lg"
+                        >
+                            <Statistic 
+                                stat={stat[1]} 
+                                unitsList={unitsList} 
+                                loading={loading} 
+                            />
+                        </span>
+                    );
+                })}
+            </div>
         </div>
     );  
 }
@@ -96,6 +94,8 @@ function StatisticsCardsBase({ uid }) {
 function StatisticsCards() {
     const [session] = useSession()
     const uid = session ? session.user.email : '';
+
+    if(!uid) return <p> error, invalid session </p>
 
     return <StatisticsCardsBase uid={uid} />;
 }

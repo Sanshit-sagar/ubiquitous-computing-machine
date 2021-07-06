@@ -12,6 +12,8 @@ const DeltaIncreaseSvg = () => {
 const Statistic = ({ stat, unitsList, loading }) => {
     const [statValue, setStatValue] = React.useState('')
     const [statDelta, setStatDelta] = React.useState('')
+    const [units, setUnits] = React.useState([])
+    const [fetchCount, setFetchCount] = React.useState(0)
 
     const { name, value, icon, unit, delta, loadingStat, error } = stat
 
@@ -19,11 +21,13 @@ const Statistic = ({ stat, unitsList, loading }) => {
         if(!loading && !loadingStat && !error) {
             setStatDelta(delta)
             setStatValue(value)
+            setUnits(unitsList)
+            setFetchCount(fetch + 1)
         }
     }, [delta, value, statValue, statDelta, loadingStat, error, loading])
 
     return (
-            <div class="bg-white text-gray-700 shadow-lg rounded-md p-2">
+            <div class="bg-white shadow-lg rounded-md p-4 dark:text-white dark:bg-gray-700">
                 <div class="flex items-center">
                     {icon}
                     <span class="text-md text-black dark:text-white ml-2 text-extralight">
