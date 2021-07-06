@@ -35,29 +35,29 @@ function useUserClickstreams(email, timeFilter)  {
 // }
 
 
-// const TimeseriesVisualizers = () => {
+const TimeseriesVisualizers = () => {
 
-//     return (
+    return (
         
-//         <div className="grid grid-rows-3 grid-flow-col gap-4">
-//             {/* <div class="row-span-3">
-//                 <TimeseriesList />
-//             </div> */}
+        <div className="grid grid-rows-3 grid-flow-col gap-4">
+            {/* <div class="row-span-3">
+                <TimeseriesList />
+            </div> */}
             
-//             <div class="col-span-2">
-//                 <StatisticsCards />
-//             </div>
+            <div class="col-span-2">
+                <StatisticsCards />
+            </div>
 
-//             {/* <div class="row-span-2 col-span-2">
-//                 <ClickstreamTimeseries /> 
-//             </div> */}
-//         </div>
+            {/* <div class="row-span-2 col-span-2">
+                <ClickstreamTimeseries /> 
+            </div> */}
+        </div>
 
 
-//     )
-// }    
+    )
+}    
 
-const TimeseriesWrapper = () => {
+const TimeseriesWrapper = ({ email }) => {
     // const [fetchCount, setFetchCount] = useState(0)
     // const [lastUpdatedAt, setLastUpdatedAt] = useState('')
 
@@ -126,7 +126,7 @@ const DashboardGraphs = ({ email }) => {
     return (
         <div className="container mx-auto h-full">
             <p> {`Recieved: ${email}`} </p>
-            <TimeseriesWrapper />
+            <TimeseriesWrapper email={email} />
         </div>
     );
 }

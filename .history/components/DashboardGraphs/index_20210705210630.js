@@ -35,31 +35,34 @@ function useUserClickstreams(email, timeFilter)  {
 // }
 
 
-// const TimeseriesVisualizers = () => {
+const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
 
-//     return (
+    return (
         
-//         <div className="grid grid-rows-3 grid-flow-col gap-4">
-//             {/* <div class="row-span-3">
-//                 <TimeseriesList />
-//             </div> */}
+        <div className="grid grid-rows-3 grid-flow-col gap-4">
+            {/* <div class="row-span-3">
+                <TimeseriesList />
+            </div> */}
             
-//             <div class="col-span-2">
-//                 <StatisticsCards />
-//             </div>
+            <div class="col-span-2">
+                { timeseriesLoading   ? <Loader />  :   
+                  timeseriesError     ? <h1> !Error!! </h1> :  
+                  <StatisticsCards />
+                }
+            </div>
 
-//             {/* <div class="row-span-2 col-span-2">
-//                 <ClickstreamTimeseries /> 
-//             </div> */}
-//         </div>
+            {/* <div class="row-span-2 col-span-2">
+                <ClickstreamTimeseries /> 
+            </div> */}
+        </div>
 
 
-//     )
-// }    
+    )
+}    
 
-const TimeseriesWrapper = () => {
+const TimeseriesWrapper = ({ email }) => {
     // const [fetchCount, setFetchCount] = useState(0)
-    // const [lastUpdatedAt, setLastUpdatedAt] = useState('')
+    const [lastUpdatedAt, setLastUpdatedAt] = useState('')
 
     // const [details, setDetails] = useState([])
     // const [timeseries, setTimeseries] = useState([])
@@ -67,11 +70,11 @@ const TimeseriesWrapper = () => {
     // const [timeseriesError, setTimeseriesError] = useState(false)
 
     // const [statistics, setStatistics] = useState({}) 
-    // const [timeFilter, setTimeFilter] = useState('30')
+    const [timeFilter, setTimeFilter] = useState('30')
 
-    // const updateTimeFilter = (key) => {
-    //     setTimeFilter(key)
-    // }
+    const updateTimeFilter = (key) => {
+        setTimeFilter(key)
+    }
 
     // const updateStatistics = (timeseries, uniqueCount, skipCount) => {
     //     setStatistics({
@@ -88,36 +91,36 @@ const TimeseriesWrapper = () => {
     //     });
     // }
 
-    // const { clickstream, loading, error } = useUserClickstreams(email, timeFilter)
+    const { clickstream, loading, error } = useUserClickstreams(email, timeFilter)
 
-    // useEffect(() => {
-    //     if(!loading && !error && clickstream && clickstream.length) {
-    //         setTimeseriesLoading(true)
+    useEffect(() => {
+        if(!loading && !error && clickstream && clickstream.length) {
+            setTimeseriesLoading(true)
             
-    //         const {timeseries } = seriesGenerator(clickstream)
-    //         setTimeseries([...timeseries])
-    //         // setDetails([...details]);
-    //         // updateStatistics(timeseries, numUnique, numInvalid); 
-    //         setLastUpdatedAt(new Date().getTime().toString())
+            const {details, timeseries, numUnique, numInvalid} = seriesGenerator(clickstream)
+            setTimeseries([...timeseries])
+            setDetails([...details]);
+            updateStatistics(timeseries, numUnique, numInvalid); 
+            setLastUpdatedAt(new Date().getTime().toString())
 
-    //         setFetchCount(fetch + 1)
-    //         setTimeseriesLoading(false)
-    //     }
-    // }, [clickstream, timeseries, details, lastUpdatedAt])
+            setFetchCount(fetch + 1)
+            setTimeseriesLoading(false)
+        }
+    }, [clickstream, timeseries, details, lastUpdatedAt])
 
     return (
-        // <TimeseriesVisualizers email={email} />
-            // timeseries={timeseries}
-            // setTimeseries={setTimeseries}
-            // timeseriesLoading={timeseriesLoading}
-            // timeseriesError={timeseriesError}
-            // timeFilter={timeFilter}
-            // updateTimeFilter={updateTimeFilter}
-            // statistics={statistics}
-            // details={details}
-            // lastUpdatedAt={lastUpdatedAt}
-        // />
-        <StatisticsCards />
+        <TimeseriesVisualizers
+            email={email} 
+            timeseries={timeseries}
+            setTimeseries={setTimeseries}
+            timeseriesLoading={timeseriesLoading}
+            timeseriesError={timeseriesError}
+            timeFilter={timeFilter}
+            updateTimeFilter={updateTimeFilter}
+            statistics={statistics}
+            details={details}
+            lastUpdatedAt={lastUpdatedAt}
+        />
     )
 }
 
@@ -125,8 +128,8 @@ const DashboardGraphs = ({ email }) => {
 
     return (
         <div className="container mx-auto h-full">
+            <TimeseriesWrapper email={email} />
             <p> {`Recieved: ${email}`} </p>
-            <TimeseriesWrapper />
         </div>
     );
 }

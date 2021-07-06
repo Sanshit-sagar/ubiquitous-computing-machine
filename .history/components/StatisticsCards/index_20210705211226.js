@@ -97,7 +97,7 @@ function StatisticsCards() {
     // if(loading) return <p> loading... </p> //TODO: SKELETON
     // if(!session && !loading) return <p> error... </p> //LOG AND REDIRECT
 
-    const uid = session ? session.user.email : '';
+    const uid = session && session.user.email : '';
 
     return <StatisticsCardsBase uid={uid} />;
 }

@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/client'
 
 import StackedLayout from '../sections/StackedLayout'
 import DashboardGraphs from '../components/DashboardGraphs'
-import StatisticsCards from '../components/StatisticsCards'
 import Loader from '../components/Loader'
 
 const Metrics = ({ email }) => {
@@ -16,20 +15,22 @@ const Metrics = ({ email }) => {
     return (
         <div className="container mx-auto">
             <div className="inline-flex justify-start align-start">
-                <StatisticsCards email={email} /> 
+                <DashboardGraphs email={email} /> 
             </div>
         </div>
     )
 }
 
 export default function MetricsWrapper() {
-    const [session] = useSession()
-    const email = session ? session.user.email : ''
+    const [session, loading] = useSession()
+    const email = session && session?.user ? session.user.email : ''
 
     const metricsMetadata = {
         title: 'Metrics',
         description: 'TODO'
     }
+
+    if(loading) return <Loader />
 
     return (
         <StackedLayout
@@ -41,4 +42,4 @@ export default function MetricsWrapper() {
     )
 }
 
-MetricsWrapper.auth = true
+MetricsWrapper.auth = false
