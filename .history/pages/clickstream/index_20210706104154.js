@@ -292,6 +292,19 @@ const ClickstreamTable = () => {
                         </>
                     </TableBody>    
                 </Table>
+
+                <TableFooter>
+                    {/* <Pagination 
+                        totalResults={clickstream.length} 
+                        resultsPerPage={pageSize} 
+                        onChange={(event) => {
+                                handlePagination(event)
+                            }
+                        } 
+                        label="Pagination" 
+                    /> */}
+                    <Pagination />
+                </TableFooter>
             </TableContainer>  
         </div>
     )

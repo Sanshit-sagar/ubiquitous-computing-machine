@@ -7,7 +7,6 @@ import axios from 'axios'
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
 import StackedLayout from '../../sections/StackedLayout'
 import Loader from '../../components/Loader'
-import Pagination from '../../components/Pagination'
 
 import {
     TableContainer,
@@ -16,6 +15,7 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Pagination, 
     TableFooter
   } from '@windmill/react-ui'
 
@@ -292,6 +292,19 @@ const ClickstreamTable = () => {
                         </>
                     </TableBody>    
                 </Table>
+
+                <TableFooter>
+                    {/* <Pagination 
+                        totalResults={clickstream.length} 
+                        resultsPerPage={pageSize} 
+                        onChange={(event) => {
+                                handlePagination(event)
+                            }
+                        } 
+                        label="Pagination" 
+                    /> */}
+                    <Pagination />
+                </TableFooter>
             </TableContainer>  
         </div>
     )
