@@ -1,6 +1,9 @@
+var http = require('http');
 var parser = require('ua-parser-js');
 
 export default async function handler(req, res) {
+    console.log('HELLO HELLO');
+    
     try {
         const { slug, useragent } = req.query
 

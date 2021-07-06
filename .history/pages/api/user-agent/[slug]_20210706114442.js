@@ -1,3 +1,4 @@
+var http = require('http');
 var parser = require('ua-parser-js');
 
 export default async function handler(req, res) {
