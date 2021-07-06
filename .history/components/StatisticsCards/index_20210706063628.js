@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 
 import { fetcher } from '../../lib/utils'
+import { useSession } from 'next-auth/client'
 
 import { 
     CursorClickIcon, 
@@ -11,9 +12,8 @@ import {
 
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
-
-import { Typography, Card } from '@supabase/ui'
-import { TableContainer, TableHeader, TableBody, TableRow, TableCell, Table } from '@windmill/react-ui'
+import LeaderboardTable from '../LeaderboardTable'
+import { TableHeader } from '@windmill/react-ui'
 
 const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)
@@ -97,12 +97,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
 const DataTable = ({ title, variable, data }) => {
 
     return (
-        <Card title={
-                <Typography.Title level={4}>
-                    {title}
-                </Typography.Title>
-            }
-        >
+        <Card title={title}>
             <TableContainer>
                 <Table>
                     <TableHeader>
@@ -140,16 +135,8 @@ function StatisticsCards({ email }) {
                 loading={loading} 
                 error={error} 
             />
-            <DataTable 
-                title="Most Visited Links" 
-                variable="Destination URL" 
-                data={links} 
-            /> 
-            <DataTable 
-                title="Most Frequent Visitors" 
-                variable="IP Address" 
-                data={clicks}
-            /> 
+            <DataTable title="Most Visited Links" variable="Destination URL" data={links} /> 
+            <DataTable title="Most Frequent Visitors" variable="IP Address" data={clicks} /> 
         </div>
     );
 }

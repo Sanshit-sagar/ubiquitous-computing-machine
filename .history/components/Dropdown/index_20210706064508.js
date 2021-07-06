@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import {
   Dropdown,
   Button,
@@ -14,7 +13,6 @@ import { useSession, signOut, signIn } from 'next-auth/client'
 import Loader from '../Loader'
 
 const DropdownMenu = () => {
-  const router = useRouter()
   const [session, loading] = useSession()
 
   return (

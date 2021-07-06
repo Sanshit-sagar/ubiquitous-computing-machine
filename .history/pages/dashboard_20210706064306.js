@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../store'
 
 import useSWR from 'swr'

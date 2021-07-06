@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../store'
 
 import useSWR from 'swr'
@@ -207,8 +207,18 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {loading ? <Loader /> : visitor.system.substring(30)}
+                    {loading ? <Loader /> : visitor.system.substring(50)}
                 </div>
+            </TableCell>
+
+            <TableCell>
+                {loading ? <Loader /> : 
+                <Badge type="success"> 
+                    <span className="text-sm">  
+                        301
+                    </span>
+                </Badge>
+                }
             </TableCell>
         </TableRow>
     )

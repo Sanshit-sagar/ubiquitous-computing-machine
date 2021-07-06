@@ -11,6 +11,7 @@ import {
 
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
+// import LeaderboardTable from '../LeaderboardTable'
 
 import { Typography, Card } from '@supabase/ui'
 import { TableContainer, TableHeader, TableBody, TableRow, TableCell, Table } from '@windmill/react-ui'

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { GlobalStore } from '../store'
 
 import useSWR from 'swr'
@@ -207,8 +207,18 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {loading ? <Loader /> : visitor.system.substring(30)}
+                    {loading ? <Loader /> : visitor.system.substring(50)}
                 </div>
+            </TableCell>
+
+            <TableCell>
+                {loading ? <Loader /> : 
+                <Badge type="success"> 
+                    <span className="text-sm">  
+                        301
+                    </span>
+                </Badge>
+                }
             </TableCell>
         </TableRow>
     )
@@ -249,7 +259,7 @@ const DashboardTable = () => {
     const clicksOnPage = clickstream.slice(cursor, pageSize);
  
     return (
-        <div className="container h-full w-full shadow-md m-2 mt-3 p-4 rounded-md bg-gray-900">
+        <div className="container h-full w-full shadow-lg mt-2 p-4 rounded-md bg-gray-900">
             <TableContainer>
                 <div className="table w-full">
                     <Table>
@@ -312,8 +322,6 @@ const DashboardTable = () => {
 }
 
 const DashboardWrapper = () => {
-    const [session] = useSession()
-    const email  = session.user.email 
 
     const dashboardMetadata = {
         'title': 'Dashboard',
@@ -324,7 +332,7 @@ const DashboardWrapper = () => {
         <StackedLayout 
             pageMeta={dashboardMetadata} 
             children={
-                <DashboardTable email={email} />
+                <DashboardTable />
             }    
         />
 
