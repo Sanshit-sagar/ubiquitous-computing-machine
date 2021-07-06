@@ -3,14 +3,16 @@ import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
+import toast from 'react-hot-toast';
+import { Button, IconTrash, IconEye } from '@supabase/ui'
+
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
 import InfoModal, { DangerModal } from '../../buildingBlocks/Modal'
 import { NewSlugStore } from '../../store'
 import { useViewsBySlug } from '../clickstream'
 
-import toast from 'react-hot-toast';
-import { Button, IconTrash, IconEye } from '@supabase/ui'
+
 import {
     TableContainer,
     Table,
