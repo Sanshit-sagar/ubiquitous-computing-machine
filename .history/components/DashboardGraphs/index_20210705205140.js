@@ -23,16 +23,16 @@ function useUserClickstreams(email, timeFilter)  {
 }
 
 
-// const EmptyGraph = () => {
+const EmptyGraph = () => {
 
-//     return (
-//         <div class="container mx-auto">
-//             <h1> NO DATA 
-//                 <a href="/new"> Create </a>
-//             </h1>
-//         </div>
-//     )
-// }
+    return (
+        <div class="container mx-auto">
+            <h1> NO DATA 
+                <a href="/new"> Create </a>
+            </h1>
+        </div>
+    )
+}
 
 
 const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
@@ -60,7 +60,7 @@ const TimeseriesVisualizers = ({ timeseriesLoading, timeseriesError }) => {
     )
 }    
 
-const TimeseriesWrapper = ({ email }) => {
+const TimeseriesWrapper = ({ email, mounted, setMounted }) => {
     const [fetchCount, setFetchCount] = useState(0)
     const [lastUpdatedAt, setLastUpdatedAt] = useState('')
 
@@ -94,7 +94,7 @@ const TimeseriesWrapper = ({ email }) => {
     const { clickstream, loading, error } = useUserClickstreams(email, timeFilter)
 
     useEffect(() => {
-        if(!loading && !error && clickstream && clickstream.length) {
+        if(mounted && !loading && !error && clickstream && clickstream.length) {
             setTimeseriesLoading(true)
             
             const {details, timeseries, numUnique, numInvalid} = seriesGenerator(clickstream)
@@ -106,7 +106,7 @@ const TimeseriesWrapper = ({ email }) => {
             setFetchCount(fetch + 1)
             setTimeseriesLoading(false)
         }
-    }, [clickstream, timeseries, details, lastUpdatedAt])
+    }, [mounted, clickstream, timeseries, details, lastUpdatedAt])
 
     return (
         <TimeseriesVisualizers
@@ -124,12 +124,22 @@ const TimeseriesWrapper = ({ email }) => {
     )
 }
 
-const DashboardGraphs = ({ email }) => {
-    // const email = session && session.user ? session.user.email : ''
+const DashboardGraphs = () => {
+    const [mounted, setMounted] = useState(false)
+    const [session, userLoading] = useSession()
+
+    useEffect(() => {
+        if(mounted) setMounted(true);
+    }, [mounted]);
+
+    const email = session && session.user ? session.user.email : ''
 
     return (
         <div className="container mx-auto h-full">
-            <TimeseriesWrapper email={email} />
+            <TimeseriesWrapper 
+                email={email}
+                mounted={mounted} 
+            /> 
         </div>
     );
 }

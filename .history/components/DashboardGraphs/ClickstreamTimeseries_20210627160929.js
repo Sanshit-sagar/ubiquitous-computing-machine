@@ -5,9 +5,21 @@ import axios from 'axios'
 
 import Loader from '../Loader'
 import LineChart from '../Charts/LineChart/index'
+// import Toolbar from '../Toolbar'
 
 const fetcher = url => axios.get(url).then(res => res.data);
 
+// function sanitizeData(freqs) {
+//     let freqsArr = []
+
+//     Object.entries(freqs).forEach(entry => {
+//         freqsArr.push({ 
+//             x: entry[0], 
+//             y: parseInt(entry[1]) 
+//         });
+//     })
+//     return freqsArr; 
+// }
 
 const Pill = ({ selected, handleSelect, withoutBorder, label, key }) => {
     const unselectedPillStyle = withoutBorder ? 'hover:text-white' : 'hover:bg-gray-400 hover:text-white'

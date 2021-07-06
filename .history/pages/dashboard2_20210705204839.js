@@ -1,23 +1,21 @@
 import React from 'react'
 
+import { useSession, getSession } from 'next-auth/client'
 import StackedLayout from '../sections/StackedLayout'
 import DashboardGraphs from '../components/DashboardGraphs'
 
-const Metrics = ({ email }) => {
+const Metrics = () => {
    
     return (
         <div className="container mx-auto">
             <div className="inline-flex justify-start align-start">
-                <DashboardGraphs email={email} /> 
+                <DashboardGraphs /> 
             </div>
         </div>
     )
 }
 
-export default function MetricsWrapper() {
-    const [session] = useSession()
-    const email = session ? session.user.email : ''
-
+const MetricsWrapper = () => {
     const metricsMetadata = {
         title: 'Metrics',
         description: 'TODO'
@@ -27,10 +25,10 @@ export default function MetricsWrapper() {
         <StackedLayout
             pageMeta={metricsMetadata}
             children={
-                <Metrics email={email} />
+                <Metrics />
             }
         />
     )
 }
 
-MetricsWrapper.auth = true
+export default MetricsWrapper
