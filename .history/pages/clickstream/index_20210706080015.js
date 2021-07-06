@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { useSession } from 'next-auth/client'
 
 import useSWR from 'swr'
 import axios from 'axios'
 
+import { GlobalStore } from '../../store'
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
 import StackedLayout from '../../sections/StackedLayout'
 import Loader from '../../components/Loader'
@@ -215,6 +216,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
 const ClickstreamTable = () => {
     const [session, isLoading] = useSession()
+    const state = useContext(GlobalStore.State)
 
     const [pageSize, setPageSize] = useState(8)
     const [cursor, setCursor] =useState(0)
@@ -325,6 +327,7 @@ const Clickstream = () => {
                 <ClickstreamTable email={email} />
             }    
         />
+
     )
 }
 

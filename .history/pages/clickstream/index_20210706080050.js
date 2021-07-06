@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { useSession } from 'next-auth/client'
 
 import useSWR from 'swr'
@@ -325,6 +325,7 @@ const Clickstream = () => {
                 <ClickstreamTable email={email} />
             }    
         />
+
     )
 }
 

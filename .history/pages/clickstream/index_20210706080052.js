@@ -325,6 +325,7 @@ const Clickstream = () => {
                 <ClickstreamTable email={email} />
             }    
         />
+
     )
 }
 
