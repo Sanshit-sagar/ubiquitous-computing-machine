@@ -96,8 +96,6 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
         [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
         [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
         [validity, ''],
-        [cells.password || '', ],
-        [cells.routingStatus || '301']
     ];
 
     const handleDelete = () => {
@@ -221,7 +219,9 @@ const LinksTable = ({ links, visible, toggle }) => {
 }
 
 
-const LinksTableWrapper = ({ email, visible, toggle }) => {
+const LinksTableWrapper = ({ visible, toggle }) => {
+    const [session] = useSession()
+    const email  = session.user.email
     // const email = 'sasagar@ucsd.edu'
 
     const [numUpdates, setNumUpdates] = useState(0)
@@ -257,21 +257,15 @@ const LinksTableWrapper = ({ email, visible, toggle }) => {
     if(error) return <p> error! </p>
 
     return (
-        <> 
-            <p> {email} </p>
-            <LinksTable 
-                links={state.links}
-                visible={visible}
-                toggle={toggle}
-            />
-        </>
+        <LinksTable 
+            links={state.links}
+            visible={visible}
+            toggle={toggle}
+        />
     )
 }
 
 export default function LinksPage() {
-    const [session] = useSession()
-    const email  = session.user.email
-
     const [modalVisible, setModalVisible] = useState(false)
 
     const toggleModal = () => {
@@ -291,8 +285,7 @@ export default function LinksPage() {
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
-                    <LinksTableWrapper
-                        email={email} 
+                    <LinksTableWrapper 
                         visible={modalVisible}
                         toggle={toggleModal}
                     />

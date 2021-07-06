@@ -257,13 +257,12 @@ const LinksTableWrapper = ({ email, visible, toggle }) => {
     if(error) return <p> error! </p>
 
     return (
-        <> 
-            <p> {email} </p>
-            <LinksTable 
-                links={state.links}
-                visible={visible}
-                toggle={toggle}
-            />
+        <> <p> {email} </p>
+        <LinksTable 
+            links={state.links}
+            visible={visible}
+            toggle={toggle}
+        />
         </>
     )
 }

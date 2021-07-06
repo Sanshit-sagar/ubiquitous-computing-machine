@@ -8,7 +8,7 @@ export default async function(req, res) {
         try {
             const indicies = getIndicies()
         
-            const userId = session.user.email
+            const userId = 
             const pageId = `dangerous-cannons-fasten-bhnhg`
 
             var data = {

@@ -22,12 +22,15 @@ export default async function(req, res) {
 
     console.log(`Using key: ${key} for time: ${time} for account: ${email}`)
    
+
     try {
         const originalClickstream = await redis.lrange(key, 0, -1);
         originalClickstream.forEach((click) => {
             let sanitizedClick = JSON.parse(click)
             clickstream.push(sanitizedClick);
         });
+
+        // console.log(clickstream)
         res.status(200).json({ clickstream, email })
     } catch (error) {
         console.error(error);

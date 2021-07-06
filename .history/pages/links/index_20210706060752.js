@@ -257,21 +257,18 @@ const LinksTableWrapper = ({ email, visible, toggle }) => {
     if(error) return <p> error! </p>
 
     return (
-        <> 
-            <p> {email} </p>
-            <LinksTable 
-                links={state.links}
-                visible={visible}
-                toggle={toggle}
-            />
+        <> <p> {email} </p>
+        <LinksTable 
+            links={state.links}
+            visible={visible}
+            toggle={toggle}
+        />
         </>
     )
 }
 
 export default function LinksPage() {
     const [session] = useSession()
-    const email  = session.user.email
-
     const [modalVisible, setModalVisible] = useState(false)
 
     const toggleModal = () => {
@@ -291,8 +288,7 @@ export default function LinksPage() {
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
-                    <LinksTableWrapper
-                        email={email} 
+                    <LinksTableWrapper 
                         visible={modalVisible}
                         toggle={toggleModal}
                     />
