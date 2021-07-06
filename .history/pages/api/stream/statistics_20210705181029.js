@@ -1,6 +1,7 @@
 import redis from '../../../lib/redis'
 import { getSession } from 'next-auth/client'
 
+
 export default async function handler(req, res) {
     const session = await getSession({ req })
 
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
             res.status(200).json({ timeseries, headers, skipped, count, average })
         } catch (error) {
             console.log(`Iteration ended at counter: ${count}`)
-
+            
             res.status(500).json({ error: "unable to fetch data" })
         }
     } else {

@@ -207,7 +207,10 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {loading ? <Loader /> : visitor.system.substring(50)}
+                    {loading ? <Loader /> : `${visitor.host}`}
+                </div>
+                <div className="text-sm"> 
+                    {loading ? <Loader /> : sanitize(visitor.system)}
                 </div>
             </TableCell>
 
@@ -220,6 +223,11 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
                 </Badge>
                 }
             </TableCell>
+            {/* <TableCell>
+                <span className="text-sm">   
+                    {loading ? <Loader /> : `${misc.timeTaken}}`}ms
+                </span>
+            </TableCell> */}
         </TableRow>
     )
 }

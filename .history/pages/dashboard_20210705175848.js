@@ -206,6 +206,9 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
             </TableCell> 
 
             <TableCell className="flex-col justify-between align-stretch">
+                {/* <div className="text-sm"> 
+                    {loading ? <Loader /> : `${visitor.host}`}
+                </div> */}
                 <div className="text-sm"> 
                     {loading ? <Loader /> : visitor.system.substring(50)}
                 </div>

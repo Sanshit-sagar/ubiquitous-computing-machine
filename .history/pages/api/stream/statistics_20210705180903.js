@@ -1,6 +1,7 @@
 import redis from '../../../lib/redis'
 import { getSession } from 'next-auth/client'
 
+
 export default async function handler(req, res) {
     const session = await getSession({ req })
 
@@ -43,8 +44,9 @@ export default async function handler(req, res) {
             let average = count===1 ? timeseries[0].x : count===0 ? 0 : -1 * (timeseries[count -skipped - 1].x - timeseries[0].x)/(count - skipped)
             res.status(200).json({ timeseries, headers, skipped, count, average })
         } catch (error) {
+            // TODO: return howmuch ever was streamed up until that point 
+            console.log(error.message)
             console.log(`Iteration ended at counter: ${count}`)
-
             res.status(500).json({ error: "unable to fetch data" })
         }
     } else {

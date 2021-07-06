@@ -6,7 +6,7 @@ export default function SignIn({ csrfToken }) {
       <input name='csrfToken' type='hidden' defaultValue={csrfToken}/>
       <label>
         Username
-        <input name='username' type='text' placeholder="username" />
+        <input name='username' type='text'/>
       </label>
       <label>
         Password
