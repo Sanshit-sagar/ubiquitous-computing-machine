@@ -24,7 +24,6 @@ const DropdownMenu = () => {
             : session && session.user ? <UserCircleIcon className="h-6 w-6" /> 
             : <ExclamationCircleIcon className="h-6 w-6" /> 
           }
-          style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'yellow' }}
         >
           <Typography.Text>
             { 
@@ -39,11 +38,10 @@ const DropdownMenu = () => {
           </Typography.Text>
         </Dropdown.Misc>,
         <Divider light />,
-
         <Dropdown.Item>
           <Typography.Text>
             <a href='/dashboard'> 
-              Dashboard 
+              My Dashboard 
             </a>
           </Typography.Text>
         </Dropdown.Item>,
@@ -56,26 +54,17 @@ const DropdownMenu = () => {
         </Dropdown.Item>,
 
         <Divider light />,
-        
         <Dropdown.Item icon={<IconLogOut />}>
-          <Button
-            size="small"
-            variant="danger"
-            onClick={() => {router.push('/api/auth/signout')}}
-          > 
-            Log out
-          </Button> 
+          <Typography.Text>Log out</Typography.Text>
         </Dropdown.Item>,
       ]}
     >
       <Button type="outline" iconRight={<IconChevronDown />}>
         { 
-           session && session.user ? session.user.name 
-         : loading  ? <Loader /> 
-         : 
-          <span className="text-sm text-gray-700 font-extralight"> 
-            Log in 
-          </span>
+           session && session.user 
+         ? session.user.name : loading  
+         ? <Loader /> 
+         : <span className="text-sm text-gray-700 font-extralight"> unauthenticated </span>
         }
       </Button>
     </Dropdown>

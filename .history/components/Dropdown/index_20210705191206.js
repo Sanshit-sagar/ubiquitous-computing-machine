@@ -74,7 +74,7 @@ const DropdownMenu = () => {
          : loading  ? <Loader /> 
          : 
           <span className="text-sm text-gray-700 font-extralight"> 
-            Log in 
+            unauthenticated 
           </span>
         }
       </Button>

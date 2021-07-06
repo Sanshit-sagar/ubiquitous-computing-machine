@@ -63,19 +63,17 @@ const DropdownMenu = () => {
             variant="danger"
             onClick={() => {router.push('/api/auth/signout')}}
           > 
-            Log out
+            Logout
           </Button> 
         </Dropdown.Item>,
       ]}
     >
       <Button type="outline" iconRight={<IconChevronDown />}>
         { 
-           session && session.user ? session.user.name 
-         : loading  ? <Loader /> 
-         : 
-          <span className="text-sm text-gray-700 font-extralight"> 
-            Log in 
-          </span>
+           session && session.user 
+         ? session.user.name : loading  
+         ? <Loader /> 
+         : <span className="text-sm text-gray-700 font-extralight"> unauthenticated </span>
         }
       </Button>
     </Dropdown>
