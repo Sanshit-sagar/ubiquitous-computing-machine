@@ -24,12 +24,16 @@ const DropdownMenu = () => {
             : session && session.user ? <UserCircleIcon className="h-6 w-6" /> 
             : <ExclamationCircleIcon className="h-6 w-6" /> 
           }
-          className="w-full inline-flex justify-between align-center"
         >
           <Typography.Text>
-            {   session && session?.user ? <span className="text-sm"> {session.user.email} </span>
-              : loading ? <Loader /> 
-              : <Typography.Text> Log in </Typography.Text> 
+            { 
+                session && session?.user ? 
+                  <span className="text-sm"> 
+                    {session.user.email}
+                  </span>
+
+              : loading ? '...'
+              : 'Log in' 
             }
           </Typography.Text>
         </Dropdown.Misc>,

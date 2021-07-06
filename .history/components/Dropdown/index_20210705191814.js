@@ -24,12 +24,17 @@ const DropdownMenu = () => {
             : session && session.user ? <UserCircleIcon className="h-6 w-6" /> 
             : <ExclamationCircleIcon className="h-6 w-6" /> 
           }
-          className="w-full inline-flex justify-between align-center"
+          style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'yellow' }}
         >
           <Typography.Text>
-            {   session && session?.user ? <span className="text-sm"> {session.user.email} </span>
-              : loading ? <Loader /> 
-              : <Typography.Text> Log in </Typography.Text> 
+            { 
+                session && session?.user ? 
+                  <span className="text-sm"> 
+                    {session.user.email}
+                  </span>
+
+              : loading ? '...'
+              : 'Log in' 
             }
           </Typography.Text>
         </Dropdown.Misc>,
@@ -42,7 +47,6 @@ const DropdownMenu = () => {
             </a>
           </Typography.Text>
         </Dropdown.Item>,
-
         <Dropdown.Item>
           <Typography.Text>
             <a href='/profile'> 
@@ -51,20 +55,23 @@ const DropdownMenu = () => {
           </Typography.Text>
         </Dropdown.Item>,
 
+        <Divider light />,
         
         <> { session && session?.user && 
-          <>
-            <Divider light />
             <Dropdown.Item icon={<IconLogOut />}>
-              <Typography.Text>
+              <Button
+                size="small"
+                variant="danger"
+                onClick={() => {router.push('/api/auth/signout')}}
+              > 
                 Log out
-              </Typography.Text>
+              </Button> 
             </Dropdown.Item>
-          </>
         } </>
+        
       ]}
     >
-      <Button type="primary" size="medium" iconRight={<IconChevronDown />}>
+      <Button type="outline" iconRight={<IconChevronDown />}>
         { 
            session && session.user ? session.user.name 
          : loading  ? <Loader /> 

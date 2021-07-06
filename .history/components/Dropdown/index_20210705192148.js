@@ -24,12 +24,17 @@ const DropdownMenu = () => {
             : session && session.user ? <UserCircleIcon className="h-6 w-6" /> 
             : <ExclamationCircleIcon className="h-6 w-6" /> 
           }
-          className="w-full inline-flex justify-between align-center"
+          style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'yellow' }}
         >
           <Typography.Text>
-            {   session && session?.user ? <span className="text-sm"> {session.user.email} </span>
-              : loading ? <Loader /> 
-              : <Typography.Text> Log in </Typography.Text> 
+            { 
+                session && session?.user ? 
+                  <span className="text-sm"> 
+                    {session.user.email}
+                  </span>
+
+              : loading ? '...'
+              : 'Log in' 
             }
           </Typography.Text>
         </Dropdown.Misc>,
@@ -52,16 +57,16 @@ const DropdownMenu = () => {
         </Dropdown.Item>,
 
         
-        <> { session && session?.user && 
-          <>
-            <Divider light />
-            <Dropdown.Item icon={<IconLogOut />}>
-              <Typography.Text>
-                Log out
-              </Typography.Text>
-            </Dropdown.Item>
-          </>
-        } </>
+          <> { session && session?.user && 
+            <>
+              <Divider light />
+              <Dropdown.Item icon={<IconLogOut />}>
+                <Typography.Text>
+                  Log out
+                </Typography.Text>
+              </Dropdown.Item>
+            </>
+          } </>
       ]}
     >
       <Button type="primary" size="medium" iconRight={<IconChevronDown />}>
