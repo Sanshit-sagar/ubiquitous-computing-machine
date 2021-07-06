@@ -5,6 +5,7 @@ export default async function(req, res) {
 
     try {
         const { slug, email } = req.query 
+        console.log(`HERE: ${JSON.stringify(slug)} with ${email}`)
 
         const { dayIndex, weekIndex, monthIndex } = getChronologicalIndicies()
 

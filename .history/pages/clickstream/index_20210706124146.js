@@ -30,8 +30,7 @@ import {
     AdjustmentsIcon,
     DesktopComputerIcon,
     IdentificationIcon,
-    CalendarIcon,
-    ArrowsExpandIcon
+    CalendarIcon
 } from '@heroicons/react/outline'
 
 import { EyeIcon } from '@heroicons/react/solid'
@@ -123,8 +122,6 @@ const ViewsDisplay = ({ slug, email }) => {
     if(viewsLoading) return <Loader />;
     if(viewsError) return <p> Error!! </p>;
 
-    const delta = 1
-
     return (
         <TableCell className="inline-flex justify-between align-stretch">
             <div className="flex-col justify-between align-stretch">
@@ -136,10 +133,7 @@ const ViewsDisplay = ({ slug, email }) => {
                 </div> 
             </div>
             <div className="inline-flex justify-end align-center">
-                {   delta > 0 ? 
-                    <TrendingUpIcon className="h-5 w-5 text-green-500" /> :
-                    <TrendingDownIcon className="h-5 w-5 text-red-300" />
-                }
+                <TrendingUpIcon className="h-5 w-5 text-green-500" />
             </div>
         </TableCell>
     )
@@ -148,8 +142,8 @@ const ViewsDisplay = ({ slug, email }) => {
 const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink }) => {
 
     return (
-        <TableCell className="inline-flex justify-between align-stretch">
-            <div className="w-full flex-col justify-between align-stretch">
+        <TableCell className="inline-flex justify-between align-start">
+            <div className="w-full flex-col justify-between align-start">
                 <div className="text-sm text-green-200">  
                     {loading ? <Loader /> : `${slot1}`}
                 </div>
@@ -162,12 +156,7 @@ const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink })
                     <Button 
                         type="link" 
                         size="small" 
-                        icon={
-                            <ExternalLinkIcon 
-                                type="default" 
-                                className="h-3 w-3 text-white" 
-                            />
-                        } 
+                        icon={<ExternalLinkIcon className="h-5 w-5 text-green" />} 
                     />
                 }
             </div>
@@ -218,6 +207,14 @@ const ClickStreamEntry = ({ email, click, index, loading  }) => {
                 loading={loading}
                 shouldDisplayLink={true}
             />
+
+            <StyledCellSlottedContents  
+                slot1={formattedTimestamp.primaryText} 
+                slot2={formattedTimestamp.secondaryText} 
+                loading={loading} 
+            />
+
+            <ViewsDisplay slug={click.slug} email={email} /> 
 
             <TableCell className="flex-col justify-between align-stretch">
                 <span className="text-sm flex flex-wrap m-width-15">  
@@ -285,28 +282,6 @@ const ClickStreamEntry = ({ email, click, index, loading  }) => {
                             </>
                     }
             </TableCell>
-            <StyledCellSlottedContents  
-                slot1={formattedTimestamp.primaryText} 
-                slot2={formattedTimestamp.secondaryText} 
-                loading={loading} 
-            />
-
-            <ViewsDisplay 
-                slug={click.slug} 
-                email={email} 
-            /> 
-
-            <TableCell>
-                <Button 
-                    type="primary" 
-                    size="small" 
-                    iconRight={
-                        <ArrowsExpandIcon 
-                            className="h-3 w-3 text-white" 
-                        />
-                    } 
-                />
-            </TableCell>
         </TableRow>
     )
 }
@@ -319,13 +294,13 @@ const ClickstreamTable = ({ email }) => {
     const columns = useMemo(() => [
         { Header: 'Crypto ID', icon: <FingerPrintIcon className="h-4 w-4" /> },
         { Header: 'Links', icon: <LinkIcon className="h-4 w-4" /> },
-        { Header: 'Geolocation', icon: <LocationMarkerIcon className="h-4 w-4" /> },
+        { Header: 'Timestamp', icon: <CalendarIcon className="h-4 w-4" />},
+        { Header: 'Views', icon: <EyeIcon className="h-4 w-4" /> },
+        { Header: 'Geodata', icon: <LocationMarkerIcon className="h-4 w-4" /> },
         { Header: 'IP Address', icon: <IdentificationIcon  className="h-4 w-4" />},
         { Header: 'Device', icon: <DeviceMobileIcon  className="h-4 w-4" />},
         { Header: 'OS', icon: <DesktopComputerIcon  className="h-4 w-4" />},
         { Header: 'Engine', icon: <AdjustmentsIcon  className="h-4 w-4" />},
-        { Header: 'Timestamp', icon: <CalendarIcon className="h-4 w-4" />},
-        { Header: 'Views', icon: <EyeIcon className="h-4 w-4" /> },
         { Header: 'Actions', icon: <LinkIcon className="h-4 w-4" /> },
     ], []);
 

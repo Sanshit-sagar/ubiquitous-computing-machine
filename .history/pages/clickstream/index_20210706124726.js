@@ -148,8 +148,8 @@ const ViewsDisplay = ({ slug, email }) => {
 const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink }) => {
 
     return (
-        <TableCell className="inline-flex justify-between align-stretch">
-            <div className="w-full flex-col justify-between align-stretch">
+        <TableCell className="inline-flex justify-between align-start">
+            <div className="w-full flex-col justify-between align-start">
                 <div className="text-sm text-green-200">  
                     {loading ? <Loader /> : `${slot1}`}
                 </div>
@@ -162,12 +162,7 @@ const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink })
                     <Button 
                         type="link" 
                         size="small" 
-                        icon={
-                            <ExternalLinkIcon 
-                                type="default" 
-                                className="h-3 w-3 text-white" 
-                            />
-                        } 
+                        icon={<ExternalLinkIcon className="h-5 w-5 text-green" />} 
                     />
                 }
             </div>
@@ -302,7 +297,7 @@ const ClickStreamEntry = ({ email, click, index, loading  }) => {
                     size="small" 
                     iconRight={
                         <ArrowsExpandIcon 
-                            className="h-3 w-3 text-white" 
+                            className="h-5 w-5 text-white" 
                         />
                     } 
                 />

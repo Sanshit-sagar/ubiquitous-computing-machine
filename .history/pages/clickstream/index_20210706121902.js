@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useSession } from 'next-auth/client'
 
 import { Button, Typography, Badge } from '@supabase/ui'
 
@@ -25,13 +26,8 @@ import {
     KeyIcon, 
     FingerPrintIcon, 
     TrendingUpIcon,
-    TrendingDownIcon,
-    ExternalLinkIcon,
-    AdjustmentsIcon,
-    DesktopComputerIcon,
-    IdentificationIcon,
-    CalendarIcon,
-    ArrowsExpandIcon
+    ClockIcon,
+    GlobeIcon
 } from '@heroicons/react/outline'
 
 import { EyeIcon } from '@heroicons/react/solid'
@@ -123,8 +119,6 @@ const ViewsDisplay = ({ slug, email }) => {
     if(viewsLoading) return <Loader />;
     if(viewsError) return <p> Error!! </p>;
 
-    const delta = 1
-
     return (
         <TableCell className="inline-flex justify-between align-stretch">
             <div className="flex-col justify-between align-stretch">
@@ -136,40 +130,21 @@ const ViewsDisplay = ({ slug, email }) => {
                 </div> 
             </div>
             <div className="inline-flex justify-end align-center">
-                {   delta > 0 ? 
-                    <TrendingUpIcon className="h-5 w-5 text-green-500" /> :
-                    <TrendingDownIcon className="h-5 w-5 text-red-300" />
-                }
+                <TrendingUpIcon className="h-5 w-5 text-green-500" />
             </div>
         </TableCell>
     )
 }
 
-const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink }) => {
+const StyledCellSlottedContents = ({ slot1, slot2, loading }) => {
 
     return (
-        <TableCell className="inline-flex justify-between align-stretch">
-            <div className="w-full flex-col justify-between align-stretch">
-                <div className="text-sm text-green-200">  
-                    {loading ? <Loader /> : `${slot1}`}
-                </div>
-                <div className="text-xs">
-                    {loading ? <Loader /> : `${slot2}`}
-                </div>
+        <TableCell className="flex-col justify-between align-stretch">
+            <div className="text-sm text-green-200">  
+                {loading ? <Loader /> : `${slot1}`}
             </div>
-            <div>
-                {shouldDisplayLink &&
-                    <Button 
-                        type="link" 
-                        size="small" 
-                        icon={
-                            <ExternalLinkIcon 
-                                type="default" 
-                                className="h-3 w-3 text-white" 
-                            />
-                        } 
-                    />
-                }
+            <div className="text-xs">
+                {loading ? <Loader /> : `${slot2}`}
             </div>
         </TableCell>
     )
@@ -213,11 +188,18 @@ const ClickStreamEntry = ({ email, click, index, loading  }) => {
             </TableCell>
             
             <StyledCellSlottedContents 
-                slot1={slug.substring(0, 17)} 
+                slot1={slug} 
                 slot2={sanitize(destination)} 
                 loading={loading}
-                shouldDisplayLink={true}
             />
+
+            <StyledCellSlottedContents  
+                slot1={formattedTimestamp.primaryText} 
+                slot2={formattedTimestamp.secondaryText} 
+                loading={loading} 
+            />
+
+            <ViewsDisplay slug={click.slug} email={email} /> 
 
             <TableCell className="flex-col justify-between align-stretch">
                 <span className="text-sm flex flex-wrap m-width-15">  
@@ -237,75 +219,20 @@ const ClickStreamEntry = ({ email, click, index, loading  }) => {
                 </div> 
             </TableCell> 
 
-            <TableCell className="m-1 h-full w-full">
-              
-                    {   
-                          loading || ualoading ? <Loader /> 
-                        : uaerror ? <p>  Error!! </p> 
-                        : 
-                        <div className="h-full flex-col justify-start align-start">
-                            <span className="text-sm">
-                                {ua.browser.name} 
-                            </span>
-                            {/* <span className="text-sm">
-                                {ua.browser.version} 
-                            </span> */}
-                        </div>
-                    }
-            </TableCell>
-            <TableCell className="m-1 h-full w-full">
-              
-                    {   
-                          loading || ualoading ? <Loader /> 
-                        : uaerror ? <p>  Error!! </p> 
-                        : 
-                        <div className="h-full flex-col justify-start align-start">
-                            <span className="text-sm">
-                                {ua.os.name} 
-                            </span>
-                            {/* <span className="text-sm">
-                                {ua.os.version} 
-                            </span> */}
-                        </div>
-                    }
-            </TableCell>
             <TableCell className="flex-col justify-between align-stretch">
-              
+                <div className="text-sm"> 
                     {   
                           loading || ualoading ? <Loader /> 
                         : uaerror ? <p>  Error!! </p> 
                         : 
-                            <>
-                                <span className="text-sm">
-                                    {ua.engine.name} 
-                                </span>
-                                {/* <span className="text-sm">
-                                    {ua.engine.version} 
-                                </span> */}
-                            </>
+                        <div className="inline-flex justify-start align-center m-2">
+                            <Badge color="gray"> {ua.browser.name} </Badge>
+                            <Badge color="gray"> {ua.os.name} </Badge>
+                            <Badge color="gray"> {ua.device.name} </Badge>
+                            <Badge color="gray"> {ua.engine.name} </Badge>
+                        </div>
                     }
-            </TableCell>
-            <StyledCellSlottedContents  
-                slot1={formattedTimestamp.primaryText} 
-                slot2={formattedTimestamp.secondaryText} 
-                loading={loading} 
-            />
-
-            <ViewsDisplay 
-                slug={click.slug} 
-                email={email} 
-            /> 
-
-            <TableCell>
-                <Button 
-                    type="primary" 
-                    size="small" 
-                    iconRight={
-                        <ArrowsExpandIcon 
-                            className="h-3 w-3 text-white" 
-                        />
-                    } 
-                />
+                </div>
             </TableCell>
         </TableRow>
     )
@@ -319,13 +246,11 @@ const ClickstreamTable = ({ email }) => {
     const columns = useMemo(() => [
         { Header: 'Crypto ID', icon: <FingerPrintIcon className="h-4 w-4" /> },
         { Header: 'Links', icon: <LinkIcon className="h-4 w-4" /> },
-        { Header: 'Geolocation', icon: <LocationMarkerIcon className="h-4 w-4" /> },
-        { Header: 'IP Address', icon: <IdentificationIcon  className="h-4 w-4" />},
-        { Header: 'Device', icon: <DeviceMobileIcon  className="h-4 w-4" />},
-        { Header: 'OS', icon: <DesktopComputerIcon  className="h-4 w-4" />},
-        { Header: 'Engine', icon: <AdjustmentsIcon  className="h-4 w-4" />},
-        { Header: 'Timestamp', icon: <CalendarIcon className="h-4 w-4" />},
+        { Header: 'Timestamp', icon: <ClockIcon className="h-4 w-4" />},
         { Header: 'Views', icon: <EyeIcon className="h-4 w-4" /> },
+        { Header: 'Geodata', icon: <GlobeIcon className="h-4 w-4" /> },
+        { Header: 'IP Address', icon: <LocationMarkerIcon  className="h-4 w-4" />},
+        { Header: 'User-Agent', icon: <DeviceMobileIcon  className="h-4 w-4" />},
         { Header: 'Actions', icon: <LinkIcon className="h-4 w-4" /> },
     ], []);
 

@@ -162,12 +162,7 @@ const StyledCellSlottedContents = ({ slot1, slot2, loading, shouldDisplayLink })
                     <Button 
                         type="link" 
                         size="small" 
-                        icon={
-                            <ExternalLinkIcon 
-                                type="default" 
-                                className="h-3 w-3 text-white" 
-                            />
-                        } 
+                        icon={<ExternalLinkIcon className="h-5 w-5 text-green" />} 
                     />
                 }
             </div>
