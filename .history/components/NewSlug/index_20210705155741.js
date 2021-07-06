@@ -1,8 +1,7 @@
 
 import React, { useState, useContext } from 'react';
 import { useSession } from 'next-auth/client';
-
-import { GlobalStore, NewSlugStore } from '../../store'
+import { NewSlugStore } from '../../store'
 
 import toast from 'react-hot-toast';
 import axios from 'axios'
@@ -15,9 +14,8 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
-// import { SaveIcon } from '@heroicons/react/solid';
-// CheckCircleIcon, XCircleIcon, 
+import { Card, Typography, IconActivity, Input, Button, Radio } from '@supabase/ui'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/solid';
   
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
@@ -200,8 +198,8 @@ const BlacklistInput = () => {
 function NewSlugActions() {
     const [session, loading] = useSession()
 
-    const state = useContext(NewSlugStore.State)
-    const dispatch = useContext(NewSlugStore.Dispatch)
+    const state = useContext(GlobalStore.State)
+    const dispatch = useContext(GlobalStore.Dispatch)
 
     const { data, error } = useSWR('/api/slugs/new')
 
@@ -221,7 +219,7 @@ function NewSlugActions() {
     }
 
 
-    const publish = async (slug, url, ttl) => {
+    const publish = async ({ slug, url, ttl }) => {
         if(!session || loading) return;
         if(!slug || !slug.length || !url || !url.length) return;
 
@@ -231,14 +229,12 @@ function NewSlugActions() {
                 url, 
                 ttl,
                 userEmail: session.user.email
-                // userEmail: 'sasagar@ucsd.edu'
             }),
             headers: {
               'Content-Type': 'application/json',
             },
             method: 'POST',
         })
-
         const { didSave, message, error } = await res.json()
         
         if(error) {
@@ -258,60 +254,65 @@ function NewSlugActions() {
             return; 
         }
 
-        const url =  `${state.destination}` || '';
         const slug = data ? `${data.slug}` : null
         const ttl = `${state.ttl}` || '';
-
-        alert(`Saving url: ${url}, slug: ${slug}, ttl: ${ttl}`);
-        publish(slug, url, ttl)
+        publish({ slug, url, ttl })
     }
 
     const PublishButton = () => {
         return (
             <div className="text-black mt-6 inline-flex justify-end align-stretch w-full">
                 <Button
-                    type="primary"
-                    size="medium"
-                    iconRight={<IconSave />}
-                    // className="inline-flex justify-between align-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     onClick={handleSubmit}
-                    // disabled={!session || loading}
+                    disabled={!session || loading}
                 >
-                    Save
+                    <SaveIcon className="ml-2 -mr-0.5 h-4 w-4" />
                 </Button>
             </div> 
         )
     }
 
     return (
-        <div className="ml-4 mt-4 flex-shrink-0">
+      <div className="bg-white px-2 py-4 mb-5 border-b border-gray-200 sm:px-3">
+        <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+          <div className="ml-4 mt-4">
+            
+            <Typography.Title level={3}>
+                Create new Slugs
+            </Typography.Title>
+            
+          </div>
+          <div className="ml-4 mt-4 flex-shrink-0">
             <PublishButton /> 
+          </div>
         </div>
+      </div>
     )
 }
 
 
 function NewSlugCard() {
-    // const [session, sessionLoading] = useSession()
-    // const [submitLoading, setSubmitLoading] = useState(false)
-    // const [cancelLoading, setCancelLoading] = useState(false)
+    const [session, sessionLoading] = useSession()
+    const [submitLoading, setSubmitLoading] = useState(false)
+    const [cancelLoading, setCancelLoading] = useState(false)
 
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
     
-    // const handleSubmit = () => {
-    //     setSubmitLoading(true)
-    //     alert('Submit is loading...')
-    //     setSubmitLoading(false)
-    //     toast.success(`Successfully saved your new slug`)
-    // }
+    const handleSubmit = () => {
+        setSubmitLoading(true)
+        alert('Submit is loading...')
+        setSubmitLoading(false)
+        toast.success(`Successfully saved your new slug`)
+    }
 
-    // const handleCancel = () => {
-    //     setCancelLoading(true)
-    //     alert('Cancel is loading...')
-    //     setCancelLoading(false)
-    //     toast.success(`Discarded your input`)
-    // }
+    const handleCancel = () => {
+        setCancelLoading(true)
+        alert('Cancel is loading...')
+        setCancelLoading(false)
+        toast.success(`Discarded your input`)
+    }
 
     const assignmentMutation = (key, value) => {
         dispatch({
@@ -325,13 +326,19 @@ function NewSlugCard() {
 
     const NewSlugHeader = () => {
         return (
-            <div className="w-full flex-col justify-start align-start">
-                <Typography.Title level={2}>
-                    Create New Slug
-                </Typography.Title>
-                <Typography variant="secondary">
-                    Create a new alias for your web resource and begin customizing and tracking traffic
-                </Typography>
+            <div className="w-full inline-flex justify-between align-end">
+                <div className="flex-col justify-start align-start">
+                    <Typography.Title level={2}>
+                        Create New Slug
+                    </Typography.Title>
+                    <Typography variant="secondary">
+                        Create a new alias for your web resource and begin customizing and tracking traffic
+                    </Typography>
+                </div>
+
+                <div className="w-full inline-flex justify-end align-end">
+                    <NewSlugActions />
+                </div>
             </div>
         )
     }
@@ -344,19 +351,14 @@ function NewSlugCard() {
                         <SideMenu /> 
                     </div>
 
-                    <div className="w-full flex-col justify-start align-stretch">
-                        <NewSlugActions />
-                        <>
-                            {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
-                            {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
-                            {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
-                            {state.currentTab === 'password' && <EncryptionInput />}
-                            {state.currentTab === 'blacklists' && <BlacklistInput />}
-                            { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
-                            {/* rate limiter, A/B testing */}
-                            { state.currentTab === 'seo' && <TagManager />}
-                        </>
-                    </div>
+                    {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
+                    {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
+                    {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
+                    {state.currentTab === 'password' && <EncryptionInput />}
+                    {state.currentTab === 'blacklists' && <BlacklistInput />}
+                    { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
+                    {/* rate limiter, A/B testing */}
+                    { state.currentTab === 'seo' && <TagManager />}
                 </div>
             </Card>
         </div>

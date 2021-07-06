@@ -15,8 +15,8 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
-// import { SaveIcon } from '@heroicons/react/solid';
+import { Card, Typography, IconActivity, Input, Button, Radio } from '@supabase/ui'
+import { SaveIcon } from '@heroicons/react/solid';
 // CheckCircleIcon, XCircleIcon, 
   
 const UrlSlug = () => {
@@ -271,12 +271,11 @@ function NewSlugActions() {
             <div className="text-black mt-6 inline-flex justify-end align-stretch w-full">
                 <Button
                     type="primary"
-                    size="medium"
-                    iconRight={<IconSave />}
                     // className="inline-flex justify-between align-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     onClick={handleSubmit}
-                    // disabled={!session || loading}
+                    disabled={!session || loading}
                 >
+                    {/* <SaveIcon className="ml-2 -mr-0.5 h-4 w-4" /> */}
                     Save
                 </Button>
             </div> 

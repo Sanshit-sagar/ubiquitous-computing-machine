@@ -16,7 +16,7 @@ import EncryptionInput from './EncryptionInput'
 const fetcher = url => axios.get(url).then(res => res.data)
 
 import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
-// import { SaveIcon } from '@heroicons/react/solid';
+import { SaveIcon } from '@heroicons/react/solid';
 // CheckCircleIcon, XCircleIcon, 
   
 const UrlSlug = () => {
