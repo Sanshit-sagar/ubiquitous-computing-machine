@@ -15,7 +15,7 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
+import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)

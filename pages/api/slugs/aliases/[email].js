@@ -6,6 +6,7 @@ export default async function handler(req, res) {
 
         if(email && email.length) {
             var links = await redis.hgetall(`aliases::${email}`)
+            
             res.status(200).json({ links }); 
         } else {
             res.status(404).json({ error: 'Invalid email provided' })

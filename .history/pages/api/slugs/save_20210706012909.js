@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
         console.log(`Slug: ${slug}`);
         console.log(`Url: ${url}`);
-        console.log(`Extras: ${JSON.stringify(extras)}`);
+        console.log(`Extras: ${extras}`);
         console.log(`UserEmail: ${userEmail}`);
         
         if(!slug || !slug.length) {

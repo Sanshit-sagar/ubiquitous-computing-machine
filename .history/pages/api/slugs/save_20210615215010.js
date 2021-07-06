@@ -3,11 +3,11 @@ import axios from 'axios';
 
 export default async function handler(req, res) {
     try {
-        const { slug, url, extras, userEmail } = req.body
+        const { slug, url, ttl, userEmail } = req.body
 
         console.log(`Slug: ${slug}`);
         console.log(`Url: ${url}`);
-        console.log(`Extras: ${JSON.stringify(extras)}`);
+        console.log(`Ttl: ${ttl}`);
         console.log(`UserEmail: ${userEmail}`);
         
         if(!slug || !slug.length) {
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
             const serializedData = { 
                 slug, 
                 url, 
-                extras,
+                ttl,
                 user: userEmail,
                 timestamp: new Date().getTime().toString()
             }

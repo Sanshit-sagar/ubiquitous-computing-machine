@@ -15,7 +15,7 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
+import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
@@ -72,7 +72,13 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card>
+            <Card 
+                // title={
+                //     <Typography type="secondary">
+                //         {description} 
+                //     </Typography>
+                // }
+            >
                 {children}
             </Card>
         </div>
@@ -216,7 +222,7 @@ function NewSlugActions() {
             body: JSON.stringify({ 
                 slug, 
                 url, 
-                extras,
+                ttl,
                 userEmail: session.user.email
                 // userEmail: 'sasagar@ucsd.edu'
             }),
@@ -245,19 +251,12 @@ function NewSlugActions() {
             return; 
         }
 
-        let url =  `${state.destination}` || '';
-        let slug = data ? `${data.slug}` : null
-        let ttl = `${state.ttl}` || '';
-        if(ttl) {
-            ttl = new Date(ttl).getTime().toString();
-        }
-        let password = `${state.password}` || '';
-        let blacklist = state.blacklist.length ? [...state.blacklist] : [];
-        let seoTags = state.seoTags.length ? [...state.seoTags] : [];
-        let routingStatus = state.routingStatus || '301';
+        const url =  `${state.destination}` || '';
+        const slug = data ? `${data.slug}` : null
+        const ttl = `${state.ttl}` || '';
 
-        const extras = { ttl, password, blacklist, seoTags, routingStatus }; 
-        publish(slug, url, extras)
+        alert(`Saving url: ${url}, slug: ${slug}, ttl: ${ttl}`);
+        publish(slug, url, ttl)
     }
 
     const PublishButton = () => {
@@ -299,18 +298,18 @@ function NewSlugCard() {
         })
     }
 
-    // const NewSlugHeader = () => {
-    //     return (
-    //         <div className="w-full flex-col justify-start align-stretch">
-    //             <Typography.Title level={2}>
-    //                 Create New Slug
-    //             </Typography.Title>
-    //             <Typography variant="secondary">
-    //                 Create a new alias for your web resource and begin customizing and tracking traffic
-    //             </Typography>
-    //         </div>
-    //     )
-    // }
+    const NewSlugHeader = () => {
+        return (
+            <div className="w-full flex-col justify-start align-stretch">
+                <Typography.Title level={2}>
+                    Create New Slug
+                </Typography.Title>
+                <Typography variant="secondary">
+                    Create a new alias for your web resource and begin customizing and tracking traffic
+                </Typography>
+            </div>
+        )
+    }
 
     return (
         <Card>

@@ -124,7 +124,13 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
     );
 }
 
-const LinksTable = ({ links, modalVisible, toggle }) => {
+const LinksTable = ({ links }) => {
+    const [modalVisible, setModalVisible] = useState(true)
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible)
+    }
+
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
@@ -165,7 +171,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                             <LinkEntry 
                                 index={idx} 
                                 cellsInRow={value} 
-                                toggle={toggle}
+                                toggle={toggleModal}
                             />
                         );  
                     })}
@@ -185,7 +191,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
 }
 
 
-const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
+const LinksTableWrapper = () => {
     const email = 'sasagar@ucsd.edu'
     const { links, loading, error } = useUserLibrary(email)
 
@@ -193,20 +199,11 @@ const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable 
-            links={links} 
-            modalVisible={modalVisible}
-            toggle={toggleModal}
-        />
+        <LinksTable links={links} />
     )
 }
 
 const LinksPage = () => {
-    const [modalVisible, setModalVisible] = useState(true)
-
-    const toggleModal = () => {
-        setModalVisible(!modalVisible)
-    }
     
     return (
        
@@ -226,11 +223,7 @@ const LinksPage = () => {
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
-                    <LinksTableWrapper 
-                        modalVisible={modalVisible}
-                        setModalVisible={setModalVisible}
-                        toggleModal={toggleModal}
-                    />
+                    <LinksTableWrapper />
                 </div>
             }
         />

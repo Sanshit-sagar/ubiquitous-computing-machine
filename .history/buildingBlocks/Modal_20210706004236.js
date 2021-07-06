@@ -17,8 +17,8 @@ export const DangerModal = ({ visible, toggle }) => {
         title="Custom footer with vertical layout"
         description="Description of modal"
         visible={visible}
-        onCancel={() => toggle()}
-        onConfirm={() => toggle()}
+        onCancel={toggle}
+        onConfirm={toggle}
         customFooter={[
           <Space style={{ width: "100%" }}>
             <Button size="medium" block type="secondary">
@@ -43,22 +43,21 @@ export const SuccessModal = ({ visible, toggle }) => {
 
   return (
     <>
+      <Button onClick={toggle} type="default">
+        Open modal
+      </Button>
       <Modal
         size="small"
         title="This modal is to confirm something"
         description="Description of modal"
         icon={<IconCheck background="brand" size="xxxlarge" />}
         visible={visible}
-        onCancel={() => toggle()}
-        onConfirm={() => toggle()}
+        onCancel={toggle}
+        onConfirm={toggle}
         layout="vertical"
         customFooter={[
           <Space style={{ width: "100%" }}>
-            <Button 
-              size="medium" 
-              block 
-              icon={<IconCheck />}
-            >
+            <Button size="medium" block icon={<IconCheck />}>
               Confirm
             </Button>
           </Space>,
@@ -73,16 +72,18 @@ function InfoModal(props) {
 
   return (
     <>
+      <Button onClick={toggle} type="default">
+        Open modal
+      </Button>
       <Modal
         size="small"
         layout="vertical"
         title="Modal with vertical layout"
         description="Description of modal"
         visible={visible}
-        onCancel={() => toggle()}
-        onConfirm={() => toggle()}
-        icon={
-          <IconAlertCircle 
+        onCancel={toggle}
+        onConfirm={toggle}
+        icon={<IconAlertCircle 
             background="brand" 
             size="xlarge" 
           />

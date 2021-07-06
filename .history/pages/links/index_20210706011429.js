@@ -165,7 +165,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                             <LinkEntry 
                                 index={idx} 
                                 cellsInRow={value} 
-                                toggle={toggle}
+                                toggle={toggleModal}
                             />
                         );  
                     })}

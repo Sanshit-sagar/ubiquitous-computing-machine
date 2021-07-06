@@ -29,10 +29,10 @@ function NewSlugNavMenu() {
 
     const items = [
         { id: 'destination', title: 'Destination', icon: <LinkIcon className="h-6 w-6" /> },
-        { id: 'slug', title: 'Customization', icon: <CursorClickIcon className="h-6 w-6" stroke="pink" /> },
-        { id: 'ttl', title: 'Expiration', icon: <CalendarIcon className="h-6 w-6" stroke="green" /> },
-        { id: 'seo', title: 'SEO / UTM', icon: <LightningBoltIcon className='h-6 w-6' stroke="yellow" />},
-        { id: 'blacklists', title: 'Blacklists', icon: <BanIcon className="h-6 w-6" stroke="black" /> },
+        { id: 'slug', title: 'Custom Slug', icon: <CursorClickIcon className="h-6 w-6" stroke="pink" /> },
+        { id: 'ttl', title: 'Time To Live', icon: <CalendarIcon className="h-6 w-6" stroke="green" /> },
+        { id: 'seo', title: 'SEO Tags', icon: <LightningBoltIcon className='h-6 w-6' stroke="yellow" />},
+        { id: 'blacklists', title: 'IP Blacklists', icon: <BanIcon className="h-6 w-6" stroke="black" /> },
         { id: 'password', title: 'Encryption', icon: <LockClosedIcon className="h-6 w-6" stroke="gold" /> },
         { id: 'redirects', title: 'Redirects', icon: <ExternalLinkIcon className='h-6 w-6' stroke="blue" />},
         { id: 'discard', title: 'Discard', icon: <TrashIcon className='h-6 w-6' stroke='red' /> },
@@ -45,7 +45,10 @@ function NewSlugNavMenu() {
 
                 <> {items.map(function(item, index) {
                     return (
-                        <div key={index}>
+                        <div 
+                            key={index} 
+                            className='w-full bg-red'
+                        >
                             <Menu.Item 
                                 icon={item.icon} 
                                 showActiveBar 

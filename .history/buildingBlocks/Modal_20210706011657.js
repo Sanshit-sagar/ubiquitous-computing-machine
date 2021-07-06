@@ -17,8 +17,8 @@ export const DangerModal = ({ visible, toggle }) => {
         title="Custom footer with vertical layout"
         description="Description of modal"
         visible={visible}
-        onCancel={() => toggle()}
-        onConfirm={() => toggle()}
+        onCancel={toggle}
+        onConfirm={toggle}
         customFooter={[
           <Space style={{ width: "100%" }}>
             <Button size="medium" block type="secondary">
@@ -54,11 +54,7 @@ export const SuccessModal = ({ visible, toggle }) => {
         layout="vertical"
         customFooter={[
           <Space style={{ width: "100%" }}>
-            <Button 
-              size="medium" 
-              block 
-              icon={<IconCheck />}
-            >
+            <Button size="medium" block icon={<IconCheck />}>
               Confirm
             </Button>
           </Space>,

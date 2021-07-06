@@ -15,7 +15,7 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
+import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
@@ -72,7 +72,13 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card>
+            <Card 
+                // title={
+                //     <Typography type="secondary">
+                //         {description} 
+                //     </Typography>
+                // }
+            >
                 {children}
             </Card>
         </div>
@@ -249,7 +255,7 @@ function NewSlugActions() {
         let slug = data ? `${data.slug}` : null
         let ttl = `${state.ttl}` || '';
         if(ttl) {
-            ttl = new Date(ttl).getTime().toString();
+            ttl = new Date(ttl).getTime().toString(); 
         }
         let password = `${state.password}` || '';
         let blacklist = state.blacklist.length ? [...state.blacklist] : [];
@@ -269,7 +275,7 @@ function NewSlugActions() {
                     iconRight={<IconSave />}
                     // className="inline-flex justify-between align-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     onClick={handleSubmit}
-                    disabled={!session || loading}
+                    // disabled={!session || loading}
                 >
                     Save
                 </Button>
@@ -299,18 +305,18 @@ function NewSlugCard() {
         })
     }
 
-    // const NewSlugHeader = () => {
-    //     return (
-    //         <div className="w-full flex-col justify-start align-stretch">
-    //             <Typography.Title level={2}>
-    //                 Create New Slug
-    //             </Typography.Title>
-    //             <Typography variant="secondary">
-    //                 Create a new alias for your web resource and begin customizing and tracking traffic
-    //             </Typography>
-    //         </div>
-    //     )
-    // }
+    const NewSlugHeader = () => {
+        return (
+            <div className="w-full flex-col justify-start align-stretch">
+                <Typography.Title level={2}>
+                    Create New Slug
+                </Typography.Title>
+                <Typography variant="secondary">
+                    Create a new alias for your web resource and begin customizing and tracking traffic
+                </Typography>
+            </div>
+        )
+    }
 
     return (
         <Card>

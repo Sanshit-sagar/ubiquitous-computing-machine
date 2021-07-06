@@ -29,7 +29,7 @@ function NewSlugNavMenu() {
 
     const items = [
         { id: 'destination', title: 'Destination', icon: <LinkIcon className="h-6 w-6" /> },
-        { id: 'slug', title: 'Customization', icon: <CursorClickIcon className="h-6 w-6" stroke="pink" /> },
+        { id: 'slug', title: 'Slug Customization', icon: <CursorClickIcon className="h-6 w-6" stroke="pink" /> },
         { id: 'ttl', title: 'Expiration', icon: <CalendarIcon className="h-6 w-6" stroke="green" /> },
         { id: 'seo', title: 'SEO / UTM', icon: <LightningBoltIcon className='h-6 w-6' stroke="yellow" />},
         { id: 'blacklists', title: 'Blacklists', icon: <BanIcon className="h-6 w-6" stroke="black" /> },
@@ -45,7 +45,10 @@ function NewSlugNavMenu() {
 
                 <> {items.map(function(item, index) {
                     return (
-                        <div key={index}>
+                        <div 
+                            key={index} 
+                            className='w-full bg-red'
+                        >
                             <Menu.Item 
                                 icon={item.icon} 
                                 showActiveBar 

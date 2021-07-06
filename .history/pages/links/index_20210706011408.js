@@ -124,7 +124,7 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
     );
 }
 
-const LinksTable = ({ links, modalVisible, toggle }) => {
+const LinksTable = ({ links }) => {
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
@@ -165,7 +165,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                             <LinkEntry 
                                 index={idx} 
                                 cellsInRow={value} 
-                                toggle={toggle}
+                                toggle={toggleModal}
                             />
                         );  
                     })}
@@ -195,8 +195,8 @@ const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
     return (
         <LinksTable 
             links={links} 
-            modalVisible={modalVisible}
             toggle={toggleModal}
+            modalVisible={modalVisible}
         />
     )
 }

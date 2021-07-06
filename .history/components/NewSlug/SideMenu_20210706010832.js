@@ -45,7 +45,10 @@ function NewSlugNavMenu() {
 
                 <> {items.map(function(item, index) {
                     return (
-                        <div key={index}>
+                        <div 
+                            key={index} 
+                            className='w-full bg-red'
+                        >
                             <Menu.Item 
                                 icon={item.icon} 
                                 showActiveBar 

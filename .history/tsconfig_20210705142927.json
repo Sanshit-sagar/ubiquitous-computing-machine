@@ -31,7 +31,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/Auth/AuthListener.js", "pages/tester.js"  ],
+, "components/Auth/index.js", "pages/tester.js"  ],
   "exclude": [
     "node_modules"
   ],

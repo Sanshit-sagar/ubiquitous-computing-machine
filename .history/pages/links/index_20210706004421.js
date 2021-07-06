@@ -7,6 +7,7 @@ import { GlobalStore } from '../../store'
 
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
+import SlugDetailsModal from './modal'
 import InfoModal, { DangerModal } from '../../buildingBlocks/Modal'
 
 import { Button, IconTrash, IconEye } from '@supabase/ui'
@@ -124,7 +125,13 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
     );
 }
 
-const LinksTable = ({ links, modalVisible, toggle }) => {
+const LinksTable = ({ links }) => {
+    const [modalVisible, setModalVisible] = useState(true)
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible)
+    }
+
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
@@ -145,47 +152,57 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
     let linksOnPage = links.slice(cursor, cursor + pageSize)
 
     return (
-        <TableContainer>
-            <Table>
-                <TableHeader>
-                    <TableRow className="text-left">
-                        {columns.map(function(value, index) {
-                            return (
-                                <TableCell key={index}>
-                                    {value.Header}
-                                </TableCell>
-                            )
+        <>
+            <DangerModal 
+                visible={modalVisible} 
+                toggle={toggleModal} 
+            /> 
+            <InfoModal 
+                visible={modalVisible} 
+                toggle={toggleModal} 
+            /> 
+            <TableContainer>
+                <Table>
+                    <TableHeader>
+                        <TableRow className="text-left">
+                            {columns.map(function(value, index) {
+                                return (
+                                    <TableCell key={index}>
+                                        {value.Header}
+                                    </TableCell>
+                                )
+                            })}
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody className="bg-white divide-y divide-gray-200">
+                        {linksOnPage.map(function(value, idx) {
+                            return  (
+                                <LinkEntry 
+                                    index={idx} 
+                                    cellsInRow={value} 
+                                    toggle={toggleModal}
+                                />
+                            );  
                         })}
-                    </TableRow>
-                </TableHeader>
+                    </TableBody>
+                </Table>
 
-                <TableBody className="bg-white divide-y divide-gray-200">
-                    {linksOnPage.map(function(value, idx) {
-                        return  (
-                            <LinkEntry 
-                                index={idx} 
-                                cellsInRow={value} 
-                                toggle={toggle}
-                            />
-                        );  
-                    })}
-                </TableBody>
-            </Table>
-
-            <TableFooter>
-                <Pagination 
-                    totalResults={links.length}
-                    resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
-                    label="Table navigation" 
-                />
-            </TableFooter>
-        </TableContainer>
+                <TableFooter>
+                    <Pagination 
+                        totalResults={links.length}
+                        resultsPerPage={pageSize} 
+                        onChange={handlePagination} 
+                        label="Table navigation" 
+                    />
+                </TableFooter>
+            </TableContainer>
+        </>
     );
 }
 
 
-const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
+const LinksTableWrapper = () => {
     const email = 'sasagar@ucsd.edu'
     const { links, loading, error } = useUserLibrary(email)
 
@@ -193,20 +210,11 @@ const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable 
-            links={links} 
-            modalVisible={modalVisible}
-            toggle={toggleModal}
-        />
+        <LinksTable links={links} />
     )
 }
 
 const LinksPage = () => {
-    const [modalVisible, setModalVisible] = useState(true)
-
-    const toggleModal = () => {
-        setModalVisible(!modalVisible)
-    }
     
     return (
        
@@ -217,20 +225,8 @@ const LinksPage = () => {
             }} 
             children={
                 <div className="mt-4">
-                    {/* <SlugDetailsModal /> */}
-                    <DangerModal 
-                        visible={modalVisible} 
-                        toggle={toggleModal} 
-                    /> 
-                    <InfoModal 
-                        visible={modalVisible} 
-                        toggle={toggleModal} 
-                    /> 
-                    <LinksTableWrapper 
-                        modalVisible={modalVisible}
-                        setModalVisible={setModalVisible}
-                        toggleModal={toggleModal}
-                    />
+                    <SlugDetailsModal />
+                    <LinksTableWrapper />
                 </div>
             }
         />

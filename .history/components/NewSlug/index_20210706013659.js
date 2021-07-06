@@ -15,7 +15,7 @@ import EncryptionInput from './EncryptionInput'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
+import { Card, Typography, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)
@@ -72,7 +72,13 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card>
+            <Card 
+                // title={
+                //     <Typography type="secondary">
+                //         {description} 
+                //     </Typography>
+                // }
+            >
                 {children}
             </Card>
         </div>
@@ -299,18 +305,18 @@ function NewSlugCard() {
         })
     }
 
-    // const NewSlugHeader = () => {
-    //     return (
-    //         <div className="w-full flex-col justify-start align-stretch">
-    //             <Typography.Title level={2}>
-    //                 Create New Slug
-    //             </Typography.Title>
-    //             <Typography variant="secondary">
-    //                 Create a new alias for your web resource and begin customizing and tracking traffic
-    //             </Typography>
-    //         </div>
-    //     )
-    // }
+    const NewSlugHeader = () => {
+        return (
+            <div className="w-full flex-col justify-start align-stretch">
+                <Typography.Title level={2}>
+                    Create New Slug
+                </Typography.Title>
+                <Typography variant="secondary">
+                    Create a new alias for your web resource and begin customizing and tracking traffic
+                </Typography>
+            </div>
+        )
+    }
 
     return (
         <Card>
