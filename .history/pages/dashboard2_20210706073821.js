@@ -7,7 +7,7 @@ import StackedLayout from '../sections/StackedLayout'
 import StatisticsCards from '../components/StatisticsCards'
 // import Loader from '../components/Loader'
 
-const Metrics = ({ email }) => {
+const Dashboard = ({ email }) => {
 
     if(!email || !email.length) {
         email = 'sasagar@ucsd.edu'
@@ -22,7 +22,7 @@ const Metrics = ({ email }) => {
     )
 }
 
-export default function MetricsWrapper() {
+export default function DashboardPage() {
     const [session] = useSession()
     const email = session ? session.user.email : ''
 
@@ -35,10 +35,10 @@ export default function MetricsWrapper() {
         <StackedLayout
             pageMeta={metricsMetadata}
             children={
-                <Metrics email={email} />
+                <Dashboard email={email} />
             }
         />
     )
 }
 
-MetricsWrapper.auth = true
+DashboardPage.auth = true

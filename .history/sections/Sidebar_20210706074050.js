@@ -1,8 +1,6 @@
 
 import React from 'react'
 
-import { Button } from '@supabase/ui'
-
 import {
   CollectionIcon,
   PlusIcon,
@@ -30,13 +28,13 @@ const Sidebar = ({ handleNavigation }) => {
              
             <nav aria-label="Sidebar" className="py-6 flex flex-col items-center space-y-3">
               {sidebarNavigation.map((item) => (
-                <Button
+                <button
                   key={item.name}
                   className={item.current ? 'bg-red' : 'bg-green' + "flex items-center p-4 rounded-lg text-green-200 hover:bg-blue-400 hover:text-blue-800 hover:focus-ring-yellow"}
                   onClick={() => handleNavigation(item.href)}
                 >
                   <item.icon className="h-6 w-6" />
-                </Button>
+                </button>
               ))}
             </nav>
 

@@ -2,6 +2,8 @@
 import React, { useContext } from 'react';
 import { useSession } from 'next-auth/client';
 
+import { NewSlugStore } from '../../store'
+
 import toast from 'react-hot-toast';
 import axios from 'axios'
 import useSWR from 'swr'
@@ -10,8 +12,6 @@ import SideMenu from './SideMenu'
 import TagManager from './TagManager'
 import BlacklistInputContent from './BlacklistInputContent'
 import EncryptionInput from './EncryptionInput'
-
-import { NewSlugStore } from '../../store'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 

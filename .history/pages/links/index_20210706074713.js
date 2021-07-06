@@ -8,7 +8,7 @@ import { NewSlugStore } from '../../store'
 
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
-import InfoModal, { DangerModal } from '../../buildingBlocks/Modal'
+import { DangerModal } from '../../buildingBlocks/Modal'
 
 import { Button, IconTrash, IconEye, Badge } from '@supabase/ui'
 
@@ -113,6 +113,7 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                 return (
                     <TableCell key={index}>
                          <div className="flex justify-between items-center">
+                        
                             <div>
                                 <div className="text-sm">
                                     {value[0]}
@@ -200,7 +201,6 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
                                     index={idx} 
                                     cellsInRow={value} 
                                     toggle={toggle}
-                                    toggleInfoModal={toggleInfoModal}
                                 />
                             )
                         })}
