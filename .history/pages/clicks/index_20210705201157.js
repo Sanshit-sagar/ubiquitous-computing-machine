@@ -8,7 +8,7 @@ import { fetcher } from '../../lib/utils'
 import StackedLayout from '../../sections/StackedLayout'
 import Loader from '../../components/Loader'
 
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { DateTime } from "luxon";
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 

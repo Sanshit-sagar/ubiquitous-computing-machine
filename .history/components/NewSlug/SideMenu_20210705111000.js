@@ -41,7 +41,7 @@ function NewSlugNavMenu() {
     ]
 
     return (
-            // <Card style={{ width: '225px', padding: '5px' }}>
+            <Card style={{ width: '225px', padding: '5px' }}>
                 <Menu 
                     className='w-full h-full m-0' 
                 >
@@ -70,7 +70,7 @@ function NewSlugNavMenu() {
                         )
                     })}
                 </Menu>
-            // </Card>
+            </Card>
        
     );
   }

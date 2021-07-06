@@ -345,13 +345,14 @@ function NewSlugCard() {
                 } 
             />
 
-            
+            <NewSlugActions />
 
             <div className="w-full inline-flex justify-between items-stretch">
                 <SideMenu /> 
                 
                 <div className="w-full flex-col justify-start align-stretch">
-                    <div>
+                    
+                    <>
                         {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
                         {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
                         {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
@@ -360,8 +361,7 @@ function NewSlugCard() {
                         { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
                         {/* rate limiter, A/B testing */}
                         { state.currentTab === 'seo' && <TagManager />}
-                    </div>
-                    <NewSlugActions />
+                    </>
                 </div>
             </div>
 

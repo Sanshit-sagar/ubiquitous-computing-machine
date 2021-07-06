@@ -2,15 +2,11 @@
 import '../styles/globals.css';
 import '../styles/nprogress.css';
 
-import React, { useEffect } from 'react';
 import Router from 'next/router';
-
 import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
-import { Provider, useSession, signIn } from 'next-auth/client'
-
+import { Provider as AuthProvider } from 'next-auth/client'
 import NProgress from 'nprogress';
-import Loader from '../components/Loader'
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -20,7 +16,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps }) {
   
   return (
-    <Provider 
+    <AuthProvider 
       options={{
         clientMaxAge: 0,
         keepAlive: 0,
@@ -31,30 +27,21 @@ function MyApp({ Component, pageProps }) {
         enableSystem={true} 
         attribute="class"
       > 
-        <Store>
-          {Component.auth ? (
-            <Auth>
-              <Component  {...pageProps} />
-            </Auth>
-          ) : (
-            <Component {...pageProps} /> 
-          )}
-        </Store>
+          <Store>
+            <Component  {...pageProps} />
+          </Store>
       </ThemeProvider>
-    </Provider>
+    </AuthProvider>
   )
 }
 
 export default MyApp
 
-
-
-const Auth = ({ children }) => {
+function Auth({ children }) {
   const [session, loading] = useSession()
   const isUser = !!session?.user
-  
-  useEffect(() => {
-    if (loading) return <Loader />
+  React.useEffect(() => {
+    if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
   }, [isUser, loading])
 
@@ -62,5 +49,5 @@ const Auth = ({ children }) => {
     return children
   }
 
-  return <Loader /> 
+  return <div>Loading...</div>
 }

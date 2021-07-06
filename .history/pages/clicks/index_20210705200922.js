@@ -6,9 +6,9 @@ import useSWR from 'swr'
 import { fetcher } from '../../lib/utils'
 
 import StackedLayout from '../../sections/StackedLayout'
-import Loader from '../../components/Loader'
+import CustomSpinner from '../../buildingBlocks/Spinner'
 
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { DateTime } from "luxon";
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 
@@ -172,11 +172,11 @@ const clickStreamMetadata = {
      description: `Maintain a realtime log of incoming requests for one of the users shortened slugs`,
 }
 
-const useClickStream = (email) => {
-    // const [session, loading] = useSession()
-    // const email = session && !loading ? session.user.email : '';
+const useClickStream = () => {
+    const [session, loading] = useSession()
+    const email = session && !loading ? session.user.email : '';
 
-    const { data, error } = useSWR(email && email?.length ? `/api/clicks/${email}` : null, fetcher, {
+    const { data, error } = useSWR(session && !loading ? `/api/clicks/${email}` : null, fetcher, {
         revalidateOnFocus: false,
         revalidateOnMount:true,
         revalidateOnReconnect: false,
@@ -194,13 +194,12 @@ const useClickStream = (email) => {
 
 const ClickStreamCache = () => {
     const [session] = useSession()
-    const email = session ? session.user.email : ''
 
     const [mounted, setMounted] = React.useState(false)
     const [reval, setReval] = React.useState(0)
     const [sortedClicks, setSortedClicks] = React.useState([])
 
-    const { clicks, loading, error } = useClickStream(email);
+    const { clicks, loading, error } = useClickStream();
     
 
     React.useEffect(() => {
@@ -214,18 +213,16 @@ const ClickStreamCache = () => {
             });
             setSortedClicks(tempClicks.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)));
         }
-    }, [mounted, clicks, loading, error, sortedClicks, reval]);
+    }, [mounted, clicks, loading,error, sortedClicks, reval]);
 
     return (
         <>
             <StackedLayout
                 pageMeta={clickStreamMetadata}
-                children={
-                    !loading && !error 
-                        ? sortedClicks ? <ClickStreamTable clicks={sortedClicks} reval={reval} email={email} />  
-                        : <p> sorting them... </p>
-                        : loading ? <Loader /> 
-                        : <p> error! </p>
+                children={!loading && !error 
+                    ? sortedClicks ? <ClickStreamTable clicks={sortedClicks} reval={reval} />  : <p> sorting them... </p>
+                    : loading ? <CustomSpinner /> 
+                    :  <p> error! </p>
                 } 
             />
         </>

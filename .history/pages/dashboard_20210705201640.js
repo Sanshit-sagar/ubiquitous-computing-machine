@@ -283,7 +283,8 @@ const DashboardTable = () => {
                         </TableHeader>
 
                         <TableBody>  
-                            <> { loading  ?
+                            <> { 
+                                loading  ?
                                 <TableSkeleton 
                                     pageSize={pageSize} 
                                     rowSize={clickstream && clickstream.length ? clickstream[0].length : Object.entries(columns).length} 

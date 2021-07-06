@@ -330,28 +330,23 @@ function NewSlugCard() {
     }
 
     return (
-        <Card>
-             <Card.Meta 
-                title="Create New Slug"
-                description={
-                    <div className="w-full inline-flex justify-start align-start rounded-md p-5 bg-gray-200">
-                        <span className="text-sm font-extralight text-black dark:text-white mr-5">
-                            Destination: {state.destination}
-                        </span>
-                        <span className="text-sm font-extralight text-black dark:text-white mr-5">
-                            TTL: {state.ttl}
-                        </span>
+        <Card
+            title={
+                <div className="w-full inline-flex justify-between align-stretch">
+                    <NewSlugHeader /> 
+                    
+                    <div className="ml-10">
+                        <NewSlugActions />
                     </div>
-                } 
-            />
-
-            
-
+                </div>
+            }
+        >
             <div className="w-full inline-flex justify-between items-stretch">
                 <SideMenu /> 
                 
                 <div className="w-full flex-col justify-start align-stretch">
-                    <div>
+                    
+                    <>
                         {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
                         {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
                         {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
@@ -360,12 +355,9 @@ function NewSlugCard() {
                         { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
                         {/* rate limiter, A/B testing */}
                         { state.currentTab === 'seo' && <TagManager />}
-                    </div>
-                    <NewSlugActions />
+                    </>
                 </div>
             </div>
-
-           
         </Card>
     )
 }

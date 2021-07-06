@@ -72,12 +72,17 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card 
-                // title={
-                //     <Typography type="secondary">
-                //         {description} 
-                //     </Typography>
-                // }
+            <Card title={
+                    <>
+                        <Typography.Title level={4} type="primary">
+                            {title}
+                        </Typography.Title>
+
+                        <Typography type="secondary">
+                            {description} 
+                        </Typography>
+                    </>
+                }
             >
                 {children}
             </Card>
@@ -330,49 +335,45 @@ function NewSlugCard() {
     }
 
     return (
-        <Card>
-             <Card.Meta 
-                title="Create New Slug"
-                description={
-                    <div className="w-full inline-flex justify-start align-start rounded-md p-5 bg-gray-200">
-                        <span className="text-sm font-extralight text-black dark:text-white mr-5">
-                            Destination: {state.destination}
-                        </span>
-                        <span className="text-sm font-extralight text-black dark:text-white mr-5">
-                            TTL: {state.ttl}
-                        </span>
-                    </div>
-                } 
-            />
+        // <div className="container mx-auto w-full rounded-m">
+            <Card
+                title={
+                    <div className="w-100 inline-flex justify-between align-center">
+                        <div className="w-full inline-flex justify-start align-stretch">
+                            <NewSlugHeader /> 
+                        </div>
 
-            
-
-            <div className="w-full inline-flex justify-between items-stretch">
-                <SideMenu /> 
-                
-                <div className="w-full flex-col justify-start align-stretch">
-                    <div>
-                        {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
-                        {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
-                        {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
-                        {state.currentTab === 'password' && <EncryptionInput />}
-                        {state.currentTab === 'blacklists' && <BlacklistInput />}
-                        { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
-                        {/* rate limiter, A/B testing */}
-                        { state.currentTab === 'seo' && <TagManager />}
+                        <div className="w-full inline-flex justify-end align-stretch">
+                            <NewSlugActions />
+                        </div>
                     </div>
-                    <NewSlugActions />
+                }
+            >
+                <div className="w-full inline-flex justify-between items-stretch">
+                    <SideMenu /> 
+                   
+                    <div className="w-full flex-col justify-start align-stretch">
+                        
+                        <>
+                            {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
+                            {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
+                            {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
+                            {state.currentTab === 'password' && <EncryptionInput />}
+                            {state.currentTab === 'blacklists' && <BlacklistInput />}
+                            { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
+                            {/* rate limiter, A/B testing */}
+                            { state.currentTab === 'seo' && <TagManager />}
+                        </>
+                    </div>
                 </div>
-            </div>
-
-           
-        </Card>
+            </Card>
+        // </div>
     )
 }
 
 function NewSlug() {
     return (
-        <div className="w-full h-full mb-4">
+        <div className="w-full h-full mb-4 flex-col content-between align-stretch">
             <NewSlugCard /> 
         </div>
     )

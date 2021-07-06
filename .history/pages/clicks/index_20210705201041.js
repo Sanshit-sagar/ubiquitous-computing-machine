@@ -6,9 +6,9 @@ import useSWR from 'swr'
 import { fetcher } from '../../lib/utils'
 
 import StackedLayout from '../../sections/StackedLayout'
-import Loader from '../../components/Loader'
+import CustomSpinner from '../../buildingBlocks/Spinner'
 
-import { useSession } from 'next-auth/client'
+import { useSession, getSession } from 'next-auth/client'
 import { DateTime } from "luxon";
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 
@@ -214,18 +214,16 @@ const ClickStreamCache = () => {
             });
             setSortedClicks(tempClicks.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)));
         }
-    }, [mounted, clicks, loading, error, sortedClicks, reval]);
+    }, [mounted, clicks, loading,error, sortedClicks, reval]);
 
     return (
         <>
             <StackedLayout
                 pageMeta={clickStreamMetadata}
-                children={
-                    !loading && !error 
-                        ? sortedClicks ? <ClickStreamTable clicks={sortedClicks} reval={reval} email={email} />  
-                        : <p> sorting them... </p>
-                        : loading ? <Loader /> 
-                        : <p> error! </p>
+                children={!loading && !error 
+                    ? sortedClicks ? <ClickStreamTable clicks={sortedClicks} reval={reval} email={email} />  : <p> sorting them... </p>
+                    : loading ? <CustomSpinner /> 
+                    :  <p> error! </p>
                 } 
             />
         </>

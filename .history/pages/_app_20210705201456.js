@@ -4,7 +4,6 @@ import '../styles/nprogress.css';
 
 import React, { useEffect } from 'react';
 import Router from 'next/router';
-
 import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
 import { Provider, useSession, signIn } from 'next-auth/client'
