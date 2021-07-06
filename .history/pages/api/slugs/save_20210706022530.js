@@ -20,7 +20,7 @@ export default async function handler(req, res) {
             const serializedData = { 
                 slug, 
                 url, 
-                config,
+                extras,
                 user: userEmail,
                 timestamp: new Date().getTime().toString()
             }
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
             res.status(400).json({ 
                 didSave: true, 
-                message: `Success!, created a new vanity URL! ${slug} will redirect users to ${url}`, 
+                message: `Success!, created a new alias! ${slug} -> ${url}`, 
                 response 
             })
         }

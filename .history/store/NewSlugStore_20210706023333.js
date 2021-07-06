@@ -21,17 +21,16 @@ const reducer = (state, action) => {
         case 'filter':
             return {
                 ...state,
+                lastUpdatedAt: new Date().getTime().toString(),
                 [action.payload.key]: state[action.payload.key].filter(function(value, index) {
                     return index!==action.payload.index; 
-                }),
-                lastUpdatedAt: new Date().getTime().toString(),
-            }; 
+                })
+            }
         case 'toggle': 
             if(state[action.payload.key]===null || state[action.payload.key]===undefined) return state; 
             return {
                 ...state,
                 [action.payload.key]: state[action.payload.key] ? false : true,
-                lastUpdatedAt: new Date().getTime().toString(),
             };
         case 'publish':
             return {
@@ -81,7 +80,6 @@ const categoryKeyMap = {
 const ApiGateway = 'https://writer.hashably.workers.dev' 
 
 const initialState = {
-    links: [],
     currentTab: 'destination',
     lastUpdatedAt: '',
     destination: '',

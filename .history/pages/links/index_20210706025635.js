@@ -125,8 +125,6 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
 }
 
 const LinksTable = ({ links, modalVisible, toggle }) => {
-    const state = useContext(NewSlugStore.State)
-
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
@@ -143,7 +141,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
         { Header: 'Actions' },
     ], []);
 
-    let linksOnPage = [...state.links.slice(cursor, cursor + pageSize)]
+    let linksOnPage = links.slice(cursor, cursor + pageSize)
 
     return (
         <TableContainer>
@@ -161,7 +159,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                 </TableHeader>
 
                 <TableBody className="bg-white divide-y divide-gray-200">
-                    {state.links.map(function(value, idx) {
+                    {linksOnPage.map(function(value, idx) {
                         return  (
                             <LinkEntry 
                                 index={idx} 

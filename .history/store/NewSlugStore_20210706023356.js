@@ -81,7 +81,6 @@ const categoryKeyMap = {
 const ApiGateway = 'https://writer.hashably.workers.dev' 
 
 const initialState = {
-    links: [],
     currentTab: 'destination',
     lastUpdatedAt: '',
     destination: '',

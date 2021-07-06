@@ -81,7 +81,6 @@ const categoryKeyMap = {
 const ApiGateway = 'https://writer.hashably.workers.dev' 
 
 const initialState = {
-    links: [],
     currentTab: 'destination',
     lastUpdatedAt: '',
     destination: '',
@@ -95,6 +94,7 @@ const initialState = {
     categories: Object.keys(categoryKeyMap),
     keysByCategory: categoryKeyMap,
     publishedLink: '',
+    links: [],
     publishedLinkDetails: {
         slug: '',
         destination: '',

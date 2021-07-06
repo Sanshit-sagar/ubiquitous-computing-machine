@@ -161,7 +161,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                 </TableHeader>
 
                 <TableBody className="bg-white divide-y divide-gray-200">
-                    {state.links.map(function(value, idx) {
+                    {linksOnPage.map(function(value, idx) {
                         return  (
                             <LinkEntry 
                                 index={idx} 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import axios from 'axios'
 
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
-import { NewSlugStore } from '../../store'
+import { GlobalStore } from '../../store'
 
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
@@ -125,12 +125,11 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
 }
 
 const LinksTable = ({ links, modalVisible, toggle }) => {
-    const state = useContext(NewSlugStore.State)
-
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
     const handlePagination = () => {
+        alert('handling pagination')
         setCursor(cursor + pageSize)
     }
 
@@ -143,7 +142,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
         { Header: 'Actions' },
     ], []);
 
-    let linksOnPage = [...state.links.slice(cursor, cursor + pageSize)]
+    let linksOnPage = links.slice(cursor, cursor + pageSize)
 
     return (
         <TableContainer>
@@ -161,7 +160,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
                 </TableHeader>
 
                 <TableBody className="bg-white divide-y divide-gray-200">
-                    {state.links.map(function(value, idx) {
+                    {linksOnPage.map(function(value, idx) {
                         return  (
                             <LinkEntry 
                                 index={idx} 
@@ -187,13 +186,7 @@ const LinksTable = ({ links, modalVisible, toggle }) => {
 
 
 const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
-    const [numUpdates, setNumUpdates] = useState(0)
-    
-    const state = useContext(NewSlugStore.State)
-    const dispatch = useContext(NewSlugStore.Dispatch)
-
     const email = 'sasagar@ucsd.edu'
-
     const { links, loading, error } = useUserLibrary(email)
 
     useEffect(() => {
@@ -203,13 +196,12 @@ const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
                 payload: {
                     value: links.sort((a, b) => {
                         if(a.timestamp && b.timestamp) {
-                            return parseInt(b.timestamp) - parseInt(a.timestamp); 
-                        } 
-                        return b.timestamp ?  1 : -1; 
+                            return b.timestamp - a.timestamp
+                        }
+                        return !b.timestamp ? -1 : 1; 
                     })
                 }
             }); 
-            setNumUpdates(numUpdates + 1)
         }
     }, [state.links, links, loading, error]); 
 
@@ -226,7 +218,7 @@ const LinksTableWrapper = ({ modalVisible, setModalVisible, toggleModal }) => {
 }
 
 const LinksPage = () => {
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(true)
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)

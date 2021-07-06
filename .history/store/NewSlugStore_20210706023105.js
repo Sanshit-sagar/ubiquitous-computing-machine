@@ -9,31 +9,27 @@ const reducer = (state, action) => {
             if(state[action.payload.key]===null || state[action.payload.key]===undefined) return state; 
             return {
                 ...state,
-                [action.payload.key]: action.payload.value,
-                lastUpdatedAt: new Date().getTime().toString(),
+                [action.payload.key]: action.payload.value
             }; 
         case 'append':
             return {
                 ...state,
                 [action.payload.key]: [...state[action.payload.key], action.payload.value],
-                lastUpdatedAt: new Date().getTime().toString(),
             }; 
         case 'filter':
             return {
                 ...state,
                 [action.payload.key]: state[action.payload.key].filter(function(value, index) {
                     return index!==action.payload.index; 
-                }),
-                lastUpdatedAt: new Date().getTime().toString(),
-            }; 
+                })
+            }
         case 'toggle': 
             if(state[action.payload.key]===null || state[action.payload.key]===undefined) return state; 
             return {
                 ...state,
                 [action.payload.key]: state[action.payload.key] ? false : true,
-                lastUpdatedAt: new Date().getTime().toString(),
             };
-        case 'publish':
+        case 'publish_link':
             return {
                 ...state,
                 publishedLink: `${ApiGateway}/${action.payload.slug}`,
@@ -52,7 +48,7 @@ const reducer = (state, action) => {
                     },
                 }
             }; 
-        case 'reset':
+        case 'clear_inputs':
             return {
                 ...state,
                 currentTab: 'destination',
@@ -63,8 +59,8 @@ const reducer = (state, action) => {
                 blacklist: [],
                 seoTags: [],
                 ttl: '',
-                routingStatus: ''
-            }; 
+                routingStatus: '',
+            }
         default:
             return state
     };
@@ -81,7 +77,6 @@ const categoryKeyMap = {
 const ApiGateway = 'https://writer.hashably.workers.dev' 
 
 const initialState = {
-    links: [],
     currentTab: 'destination',
     lastUpdatedAt: '',
     destination: '',
@@ -98,7 +93,6 @@ const initialState = {
     publishedLinkDetails: {
         slug: '',
         destination: '',
-        timestamp: '',
         config: {
             ttl: '',
             password: '',
@@ -106,6 +100,7 @@ const initialState = {
             seoTags: [],
             routingStatus: '',
         }
+        timestamp: ''
     },
 };
 

@@ -209,7 +209,7 @@ function NewSlugActions() {
 
 
     const publish = async (slug, url, config) => {
-        // if(!session || loading) return;
+        if(!session || loading) return;
         if(!slug || !slug.length || !url || !url.length) return;
 
         const res = await fetch('/api/slugs/save', {
@@ -217,8 +217,7 @@ function NewSlugActions() {
                 slug, 
                 url, 
                 config,
-                userEmail: 'sasagar@ucsd.edu',
-                // userEmail: session.user.email
+                userEmail: session.user.email
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -267,6 +266,7 @@ function NewSlugActions() {
                     type="primary"
                     size="medium"
                     iconRight={<IconSave />}
+                    // className="inline-flex justify-between align-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white dark: text-black bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     onClick={handleSubmit}
                     // disabled={!session || loading}
                 >
