@@ -193,7 +193,10 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+        <LinksTable 
+            links={links} 
+            loading={loading} 
+        />
     )
 }
 

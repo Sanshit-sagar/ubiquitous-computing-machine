@@ -34,7 +34,7 @@ const SlugDetailsModal = () => {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     let slug = state.showSlugDetails ? state.activeSlug.slug : ''
-    const {data, viewsError} = useSWR(state.showSlugDetails  ? `/api/slugs/views/${slug}` : null, fetcher)
+    const {data, error} = useSWR(state.showSlugDetails  ? `/api/slugs/views/${slug}` : null, fetcher)
 
     const closeModal = () => {
         dispatch({

@@ -11,8 +11,6 @@ import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
 import SlugDetailsModal from './modal'
 
-import { Button, IconTrash, IconEye } from '@supabase/ui'
-
 import {
     TableContainer,
     Table,
@@ -27,9 +25,6 @@ import {
 
 const fetcher = url => axios.get(url).then(res => res.data);
 
-const sanitize = (text, len) => {
-    return text && text.length ? text.substring(0, len) : ''
-}
 
 const useUserLibrary = (email) => {
     const { data, error } = useSWR(email && email.length ? `/api/slugs/aliases/${email}` : null, fetcher, {
@@ -48,79 +43,18 @@ const useUserLibrary = (email) => {
     };
 }
 
-export function formatDate(date) {
-    let month = '' + (date.getMonth() + 1)
-    let day = '' + date.getDate()
-    const year = date.getFullYear()
-  
-    if (month.length < 2)
-        month = '0' + month
-    if (day.length < 2)
-        day = '0' + day
-  
-    return `${month}/${day}/${year}`; 
-}
-  
-const LinkEntry = ({ index, cellsInRow }) => {
+const LinkEntry = ({ index, row }) => {
     const cells = JSON.parse(cellsInRow)
-
-    const cellValues = [
-        [cells.slug, ''], 
-        [sanitize(cells.url, 35), ''], 
-        [useDateTimeConverter(cells.timestamp).primaryText, useDateTimeConverter(cells.timestamp).secondaryText],
-        [cells.ttl ? formatDate(new Date(cells.ttl)) : '', '']
-    ];
-
-    const handleDelete = (event) => {
-        alert(`deleting...${event.target.value}`)
-    }
-    const handleOpen = (event) => {
-        alert(`opening...${event.target.value}`)
-    }
 
     return (
         <TableRow>
-            <> {cellValues.map(function(value, index) {
-                return (
-                    <TableCell key={index}>
-                         <div className="flex justify-between items-center">
-                        
-                            <div>
-                                <div className="text-sm">
-                                    {value[0]}
-                                </div>
-                                {value[1] && value[1]?.length ? 
-                                    <div className="text-sm max-w-sm flex-auto flex-wrap">
-                                        {value[1]}
-                                    </div>
-                                : null}
-                            </div>
-                            <>{value[2] ? 
-                                <button  className="ml-6 flex-shrink-0">
-                                    {value[2]}
-                                </button> 
-                                : null
-                            }</>
-                        </div>
-                    </TableCell>
-                )
-            })} </>
-            <TableCell> xx views </TableCell>
+            <TableCell> {index} </TableCell>
             <TableCell>
-                <Button 
-                    type="outline" 
-                    size="small" 
-                    icon={<IconTrash />} 
-                    onClick={handleDelete}
-                    className="mr-2" 
-                />
-                <Button 
-                    type="primary" 
-                    size="small" 
-                    icon={<IconEye />} 
-                    onClick={handleOpen} 
-                />
-            </TableCell> 
+                {cells.slug}
+            </TableCell>
+            <TableCell>
+                {cells.ttl}
+            </TableCell>
         </TableRow>
     );
 }
@@ -129,10 +63,6 @@ const LinksTable = ({ links, loading }) => {
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
-    const handlePagination = () => {
-        alert('handling pagination')
-        setCursor(cursor + pageSize)
-    }
 
     const columns = React.useMemo(() => [
         { Header: 'Slug' },
@@ -165,21 +95,12 @@ const LinksTable = ({ links, loading }) => {
                         return  (
                             <LinkEntry 
                                 index={idx} 
-                                cellsInRow={value} 
+                                row={value} 
                             />
                         );  
                     })}
                 </TableBody>
             </Table>
-
-            <TableFooter>
-                <Pagination 
-                    totalResults={links.length}
-                    resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
-                    label="Table navigation" 
-                />
-            </TableFooter>
         </TableContainer>
     );
 }
@@ -193,7 +114,19 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+       <LinksTable links={links} loading={loading} />
+    //    <li>
+    //        {links.map(function(value, index) {
+    //            const val = JSON.parse(value);
+
+    //            return (
+    //                <ul key={index}>
+    //                    <p> {val.slug} </p> 
+    //                    <p> {val.ttl} </p> 
+    //                </ul>
+    //            );
+    //        })}
+    //    </li>
     )
 }
 

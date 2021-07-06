@@ -129,11 +129,6 @@ const LinksTable = ({ links, loading }) => {
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
-    const handlePagination = () => {
-        alert('handling pagination')
-        setCursor(cursor + pageSize)
-    }
-
     const columns = React.useMemo(() => [
         { Header: 'Slug' },
         { Header: 'Destination'},
@@ -171,15 +166,6 @@ const LinksTable = ({ links, loading }) => {
                     })}
                 </TableBody>
             </Table>
-
-            <TableFooter>
-                <Pagination 
-                    totalResults={links.length}
-                    resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
-                    label="Table navigation" 
-                />
-            </TableFooter>
         </TableContainer>
     );
 }
@@ -193,7 +179,10 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+        <LinksTable 
+            links={links} 
+            loading={loading} 
+        />
     )
 }
 

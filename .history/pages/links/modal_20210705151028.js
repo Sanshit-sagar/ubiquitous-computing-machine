@@ -34,7 +34,9 @@ const SlugDetailsModal = () => {
     const dispatch = useContext(GlobalStore.Dispatch)
 
     let slug = state.showSlugDetails ? state.activeSlug.slug : ''
-    const {data, viewsError} = useSWR(state.showSlugDetails  ? `/api/slugs/views/${slug}` : null, fetcher)
+    const {data, viewsErr} = useSWR(state.showSlugDetails  ? `/api/slugs/views/${slug}` : null, fetcher)
+
+    // const isOpen = state.showSlugDetails
 
     const closeModal = () => {
         dispatch({
@@ -75,6 +77,8 @@ const SlugDetailsModal = () => {
                     <Button className="w-full sm:w-auto" layout="outline" onClick={closeModal}>
                         DONE
                     </Button>
+
+                    {/* <Button className="w-full sm:w-auto bg-blue-700">Accept</Button> */}
                 </ModalFooter>
             </Modal>
 

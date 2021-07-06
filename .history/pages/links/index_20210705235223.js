@@ -11,8 +11,6 @@ import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
 import SlugDetailsModal from './modal'
 
-import { Button, IconTrash, IconEye } from '@supabase/ui'
-
 import {
     TableContainer,
     Table,
@@ -71,13 +69,6 @@ const LinkEntry = ({ index, cellsInRow }) => {
         [cells.ttl ? formatDate(new Date(cells.ttl)) : '', '']
     ];
 
-    const handleDelete = (event) => {
-        alert(`deleting...${event.target.value}`)
-    }
-    const handleOpen = (event) => {
-        alert(`opening...${event.target.value}`)
-    }
-
     return (
         <TableRow>
             <> {cellValues.map(function(value, index) {
@@ -107,19 +98,8 @@ const LinkEntry = ({ index, cellsInRow }) => {
             })} </>
             <TableCell> xx views </TableCell>
             <TableCell>
-                <Button 
-                    type="outline" 
-                    size="small" 
-                    icon={<IconTrash />} 
-                    onClick={handleDelete}
-                    className="mr-2" 
-                />
-                <Button 
-                    type="primary" 
-                    size="small" 
-                    icon={<IconEye />} 
-                    onClick={handleOpen} 
-                />
+                <Button type="outline" size="small" icon={<IconActivity />} />
+                <Button type="primary" size="small" icon={<IconActivity />} />
             </TableCell> 
         </TableRow>
     );
@@ -128,11 +108,6 @@ const LinkEntry = ({ index, cellsInRow }) => {
 const LinksTable = ({ links, loading }) => {
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
-
-    const handlePagination = () => {
-        alert('handling pagination')
-        setCursor(cursor + pageSize)
-    }
 
     const columns = React.useMemo(() => [
         { Header: 'Slug' },
@@ -171,15 +146,6 @@ const LinksTable = ({ links, loading }) => {
                     })}
                 </TableBody>
             </Table>
-
-            <TableFooter>
-                <Pagination 
-                    totalResults={links.length}
-                    resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
-                    label="Table navigation" 
-                />
-            </TableFooter>
         </TableContainer>
     );
 }
@@ -193,7 +159,10 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+        <LinksTable 
+            links={links} 
+            loading={loading} 
+        />
     )
 }
 

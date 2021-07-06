@@ -176,7 +176,7 @@ const LinksTable = ({ links, loading }) => {
                 <Pagination 
                     totalResults={links.length}
                     resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
+                    onChange={(event) => handlePagination(event.target.value)} 
                     label="Table navigation" 
                 />
             </TableFooter>

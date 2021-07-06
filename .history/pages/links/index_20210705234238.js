@@ -11,8 +11,6 @@ import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
 import SlugDetailsModal from './modal'
 
-import { Button, IconTrash, IconEye } from '@supabase/ui'
-
 import {
     TableContainer,
     Table,
@@ -28,7 +26,7 @@ import {
 const fetcher = url => axios.get(url).then(res => res.data);
 
 const sanitize = (text, len) => {
-    return text && text.length ? text.substring(0, len) : ''
+    return text.substring(0, len)
 }
 
 const useUserLibrary = (email) => {
@@ -58,9 +56,10 @@ export function formatDate(date) {
     if (day.length < 2)
         day = '0' + day
   
-    return `${month}/${day}/${year}`; 
+    return `${[year, month, day].join('-')}`
 }
   
+
 const LinkEntry = ({ index, cellsInRow }) => {
     const cells = JSON.parse(cellsInRow)
 
@@ -68,19 +67,12 @@ const LinkEntry = ({ index, cellsInRow }) => {
         [cells.slug, ''], 
         [sanitize(cells.url, 35), ''], 
         [useDateTimeConverter(cells.timestamp).primaryText, useDateTimeConverter(cells.timestamp).secondaryText],
-        [cells.ttl ? formatDate(new Date(cells.ttl)) : '', '']
+        [cells.ttl ? formatDate(new Date(cells.ttl)) : '', ],
     ];
-
-    const handleDelete = (event) => {
-        alert(`deleting...${event.target.value}`)
-    }
-    const handleOpen = (event) => {
-        alert(`opening...${event.target.value}`)
-    }
 
     return (
         <TableRow>
-            <> {cellValues.map(function(value, index) {
+            {cellValues.map(function(value, index) {
                 return (
                     <TableCell key={index}>
                          <div className="flex justify-between items-center">
@@ -89,7 +81,7 @@ const LinkEntry = ({ index, cellsInRow }) => {
                                 <div className="text-sm">
                                     {value[0]}
                                 </div>
-                                {value[1] && value[1]?.length ? 
+                                {value[1].length ? 
                                     <div className="text-sm max-w-sm flex-auto flex-wrap">
                                         {value[1]}
                                     </div>
@@ -104,23 +96,7 @@ const LinkEntry = ({ index, cellsInRow }) => {
                         </div>
                     </TableCell>
                 )
-            })} </>
-            <TableCell> xx views </TableCell>
-            <TableCell>
-                <Button 
-                    type="outline" 
-                    size="small" 
-                    icon={<IconTrash />} 
-                    onClick={handleDelete}
-                    className="mr-2" 
-                />
-                <Button 
-                    type="primary" 
-                    size="small" 
-                    icon={<IconEye />} 
-                    onClick={handleOpen} 
-                />
-            </TableCell> 
+            })}
         </TableRow>
     );
 }
@@ -129,10 +105,6 @@ const LinksTable = ({ links, loading }) => {
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
 
-    const handlePagination = () => {
-        alert('handling pagination')
-        setCursor(cursor + pageSize)
-    }
 
     const columns = React.useMemo(() => [
         { Header: 'Slug' },
@@ -171,15 +143,6 @@ const LinksTable = ({ links, loading }) => {
                     })}
                 </TableBody>
             </Table>
-
-            <TableFooter>
-                <Pagination 
-                    totalResults={links.length}
-                    resultsPerPage={pageSize} 
-                    onChange={handlePagination} 
-                    label="Table navigation" 
-                />
-            </TableFooter>
         </TableContainer>
     );
 }
@@ -193,7 +156,10 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+        <LinksTable 
+            links={links} 
+            loading={loading} 
+        />
     )
 }
 

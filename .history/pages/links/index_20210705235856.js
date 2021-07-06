@@ -131,7 +131,6 @@ const LinksTable = ({ links, loading }) => {
 
     const handlePagination = () => {
         alert('handling pagination')
-        setCursor(cursor + pageSize)
     }
 
     const columns = React.useMemo(() => [
@@ -193,7 +192,10 @@ const LinksTableWrapper = () => {
     if(error) return <p> error: {`${error.message}`} </p>
 
     return (
-        <LinksTable links={links} />
+        <LinksTable 
+            links={links} 
+            loading={loading} 
+        />
     )
 }
 
