@@ -180,42 +180,42 @@ const LinksTable = ({ links, visible, toggle }) => {
 
     return (
         <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
-            <TableContainer>
-                <Table>
-                    <TableHeader>
-                        <TableRow className="text-left">
-                            {columns.map(function(value, index) {
-                                return (
-                                    <TableCell key={index}>
-                                        {value.Header}
-                                    </TableCell>
-                                )
-                            })}
-                        </TableRow>
-                    </TableHeader>
-
-                    <TableBody className="bg-white divide-y divide-gray-200">
-                        {links.map(function(value, idx) {
-                            return  (
-                                <LinkEntry 
-                                    index={idx} 
-                                    cellsInRow={value} 
-                                    toggle={toggle}
-                                />
+        <TableContainer>
+            <Table>
+                <TableHeader>
+                    <TableRow className="text-left">
+                        {columns.map(function(value, index) {
+                            return (
+                                <TableCell key={index}>
+                                    {value.Header}
+                                </TableCell>
                             )
                         })}
-                    </TableBody>
-                </Table>
+                    </TableRow>
+                </TableHeader>
 
-                <TableFooter>
-                    <Pagination 
-                        totalResults={links.length}
-                        resultsPerPage={pageSize} 
-                        onChange={handlePagination} 
-                        label="Table navigation" 
-                    />
-                </TableFooter>
-            </TableContainer>
+                <TableBody className="bg-white divide-y divide-gray-200">
+                    {links.map(function(value, idx) {
+                        return  (
+                            <LinkEntry 
+                                index={idx} 
+                                cellsInRow={value} 
+                                toggle={toggle}
+                            />
+                        )
+                    })}
+                </TableBody>
+            </Table>
+
+            <TableFooter>
+                <Pagination 
+                    totalResults={links.length}
+                    resultsPerPage={pageSize} 
+                    onChange={handlePagination} 
+                    label="Table navigation" 
+                />
+            </TableFooter>
+        </TableContainer>
         </div>
     );
 }

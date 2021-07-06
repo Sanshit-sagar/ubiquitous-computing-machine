@@ -17,7 +17,8 @@ import {
     TableRow,
     TableCell,
     Pagination, 
-    TableFooter
+    TableFooter,
+    Badge
   } from '@windmill/react-ui'
 
 import { 

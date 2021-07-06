@@ -17,7 +17,8 @@ import {
     TableRow,
     TableCell,
     Pagination, 
-    TableFooter
+    TableFooter,
+    Badge
   } from '@windmill/react-ui'
 
 import { 
@@ -206,7 +207,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {loading ? <Loader /> :  `${sanitize(visitor.system)}`}
+                    {loading ? <Loader /> : visitor.system.substring(30)}
                 </div>
             </TableCell>
         </TableRow>

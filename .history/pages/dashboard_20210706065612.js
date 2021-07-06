@@ -17,7 +17,8 @@ import {
     TableRow,
     TableCell,
     Pagination, 
-    TableFooter
+    TableFooter,
+    Badge
   } from '@windmill/react-ui'
 
 import { 
@@ -206,7 +207,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {loading ? <Loader /> :  `${sanitize(visitor.system)}`}
+                    {loading ? <Loader /> : visitor.system.substring(30)}
                 </div>
             </TableCell>
         </TableRow>
@@ -248,7 +249,7 @@ const DashboardTable = () => {
     const clicksOnPage = clickstream.slice(cursor, pageSize);
  
     return (
-        <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
+        <div className="container h-full w-full shadow-md m-2 mt-3 p-4 rounded-md bg-gray-900">
             <TableContainer>
                 <Table>
                     <TableHeader>
