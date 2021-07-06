@@ -115,7 +115,6 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                 value: index
             }
         }); 
-        
         toast.success(`Deleted slug: ${cells.slug} at index: ${index}`)
 
         axios.delete(`/api/slugs/aliases/${email}?slug=${cells.slug}`)
