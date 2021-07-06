@@ -33,7 +33,7 @@ const DropdownMenu = () => {
                   </span>
 
               : loading ? '...'
-              : 'Log in' 
+              : 'Unauthenticated' 
             }
           </Typography.Text>
         </Dropdown.Misc>,

@@ -29,11 +29,11 @@ const DropdownMenu = () => {
             { 
                 session && session?.user ? 
                   <span className="text-sm"> 
-                    {session.user.email}
+                    session.user.email 
                   </span>
 
               : loading ? '...'
-              : 'Log in' 
+              : 'Unauthenticated' 
             }
           </Typography.Text>
         </Dropdown.Misc>,

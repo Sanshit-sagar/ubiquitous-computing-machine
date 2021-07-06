@@ -18,22 +18,23 @@ const DropdownMenu = () => {
   return (
     <Dropdown
       overlay={[
+        
         <Dropdown.Misc 
           icon={
               loading ? <Loader />  
             : session && session.user ? <UserCircleIcon /> 
-            : <ExclamationCircleIcon className="h-6 w-6" /> 
+            : <ExclamationCircleIcon className="h-6 w-6 text-black" /> 
           }
         >
           <Typography.Text>
             { 
                 session && session?.user ? 
-                  <span className="text-sm"> 
-                    {session.user.email}
+                  <span className="text-black text-sm"> 
+                    session.user.email 
                   </span>
 
               : loading ? '...'
-              : 'Log in' 
+              : 'Unauthenticated' 
             }
           </Typography.Text>
         </Dropdown.Misc>,
