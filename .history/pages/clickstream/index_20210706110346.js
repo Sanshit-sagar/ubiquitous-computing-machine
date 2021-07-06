@@ -169,7 +169,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    // var parser = new UAParser();
+    var parser = new UAParser();
     let uastring = visitor.system;
 
     let deviceModel = parser.setUA(uastring).getDevice().model
@@ -323,8 +323,6 @@ export default function Clickstream() {
         'description': 'Realtime stats such as: Number of views, unique visitors, most viewed pages and live clickstreams',
     }; 
 
-    var parser = new UAParser();
-
     return (
         <>
             <Head>
@@ -340,7 +338,8 @@ export default function Clickstream() {
             <StackedLayout 
                 pageMeta={dashboardMetadata} 
                 children={
-                    <ClickstreamTable email={email} parser={parser} />
+
+                    <ClickstreamTable email={email} />
                 }    
             />
         </>

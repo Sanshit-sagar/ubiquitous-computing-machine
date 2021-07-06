@@ -169,7 +169,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    // var parser = new UAParser();
+    var parser = new UAParser();
     let uastring = visitor.system;
 
     let deviceModel = parser.setUA(uastring).getDevice().model
@@ -218,11 +218,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    {
-                        loading ? <Loader /> :  
-                        `${deviceModel}-${osName}-${browserName}`
-                        
-                    }
+                    {loading ? <Loader /> :  `${sanitize(visitor.system)}`}
                 </div>
             </TableCell>
         </TableRow>
@@ -323,27 +319,13 @@ export default function Clickstream() {
         'description': 'Realtime stats such as: Number of views, unique visitors, most viewed pages and live clickstreams',
     }; 
 
-    var parser = new UAParser();
-
     return (
-        <>
-            <Head>
-                <script 
-                    src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js" 
-                    integrity="sha512-70OZ+iUuudMmd7ikkUWcEogIw/+MIE17z17bboHhj56voxuy+OPB71GWef47xDEt5+MxFdrigC1tRDmuvIVrCA==" 
-                    crossorigin="anonymous" 
-                    referrerpolicy="no-referrer"
-                >    
-                </script>
-            </Head>
-
-            <StackedLayout 
-                pageMeta={dashboardMetadata} 
-                children={
-                    <ClickstreamTable email={email} parser={parser} />
-                }    
-            />
-        </>
+        <StackedLayout 
+            pageMeta={dashboardMetadata} 
+            children={
+                <ClickstreamTable email={email} />
+            }    
+        />
     )
 }
 

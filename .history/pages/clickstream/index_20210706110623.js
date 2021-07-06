@@ -151,7 +151,7 @@ const StyledCellSlottedContents = ({ slot1, slot2, loading }) => {
     )
 }
 
-const ClickStreamEntry = ({ click, index, loading  }) => {
+const ClickStreamEntry = ({ email, click, index, loading  }) => {
     const [keyVisible, setKeyVisible] = React.useState(false)
 
     const toggleKeyVisibility = () => {
@@ -230,8 +230,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 }
 
 
-const ClickstreamTable = () => {
-    const [session, isLoading] = useSession()
+const ClickstreamTable = ({ email }) => {
 
     const [pageSize, setPageSize] = useState(8)
     const [cursor, setCursor] =useState(0)
@@ -244,7 +243,6 @@ const ClickstreamTable = () => {
         console.log('paginating...')
     }
 
-    const email = session && session.user ? session.user.email : undefined
     const { clickstream, loading, error } = useUserClickstreams(email)
     
     const columns = useMemo(() => [
@@ -299,6 +297,7 @@ const ClickstreamTable = () => {
                                     
                                     return (
                                         <ClickStreamEntry 
+                                            email={email}
                                             click={clickstream[index]} 
                                             index={index} 
                                             loading={loading} 
@@ -315,8 +314,9 @@ const ClickstreamTable = () => {
 }
 
 export default function Clickstream() {
-    const [session] = useSession()
-    const email  = session.user.email 
+    // const [session] = useSession()
+    // const email  = session.user.email
+    const email = 'sanshit.sagar@gmail.com' 
 
     const dashboardMetadata = {
         'title': 'Dashboard',
@@ -347,4 +347,4 @@ export default function Clickstream() {
     )
 }
 
-Clickstream.auth = true; 
+Clickstream.auth = false; 
