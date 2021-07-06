@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+// import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
@@ -82,8 +82,6 @@ const ViewsDisplay = (slug) => {
   
 const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
     const [deleteLoading, setDeleteLoading] = useState(false);
-    const [deleteConfirmed, setDeleteConfirmed] = useState(false);
-
     const dispatch = useContext(NewSlugStore.Dispatch)
 
     const cells = JSON.parse(cellsInRow)
@@ -129,13 +127,10 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
 
     const handleDelete = () => {
         toggle()
-        if(deleteConfirmed) {
-            handleDeleteConfirmation();
-        } 
     }
 
     const handleOpen = () => {
-        toggleInfoModal(cells)
+        toggleInfoModal()
     }
 
     return (
@@ -234,10 +229,6 @@ const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
                             )
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <Pagination />
-                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>
@@ -291,30 +282,31 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
     )
 }
 
-export default function LinksPage({ meta }) {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sanshit.sagar@gmail.com'
+export default function LinksPage() {
+    // const [session] = useSession()
+    // const email  = session.user.email
+    const email = 'sanshit.sagar@gmail.com'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
-    const [infoModalDetails, setInfoModalDetails] = useState(null)
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
 
-    const toggleInfoModal = (details) => {
+    const toggleInfoModal = () => {
         setInfoModalVisible(!infoModalVisible)
-        setInfoModalDetails(details)
     }
     
     return (
        
         <StackedLayout 
-            pageMeta={meta} 
+            pageMeta={{ 
+                title: 'Links', 
+                description: 'All your saved slugs' 
+            }} 
             children={
-                <div className="mt-2">
+                <div className="mt-4">
                     <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
@@ -322,8 +314,6 @@ export default function LinksPage({ meta }) {
                     <InfoModal
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
-                        data={infoModalDetails}
-                        setData={setInfoModalDetails}
                     /> 
                     <LinksTableWrapper
                         email={email} 
@@ -337,13 +327,4 @@ export default function LinksPage({ meta }) {
     );
 }
 
-LinksPage.auth = true
-
-LinksPage.defaultProps = {
-    meta: { 
-        title: 'Links', 
-        description: 'All your saved slugs' 
-    }
-}
-  
-  
+LinksPage.auth = false

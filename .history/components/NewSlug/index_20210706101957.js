@@ -10,11 +10,13 @@ import SideMenu from './SideMenu'
 import TagManager from './TagManager'
 import BlacklistInputContent from './BlacklistInputContent'
 import EncryptionInput from './EncryptionInput'
+
+
 import { NewSlugStore } from '../../store'
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
-
 const fetcher = url => axios.get(url).then(res => res.data)
+
+import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
 
 const UrlSlug = () => {
     const { data, error } = useSWR('/api/slugs/new', fetcher)

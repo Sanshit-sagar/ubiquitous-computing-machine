@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+// import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
@@ -234,10 +234,6 @@ const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
                             )
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <Pagination />
-                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>
@@ -291,10 +287,10 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
     )
 }
 
-export default function LinksPage({ meta }) {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sanshit.sagar@gmail.com'
+export default function LinksPage() {
+    // const [session] = useSession()
+    // const email  = session.user.email
+    const email = 'sanshit.sagar@gmail.com'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -312,9 +308,12 @@ export default function LinksPage({ meta }) {
     return (
        
         <StackedLayout 
-            pageMeta={meta} 
+            pageMeta={{ 
+                title: 'Links', 
+                description: 'All your saved slugs' 
+            }} 
             children={
-                <div className="mt-2">
+                <div className="mt-4">
                     <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
@@ -322,8 +321,8 @@ export default function LinksPage({ meta }) {
                     <InfoModal
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
+                        title={}
                         data={infoModalDetails}
-                        setData={setInfoModalDetails}
                     /> 
                     <LinksTableWrapper
                         email={email} 
@@ -337,13 +336,4 @@ export default function LinksPage({ meta }) {
     );
 }
 
-LinksPage.auth = true
-
-LinksPage.defaultProps = {
-    meta: { 
-        title: 'Links', 
-        description: 'All your saved slugs' 
-    }
-}
-  
-  
+LinksPage.auth = false

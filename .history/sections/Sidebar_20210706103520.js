@@ -32,7 +32,7 @@ const Sidebar = ({ handleNavigation }) => {
                   type="outline"
                   size="small"
                   key={item.name}
-                  className={item.current ? 'bg-red' : 'bg-green' + "flex items-center p-4 rounded-md text-green-200 hover:bg-blue-400 hover:text-blue-800 hover:focus-ring-yellow"}
+                  className={item.current ? 'bg-red' : 'bg-green' + "flex items-center p-4 rounded-lg text-green-200 hover:bg-blue-400 hover:text-blue-800 hover:focus-ring-yellow"}
                   onClick={() => handleNavigation(item.href)}
                 >
                   <item.icon className="h-6 w-6 my-1 text-green-300" />

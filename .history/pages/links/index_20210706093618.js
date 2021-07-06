@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useSession } from 'next-auth/client'
+// import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
@@ -30,7 +30,7 @@ const sanitize = (text, len) => {
 
 const useUserLibrary = (email) => {
     const { data, error } = useSWR(email && email.length ? `/api/slugs/aliases/${email}` : null, fetcher, {
-        revalidateOnFocus: true,
+        revalidateOnFocus: false,
         revalidateOnMount:true,
         revalidateOnReconnect: false,
         refreshWhenOffline: false,
@@ -80,10 +80,8 @@ const ViewsDisplay = (slug) => {
     )
 }
   
-const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
+const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
     const [deleteLoading, setDeleteLoading] = useState(false);
-    const [deleteConfirmed, setDeleteConfirmed] = useState(false);
-
     const dispatch = useContext(NewSlugStore.Dispatch)
 
     const cells = JSON.parse(cellsInRow)
@@ -92,20 +90,22 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
     let expiryTimestamp = cells.config ? (parseInt(cells.config.ttl) || '') : ''
     let currentTimestamp = new Date().getTime()
     
-    let lifespan = expiryTimestamp - creationTimestamp
-    let lifeLeft = expiryTimestamp - currentTimestamp
+    let lifespan = ((expiryTimestamp - creationTimestamp)/60)%100
+    let lifeLeft = ((expiryTimestamp - currentTimestamp)/60)%100
     
     let validity = lifeLeft > 0 ? 'Active' : 'Expired'
-    let lifeLivedPercent = (validity==='Active' && lifespan) ? lifeLeft/lifespan : 0
+    let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? (((lifeLeft/lifespan)*100)%100) : 0
 
     const cellValues = [
         [sanitize(cells.slug, 25), sanitize(cells.url, 30)], 
         [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
         [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
-        [validity, `${lifeLivedPercent}`],
+        [validity, `${lifeLivedPercent} of ${lifespan} remaining`],
+        [cells.password || '', ],
+        [cells.routingStatus || '301']
     ];
 
-    const handleDeleteConfirmation = async () => {
+    const handleDelete = async () => {
         setDeleteLoading(true);
 
         dispatch({
@@ -119,7 +119,7 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
         toast.success(`Deleted slug: ${cells.slug} at index: ${index}`)
 
         axios.delete(`/api/slugs/aliases/${email}?slug=${cells.slug}`).then((response) => {
-            console.log(`Confirmation of deletion: ${JSON.stringify(response)}`);
+            toast.success(`Confirmation: ${JSON.stringify(response)}`);
         }).catch((error) => {
             toast.error(`Error: ${error.message}`);
         });
@@ -127,15 +127,8 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
         setDeleteLoading(false);
     }
 
-    const handleDelete = () => {
-        toggle()
-        if(deleteConfirmed) {
-            handleDeleteConfirmation();
-        } 
-    }
-
     const handleOpen = () => {
-        toggleInfoModal(cells)
+        toggleInfoModal()
     }
 
     return (
@@ -143,13 +136,13 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
             <> {cellValues.map(function(value, index) {
                 return (
                     <TableCell key={index}>
-                         <div className="w-full flex-col justify-start items-stretch mr-1">
+                         <div className="w-full flex justify-between items-center m-2 py-1">
                             <div>
-                                <div className="text-sm w-full flex-nowrap">
+                                <div className="text-sm">
                                     {value[0]}
                                 </div>
                                 {value[1] && value[1]?.length ? 
-                                    <div className="text-sm w-full flex-nowrap">
+                                    <div className="text-sm w-full">
                                         {value[1]}
                                     </div>
                                 : null}
@@ -184,7 +177,7 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
     );
 }
 
-const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
+const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     // const state = useContext(NewSlugStore.State)
 
     const [cursor, setCursor] = useState(0)
@@ -229,15 +222,10 @@ const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
                                     cellsInRow={value} 
                                     toggle={toggle}
                                     toggleInfoModal={toggleInfoModal}
-                                    email={email}
                                 />
                             )
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <Pagination />
-                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>
@@ -281,7 +269,6 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
     return (
         <> 
             <LinksTable 
-                email={email}
                 links={state.links}
                 visible={visible}
                 toggle={toggle}
@@ -291,30 +278,31 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
     )
 }
 
-export default function LinksPage({ meta }) {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sanshit.sagar@gmail.com'
+export default function LinksPage() {
+    // const [session] = useSession()
+    // const email  = session.user.email
+    const email = 'sanshit.sagar@gmail.com'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
-    const [infoModalDetails, setInfoModalDetails] = useState(null)
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
 
-    const toggleInfoModal = (details) => {
+    const toggleInfoModal = () => {
         setInfoModalVisible(!infoModalVisible)
-        setInfoModalDetails(details)
     }
     
     return (
        
         <StackedLayout 
-            pageMeta={meta} 
+            pageMeta={{ 
+                title: 'Links', 
+                description: 'All your saved slugs' 
+            }} 
             children={
-                <div className="mt-2">
+                <div className="mt-4">
                     <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
@@ -322,8 +310,6 @@ export default function LinksPage({ meta }) {
                     <InfoModal
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
-                        data={infoModalDetails}
-                        setData={setInfoModalDetails}
                     /> 
                     <LinksTableWrapper
                         email={email} 
@@ -337,13 +323,4 @@ export default function LinksPage({ meta }) {
     );
 }
 
-LinksPage.auth = true
-
-LinksPage.defaultProps = {
-    meta: { 
-        title: 'Links', 
-        description: 'All your saved slugs' 
-    }
-}
-  
-  
+LinksPage.auth = false

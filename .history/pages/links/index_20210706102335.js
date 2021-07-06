@@ -234,10 +234,6 @@ const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
                             )
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <Pagination />
-                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>

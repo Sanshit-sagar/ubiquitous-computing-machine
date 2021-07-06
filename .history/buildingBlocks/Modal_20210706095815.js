@@ -7,8 +7,6 @@ import {
   Space,
   Typography,
   IconDatabase,
-  IconExternalLink,
-  IconActivity,
 } from "@supabase/ui";
 
 export const DangerModal = ({ visible, toggle }) => {
@@ -63,7 +61,7 @@ export const SuccessModal = ({ visible, toggle }) => {
               icon={<IconCheck />}
               onClick={toggle}
             >
-              Done
+              Confirm
             </Button>
           </Space>,
         ]}
@@ -72,36 +70,16 @@ export const SuccessModal = ({ visible, toggle }) => {
   );
 }
 
-function sanitize(text, len) {
-  return text && text.length && len > 0 ? `${text.substring(0, len)}...` : (text || ''); 
-}
-
 function InfoModal(props) {
   const { visible, toggle, data, setData } = props
 
   return (
     <>
       <Modal
-        size="medium"
+        size="small"
         layout="vertical"
-        title={!data ? 'Slug Info' : 
-          <div className="inline-flex justify-between align-center w-full">
-            <Typography.Title level={5}>
-              {data.slug || 'Slug Details'}
-            </Typography.Title>
-            <Button type="dashed" iconRight={<IconActivity />}>
-              View Activity
-            </Button>
-          </div>
-        }
-        description={!data ? '' : 
-          <div className="w-full inline-flex justify-start align-center text-blue-800">
-              <a href={data.url || data.destination}>
-                {sanitize(data.url, 25) || sanitize(data.destination.substring, 25)}
-              </a>
-              <IconExternalLink className="h-6 w-6 text-blue-500" />
-          </div>
-        }
+        title={!data ? 'Slug Info' : data.slug || 'Slug Details'}
+        description={!data ? '' : data.url || data.destination}
         visible={visible}
         onCancel={() => {
           toggle()
@@ -116,19 +94,13 @@ function InfoModal(props) {
             prev: data.slug || data.url || data.destination || 'N/A'
           })
         }}
-      >
-      {data && 
-        <>
-          <p> Slug: {data.slug} </p>
-          <p> Created: {data.timestamp} </p> 
-          <p> Expiry: {data.config.ttl} </p>
-          <p> Routing Status: {data.config.routingStatus} </p> 
-          <p> SEO Tags: {data.config.seoTags.length} </p>
-          <p> Blacklist: {data.config.blacklist.length} </p>
-          <p> Num Visits: </p> 
-        </>
-      }
-      </Modal>
+        icon={
+          <IconDatabase 
+            background="brand" 
+            size="medium" 
+          />
+        }
+      />
     </>
   );
 }

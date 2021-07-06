@@ -234,10 +234,6 @@ const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
                             )
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <Pagination />
-                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>
@@ -337,7 +333,7 @@ export default function LinksPage({ meta }) {
     );
 }
 
-LinksPage.auth = true
+LinksPage.auth = false
 
 LinksPage.defaultProps = {
     meta: { 

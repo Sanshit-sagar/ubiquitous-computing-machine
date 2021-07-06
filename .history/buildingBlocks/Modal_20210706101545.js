@@ -73,7 +73,7 @@ export const SuccessModal = ({ visible, toggle }) => {
 }
 
 function sanitize(text, len) {
-  return text && text.length && len > 0 ? `${text.substring(0, len)}...` : (text || ''); 
+  return `${text.substring(0, len)}...`; 
 }
 
 function InfoModal(props) {
@@ -117,17 +117,14 @@ function InfoModal(props) {
           })
         }}
       >
-      {data && 
-        <>
-          <p> Slug: {data.slug} </p>
-          <p> Created: {data.timestamp} </p> 
-          <p> Expiry: {data.config.ttl} </p>
-          <p> Routing Status: {data.config.routingStatus} </p> 
-          <p> SEO Tags: {data.config.seoTags.length} </p>
-          <p> Blacklist: {data.config.blacklist.length} </p>
-          <p> Num Visits: </p> 
-        </>
-      }
+      
+        <p> Slug: {data.slug} </p>
+        <p> Created: {data.timestamp} </p> 
+        <p> Expiry: {data.config.ttl} </p>
+        <p> Routing Status: {data.config.routingStatus} </p> 
+        <p> SEO Tags: {data.config.seoTags.length} </p>
+        <p> Blacklist: {data.config.blacklist.length} </p>
+        <p> Num Visits: </p> 
       </Modal>
     </>
   );

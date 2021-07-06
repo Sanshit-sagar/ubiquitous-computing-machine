@@ -73,7 +73,7 @@ export const SuccessModal = ({ visible, toggle }) => {
 }
 
 function sanitize(text, len) {
-  return text && text.length && len > 0 ? `${text.substring(0, len)}...` : (text || ''); 
+  return `${text.substring(0, len)}...`; 
 }
 
 function InfoModal(props) {
