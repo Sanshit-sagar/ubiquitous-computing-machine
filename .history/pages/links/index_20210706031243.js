@@ -7,7 +7,7 @@ import { NewSlugStore } from '../../store'
 
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
-import { DangerModal } from '../../buildingBlocks/Modal'
+import InfoModal, { DangerModal } from '../../buildingBlocks/Modal'
 
 import { Button, IconTrash, IconEye } from '@supabase/ui'
 

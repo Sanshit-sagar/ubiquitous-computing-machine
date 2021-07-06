@@ -197,7 +197,7 @@ const LinksTableWrapper = ({ visible, toggle }) => {
     const { links, loading, error } = useUserLibrary(email)
 
     useEffect(() => {
-        if(!loading && !error && links.length!==state.links.length) {
+        if(!loading && !error) {
             dispatch({
                 type: 'assign',
                 payload: {

@@ -7,7 +7,7 @@ import { NewSlugStore } from '../../store'
 
 import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
-import { DangerModal } from '../../buildingBlocks/Modal'
+import InfoModal, { DangerModal } from '../../buildingBlocks/Modal'
 
 import { Button, IconTrash, IconEye } from '@supabase/ui'
 
@@ -124,8 +124,8 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
     );
 }
 
-const LinksTable = ({ links, visible, toggle }) => {
-    const state = useContext(NewSlugStore.State)
+const LinksTable = ({ links, modalVisible, toggle }) => {
+    // const state = useContext(NewSlugStore.State)
 
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
@@ -202,7 +202,7 @@ const LinksTableWrapper = ({ visible, toggle }) => {
                 type: 'assign',
                 payload: {
                     key: 'links',
-                    value: links,
+                    value: [...links],
                 }
             }); 
             setNumUpdates(numUpdates + 1)
@@ -210,13 +210,13 @@ const LinksTableWrapper = ({ visible, toggle }) => {
     }, [state.links, links, loading, error, numUpdates]); 
 
     if(loading) return <Loader />
-    if(error) return <p> error! </p>
+    if(error) return <p> error: {`${error.message}`} </p>
 
     return (
         <LinksTable 
-            links={state.links}
-            visible={visible}
-            toggle={toggle}
+            links={[...state.links]} 
+            modalVisible={modalVisible}
+            toggle={toggleModal}
         />
     )
 }
