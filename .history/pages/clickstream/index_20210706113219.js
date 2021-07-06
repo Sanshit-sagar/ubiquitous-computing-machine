@@ -65,7 +65,7 @@ export const useViewsBySlug = (slug) => {
     }
 }
 
-const useUserAgentParser = (useragent, slug) => {
+const useUserAgentParser = (useragent) => {
     const { data, error } = useSWR(userAgent && userAgent.length ? `/api/user-agent/${slug}?useragent=${useragent}` : null, fetcher);
 
     return {

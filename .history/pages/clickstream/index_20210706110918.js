@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useSession } from 'next-auth/client'
+import Script from 'next/script'
 
 import useSWR from 'swr'
 import axios from 'axios'
@@ -63,16 +64,6 @@ export const useViewsBySlug = (slug) => {
         viewsLoading: !data && !error,
         viewsError: error
     }
-}
-
-const useUserAgentParser = (useragent, slug) => {
-    const { data, error } = useSWR(userAgent && userAgent.length ? `/api/user-agent/${slug}?useragent=${useragent}` : null, fetcher);
-
-    return {
-        ua: data ? data.ua : null,
-        ualoading: !data && !error,
-        uaerror: error 
-    };
 }
 
 const CellSkeleton = () => {
@@ -179,7 +170,12 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    const { ua, ualoading, uaerror } = useUserAgentParser(visitor.system)
+    // var parser = new UAParser();
+    let uastring = visitor.system;
+
+    let deviceModel = parser.setUA(uastring).getDevice().model
+    let osName = parser.getOS().name                    
+    let browserName = parser.getBrowser().name
 
     return (
         <TableRow key={index} className="font-extralight">
@@ -223,7 +219,11 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    { loading ? <Loader /> :  `${JSON.stringify(ua)}` }
+                    {
+                        loading ? <Loader /> :  
+                        `${deviceModel}-${osName}-${browserName}`
+                        
+                    }
                 </div>
             </TableCell>
         </TableRow>
@@ -327,7 +327,14 @@ export default function Clickstream() {
     var parser = new UAParser();
 
     return (
-        <>  
+        <>
+            <Script
+                src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js" 
+                integrity="sha512-70OZ+iUuudMmd7ikkUWcEogIw/+MIE17z17bboHhj56voxuy+OPB71GWef47xDEt5+MxFdrigC1tRDmuvIVrCA==" 
+                crossorigin="anonymous" 
+                referrerpolicy="no-referrer"
+            />    
+            
             <StackedLayout 
                 pageMeta={dashboardMetadata} 
                 children={

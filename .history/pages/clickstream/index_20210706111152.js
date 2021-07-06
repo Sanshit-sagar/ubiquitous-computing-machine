@@ -65,16 +65,6 @@ export const useViewsBySlug = (slug) => {
     }
 }
 
-const useUserAgentParser = (useragent, slug) => {
-    const { data, error } = useSWR(userAgent && userAgent.length ? `/api/user-agent/${slug}?useragent=${useragent}` : null, fetcher);
-
-    return {
-        ua: data ? data.ua : null,
-        ualoading: !data && !error,
-        uaerror: error 
-    };
-}
-
 const CellSkeleton = () => {
 
     return (
@@ -179,7 +169,12 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    const { ua, ualoading, uaerror } = useUserAgentParser(visitor.system)
+    // var parser = new UAParser();
+    let uastring = visitor.system;
+
+    let deviceModel = parser.setUA(uastring).getDevice().model
+    let osName = parser.getOS().name                    
+    let browserName = parser.getBrowser().name
 
     return (
         <TableRow key={index} className="font-extralight">
@@ -223,7 +218,11 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
 
             <TableCell className="flex-col justify-between align-stretch">
                 <div className="text-sm"> 
-                    { loading ? <Loader /> :  `${JSON.stringify(ua)}` }
+                    {
+                        loading ? <Loader /> :  
+                        `${deviceModel}-${osName}-${browserName}`
+                        
+                    }
                 </div>
             </TableCell>
         </TableRow>
