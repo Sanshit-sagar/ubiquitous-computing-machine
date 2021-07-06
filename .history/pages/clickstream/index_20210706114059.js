@@ -23,9 +23,11 @@ import {
     LocationMarkerIcon, 
     KeyIcon, 
     FingerPrintIcon, 
+    BadgeCheckIcon, 
     TrendingUpIcon,
     ClockIcon,
-    GlobeIcon
+    GlobeIcon,
+    DatabaseIcon
 } from '@heroicons/react/outline'
 
 import { EyeIcon } from '@heroicons/react/solid'
@@ -175,8 +177,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    let useragent = loading || !visitor || !visitor.length ? '' : visitor.system
-    const { ua, ualoading, uaerror } = useUserAgentParser(useragent, slug)
+    const { ua, ualoading, uaerror } = useUserAgentParser(visitor.system, slug)
 
     return (
         <TableRow key={index} className="font-extralight">
@@ -322,7 +323,7 @@ export default function Clickstream() {
             <StackedLayout 
                 pageMeta={dashboardMetadata} 
                 children={
-                    <ClickstreamTable email={email} />
+                    <ClickstreamTable email={email} parser={parser} />
                 }    
             />
         </>

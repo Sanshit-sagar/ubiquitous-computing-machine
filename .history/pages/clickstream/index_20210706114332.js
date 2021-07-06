@@ -23,9 +23,11 @@ import {
     LocationMarkerIcon, 
     KeyIcon, 
     FingerPrintIcon, 
+    BadgeCheckIcon, 
     TrendingUpIcon,
     ClockIcon,
-    GlobeIcon
+    GlobeIcon,
+    DatabaseIcon
 } from '@heroicons/react/outline'
 
 import { EyeIcon } from '@heroicons/react/solid'

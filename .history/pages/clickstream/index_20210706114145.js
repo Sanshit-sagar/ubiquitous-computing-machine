@@ -23,9 +23,11 @@ import {
     LocationMarkerIcon, 
     KeyIcon, 
     FingerPrintIcon, 
+    BadgeCheckIcon, 
     TrendingUpIcon,
     ClockIcon,
-    GlobeIcon
+    GlobeIcon,
+    DatabaseIcon
 } from '@heroicons/react/outline'
 
 import { EyeIcon } from '@heroicons/react/solid'
@@ -175,7 +177,7 @@ const ClickStreamEntry = ({ click, index, loading  }) => {
     const timestamp = click.timestamp || click.finalTimestamp || 'N/A'
     const formattedTimestamp = timestamp != 'N/A' ? useDateTimeConverter(timestamp) : 'N/A'
 
-    let useragent = loading || !visitor || !visitor.length ? '' : visitor.system
+    let useragent = visitor.system
     const { ua, ualoading, uaerror } = useUserAgentParser(useragent, slug)
 
     return (
