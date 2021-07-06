@@ -54,30 +54,16 @@ function getDateString(timestamp) {
     return new Date(timestamp).toDateString()
 }
 
-const ViewsDisplay = (slug) => {
-    const [showLoader,setShowLoader] = React.useState(true)
-    let delay = 1.25;
+const SlugViews = (slug) => {
+    const { views, viewsLoading, viewsError } = useViewsBySlug(slug)
 
-    useEffect(() => {
-        let fakeTimer = setTimeout(() => setShowLoader(false), delay * 1000);
-        return () => { 
-            clearTimeout(fakeTimer); 
-        }
-    }, []);
-
-    const { views, viewsLoading, viewsError } = useViewsBySlug(slug.slug)
-
-    if(viewsError) return <p> --/-- </p>
+    if(viewsLoading) return <Loader />
+    if(viewsError) return <p> Error! </p>
 
     return (
-        <TableCell className="flex-col justify-between align-stretch">
-            <div className="text-sm">  
-                {showLoader || viewsLoading ? <Loader /> : views ? `${views.total} total` : <p> !! </p>}
-            </div>
-            <div className="text-xs">
-                {showLoader || viewsLoading ? <Loader /> : views ? `${views.unique} unique` : <p> !! </p>} 
-            </div> 
-        </TableCell>
+        <Badge type="success"> 
+            {`${views} views`}
+        </Badge> 
     )
 }
   
@@ -92,13 +78,14 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
     let lifeLeft = expiryTimestamp - currentTimestamp
     
     let validity = lifeLeft > 0 ? 'Active' : 'Expired'
-    let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? ((lifeLeft/lifespan)*100) : 0
+    // let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? ((lifeLeft/lifespan)*100) : 0
 
     const cellValues = [
-        [cells.slug, 'sanitize(cells.url, 35)'], 
+        [cells.slug, ''], 
+        [sanitize(cells.url, 35), ''], 
         [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
         [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
-        [validity, `${lifeLivedPercent} of ${lifespan} remaining`],
+        [validity, ''],
         [cells.password || '', ],
         [cells.routingStatus || '301']
     ];
@@ -136,9 +123,9 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                     </TableCell>
                 )
             })} </>
-            <TableCell>
-                <ViewsDisplay slug={cells.slug} />
-            </TableCell>
+            {/* <TableCell>
+                <SlugViews slug={cells.slug} />
+            </TableCell> */}
             <TableCell>
                 <Button 
                     type="outline" 
@@ -169,7 +156,8 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     }
 
     const columns = React.useMemo(() => [
-        { Header: 'URLs' },
+        { Header: 'Slug' },
+        { Header: 'Destination'},
         { Header: 'Created At' },
         { Header: 'Expiry (TTL)' },
         { Header: 'Validity' },
@@ -182,7 +170,7 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     return (
         <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
             <TableContainer>
-                <Table className="p-2 rounded-md">
+                <Table>
                     <TableHeader>
                         <TableRow className="text-left">
                             {columns.map(function(value, index) {

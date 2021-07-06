@@ -95,7 +95,8 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
     let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? ((lifeLeft/lifespan)*100) : 0
 
     const cellValues = [
-        [cells.slug, 'sanitize(cells.url, 35)'], 
+        [cells.slug, ''], 
+        [sanitize(cells.url, 35), ''], 
         [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
         [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
         [validity, `${lifeLivedPercent} of ${lifespan} remaining`],
@@ -169,7 +170,8 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     }
 
     const columns = React.useMemo(() => [
-        { Header: 'URLs' },
+        { Header: 'Slug' },
+        { Header: 'Destination'},
         { Header: 'Created At' },
         { Header: 'Expiry (TTL)' },
         { Header: 'Validity' },
@@ -182,7 +184,7 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     return (
         <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
             <TableContainer>
-                <Table className="p-2 rounded-md">
+                <Table>
                     <TableHeader>
                         <TableRow className="text-left">
                             {columns.map(function(value, index) {

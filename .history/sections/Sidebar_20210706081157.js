@@ -8,7 +8,8 @@ import {
   PlusIcon,
   CursorClickIcon,
   ChartSquareBarIcon,
-  PresentationChartLineIcon
+  PresentationChartLineIcon,
+  UserIcon
 } from '@heroicons/react/outline'
 
 
@@ -19,6 +20,7 @@ const Sidebar = ({ handleNavigation }) => {
         { name: 'Saved', href: '/links', icon: CollectionIcon },
         { name: 'Dashboard', href: '/dashboard', icon: ChartSquareBarIcon },
         { name: 'Leaderboard', href: '/leaderboards2', icon: PresentationChartLineIcon },
+        { name: 'Profile', href: '/profile', icon: UserIcon },
     ];
 
     return (

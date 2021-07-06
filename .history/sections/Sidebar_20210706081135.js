@@ -8,7 +8,8 @@ import {
   PlusIcon,
   CursorClickIcon,
   ChartSquareBarIcon,
-  PresentationChartLineIcon
+  PresentationChartLineIcon,
+  UserIcon
 } from '@heroicons/react/outline'
 
 
@@ -19,6 +20,7 @@ const Sidebar = ({ handleNavigation }) => {
         { name: 'Saved', href: '/links', icon: CollectionIcon },
         { name: 'Dashboard', href: '/dashboard', icon: ChartSquareBarIcon },
         { name: 'Leaderboard', href: '/leaderboards2', icon: PresentationChartLineIcon },
+        { name: 'Profile', href: '/profile', icon: UserIcon },
     ];
 
     return (
@@ -30,7 +32,6 @@ const Sidebar = ({ handleNavigation }) => {
               {sidebarNavigation.map((item) => (
                 <Button
                   type="outline"
-                  size="small"
                   key={item.name}
                   className={item.current ? 'bg-red' : 'bg-green' + "flex items-center p-4 rounded-lg text-green-200 hover:bg-blue-400 hover:text-blue-800 hover:focus-ring-yellow"}
                   onClick={() => handleNavigation(item.href)}

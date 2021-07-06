@@ -8,7 +8,8 @@ import {
   PlusIcon,
   CursorClickIcon,
   ChartSquareBarIcon,
-  PresentationChartLineIcon
+  PresentationChartLineIcon,
+  UserIcon
 } from '@heroicons/react/outline'
 
 
