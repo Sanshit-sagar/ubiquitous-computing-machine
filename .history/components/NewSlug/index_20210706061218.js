@@ -209,7 +209,7 @@ function NewSlugActions() {
 
 
     const publish = async (slug, url, config) => {
-        if(!session || loading) return;
+        // if(!session || loading) return;
         if(!slug || !slug.length || !url || !url.length) return;
 
         const res = await fetch('/api/slugs/save', {
@@ -267,7 +267,7 @@ function NewSlugActions() {
                     size="medium"
                     iconRight={<IconSave />}
                     onClick={handleSubmit}
-                    disabled={!session || loading}
+                    // disabled={!session || loading}
                 >
                     Save
                 </Button>

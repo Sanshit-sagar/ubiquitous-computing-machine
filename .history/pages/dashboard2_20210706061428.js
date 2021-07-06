@@ -3,9 +3,9 @@ import React from 'react'
 import { useSession } from 'next-auth/client'
 
 import StackedLayout from '../sections/StackedLayout'
-// import DashboardGraphs from '../components/DashboardGraphs'
+import DashboardGraphs from '../components/DashboardGraphs'
 import StatisticsCards from '../components/StatisticsCards'
-// import Loader from '../components/Loader'
+import Loader from '../components/Loader'
 
 const Metrics = ({ email }) => {
 
@@ -41,4 +41,4 @@ export default function MetricsWrapper() {
     )
 }
 
-MetricsWrapper.auth = true
+MetricsWrapper.auth = false
