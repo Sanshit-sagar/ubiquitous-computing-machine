@@ -147,6 +147,12 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                                     </div>
                                 : null}
                             </div>
+                            <>{value[2] ? 
+                                <button  className="ml-6 flex-shrink-0">
+                                    {value[2]}
+                                </button> 
+                                : null
+                            }</>
                         </div>
                     </TableCell>
                 )

@@ -83,8 +83,6 @@ const ViewsDisplay = (slug) => {
 }
   
 const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
-    const [deleteLoading, setDeleteLoading] = useState(false);
-
     const cells = JSON.parse(cellsInRow)
 
     let creationTimestamp = parseInt(cells.timestamp)
@@ -119,14 +117,13 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
 
         axios.delete(`/api/slugs/aliases/${email}?slug=${cells.slug}`)
         .then((response) => {
-            toast.success(`Confirmation: ${response}`);
+            toast.success(`${response}`);
         }).catch((error) => {
-            toast.error(`Error: ${error.message}`);
+            toast.error(`${error.message}`);
         });
 
         setDeleteLoading(false);
     }
-
     const handleOpen = () => {
         toggleInfoModal()
     }
@@ -147,6 +144,12 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                                     </div>
                                 : null}
                             </div>
+                            <>{value[2] ? 
+                                <button  className="ml-6 flex-shrink-0">
+                                    {value[2]}
+                                </button> 
+                                : null
+                            }</>
                         </div>
                     </TableCell>
                 )
@@ -160,7 +163,6 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                     size="small" 
                     icon={<IconTrash />} 
                     onClick={handleDelete}
-                    loading={deleteLoading}
                     className="mr-2" 
                 />
                 <Button 

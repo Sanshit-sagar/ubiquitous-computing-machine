@@ -22,7 +22,6 @@ import {
     TableFooter,
     Pagination
   } from '@windmill/react-ui'
-import { dispatch } from 'react-hot-toast/dist/core/store'
 
 const fetcher = url => axios.get(url).then(res => res.data);
 
@@ -83,22 +82,20 @@ const ViewsDisplay = (slug) => {
 }
   
 const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
-    const [deleteLoading, setDeleteLoading] = useState(false);
-
     const cells = JSON.parse(cellsInRow)
 
     let creationTimestamp = parseInt(cells.timestamp)
     let expiryTimestamp = cells.config ? (parseInt(cells.config.ttl) || '') : ''
     let currentTimestamp = new Date().getTime()
     
-    let lifespan = ((expiryTimestamp - creationTimestamp)/60)%100
-    let lifeLeft = ((expiryTimestamp - currentTimestamp)/60)%100
+    let lifespan = expiryTimestamp - creationTimestamp
+    let lifeLeft = expiryTimestamp - currentTimestamp
     
     let validity = lifeLeft > 0 ? 'Active' : 'Expired'
-    let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? (((lifeLeft/lifespan)*100)%100) : 0
+    let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? ((lifeLeft/lifespan)*100) : 0
 
     const cellValues = [
-        [sanitize(cells.slug, 25), sanitize(cells.url, 30)], 
+        [cells.slug, 'sanitize(cells.url, 35)'], 
         [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
         [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
         [validity, `${lifeLivedPercent} of ${lifespan} remaining`],
@@ -106,27 +103,9 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
         [cells.routingStatus || '301']
     ];
 
-    const handleDelete = async () => {
-        setDeleteLoading(true);
-
-        dispatch({
-            type: 'filter',
-            payload: {
-                value: index
-            }
-        }); 
-        toast.success(`Deleted slug: ${cells.slug} at index: ${index}`)
-
-        axios.delete(`/api/slugs/aliases/${email}?slug=${cells.slug}`)
-        .then((response) => {
-            toast.success(`Confirmation: ${response}`);
-        }).catch((error) => {
-            toast.error(`Error: ${error.message}`);
-        });
-
-        setDeleteLoading(false);
+    const handleDelete = () => {
+        toggle()
     }
-
     const handleOpen = () => {
         toggleInfoModal()
     }
@@ -136,7 +115,7 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
             <> {cellValues.map(function(value, index) {
                 return (
                     <TableCell key={index}>
-                         <div className="flex justify-between items-center m-2 px-2 py-1">
+                         <div className="flex justify-between items-center">
                             <div>
                                 <div className="text-sm">
                                     {value[0]}
@@ -147,6 +126,12 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                                     </div>
                                 : null}
                             </div>
+                            <>{value[2] ? 
+                                <button  className="ml-6 flex-shrink-0">
+                                    {value[2]}
+                                </button> 
+                                : null
+                            }</>
                         </div>
                     </TableCell>
                 )
@@ -160,7 +145,6 @@ const LinkEntry = ({ index, cellsInRow, toggle, toggleInfoModal }) => {
                     size="small" 
                     icon={<IconTrash />} 
                     onClick={handleDelete}
-                    loading={deleteLoading}
                     className="mr-2" 
                 />
                 <Button 
@@ -196,9 +180,9 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
     // let linksOnPage = links.slice(cursor, cursor + pageSize)
 
     return (
-        <div className="container mx-auto p-4 m-2 rounded-md shadow-md">
+        <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
             <TableContainer>
-                <Table className="p-4 rounded-md">
+                <Table className="p-2 rounded-md">
                     <TableHeader>
                         <TableRow className="text-left">
                             {columns.map(function(value, index) {
@@ -226,6 +210,15 @@ const LinksTable = ({ links, visible, toggle, toggleInfoModal }) => {
                 </Table>
 
                 <TableFooter>
+                    {/* <Pagination 
+                        totalResults={clickstream.length} 
+                        resultsPerPage={pageSize} 
+                        onChange={(event) => {
+                                handlePagination(event)
+                            }
+                        } 
+                        label="Pagination" 
+                    /> */}
                     <Pagination />
                 </TableFooter>
             </TableContainer>
