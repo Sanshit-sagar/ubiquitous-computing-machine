@@ -12,7 +12,6 @@ import {
 
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
-import LeaderboardTable from '../LeaderboardTable'
 
 const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)

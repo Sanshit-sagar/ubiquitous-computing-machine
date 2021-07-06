@@ -43,4 +43,4 @@ export default function MetricsWrapper() {
     )
 }
 
-MetricsWrapper.auth = false
+MetricsWrapper.auth = true

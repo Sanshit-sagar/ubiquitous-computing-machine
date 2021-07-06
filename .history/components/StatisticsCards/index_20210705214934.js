@@ -12,7 +12,6 @@ import {
 
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
-import LeaderboardTable from '../LeaderboardTable'
 
 const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)
@@ -105,7 +104,8 @@ function StatisticsCards({ email }) {
                 loading={loading} 
                 error={error} 
             />
-            <LeaderboardTable /> 
+            <p> {JSON.stringify(links)} </p>
+            <p> {JSON.stringify(clicks)} </p>
         </div>
     );
 }

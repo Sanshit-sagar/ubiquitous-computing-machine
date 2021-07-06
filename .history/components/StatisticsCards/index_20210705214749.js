@@ -12,7 +12,6 @@ import {
 
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
-import LeaderboardTable from '../LeaderboardTable'
 
 const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)
@@ -26,7 +25,7 @@ const useUserSummarizedData = (uid) => {
     }
 }
 
-function StatisticsCardsBase({ stats, loading, error }) {
+function StatisticsCardsBase({ views, loading, error }) {
 
     const custom_icon_class = "w-6 h-6 text-indigo-700 dark:text-white"
     let unitsList = [
@@ -41,7 +40,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
     const availableStats = [{    
         key: 'mostViews',
         name: 'Most Views', 
-        value: loading ? <Loader /> : !error ? stats.maxViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.maxViews : <p> "--/--" </p>,
         icon: <VideoCameraIcon className={`${custom_icon_class}`} />,
         unit: 1,
         delta: '50%',
@@ -49,7 +48,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
     }, {   
         key: 'uniqueViews',
         name: 'Unique Views', 
-        value: loading ? <Loader /> : !error ? stats.numUnique : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numUnique : <p> "--/--" </p>,
         icon: <SparklesIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -57,7 +56,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
     }, {
         key: 'totalViews',
         name: 'Total Views', 
-        value: loading ? <Loader /> : !error ? stats.totalViews : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.totalViews : <p> "--/--" </p>,
         icon: <CursorClickIcon className={`${custom_icon_class}`} />,
         unit: 2,
         delta: '50%',
@@ -65,7 +64,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
     }, {
         key: 'numLinks',
         name: 'Links Created', 
-        value: loading ? <Loader /> : !error ? stats.numLinks : <p> "--/--" </p>,
+        value: loading ? <Loader /> : !error ? views.numLinks : <p> "--/--" </p>,
         icon: <ExternalLinkIcon className={`${custom_icon_class}`} />,
         unit: 0,
         delta: '50%',
@@ -94,18 +93,21 @@ function StatisticsCardsBase({ stats, loading, error }) {
 }
 
 function StatisticsCards({ email }) {
-    const uid = email
+    const [session] = useSession()
+    const uid = session ? session.user.email || email : '';
+
     const { stats, links, clicks, loading, error } = useUserSummarizedData(uid)
 
     return (
         <div className="container mx-auto">
-            <p> Recieved email: ${email} </p> 
+            <p> Recieved uid: ${uid} </p> 
             <StatisticsCardsBase 
                 stats={stats} 
                 loading={loading} 
                 error={error} 
             />
-            <LeaderboardTable /> 
+            <p> {JSON.stringify(links)} </p>
+            <p> {JSON.stringify(clicks)} </p>
         </div>
     );
 }

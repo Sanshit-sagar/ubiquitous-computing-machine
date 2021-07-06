@@ -206,7 +206,7 @@ const LeaderboardTableItem = ({ data, title, type }) => {
 
 const LeaderboardTable = () => {
     const [session, sessionLoading] = useSession(); 
-    let email = session && session?.user ? session.user.email : ''
+    let email = session && session?.user ? session.user.email : 'sasagar@ucsd.edu'
     
     const {data, loading, error} = useClickstreamLeaderboards(email) 
 

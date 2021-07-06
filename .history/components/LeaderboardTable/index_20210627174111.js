@@ -85,7 +85,7 @@ const aggregateStats = (data) => {
 
 
 function useClickstreamLeaderboards(email)  {
-    const { data, error } = useSWR(email && email?.length ? [`/api/stream/statistics`, email] : null, fetcher)
+    const { data, error } = useSWR(email && email?.length ? `/api/stream/statistics` : null, fetcher)
 
     return {
         data: data ? data.headers : {},
@@ -211,7 +211,7 @@ const LeaderboardTable = () => {
     const {data, loading, error} = useClickstreamLeaderboards(email) 
 
     if(loading || sessionLoading) return <Loader />
-    if(error) return <p> {`error: ${error.message}`} </p>
+    if(error) return <p> error! </p>
 
     return (
         <div className="flex justify-start align-stretch m-1 p-2 rounded-md shadow">

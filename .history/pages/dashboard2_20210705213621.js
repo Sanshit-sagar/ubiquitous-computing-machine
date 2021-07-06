@@ -31,7 +31,7 @@ export default function MetricsWrapper() {
         description: 'TODO'
     }
 
-    // if(!email) return <Loader />; 
+    if(!email) return <Loader />; 
 
     return (
         <StackedLayout
@@ -43,4 +43,4 @@ export default function MetricsWrapper() {
     )
 }
 
-MetricsWrapper.auth = false
+MetricsWrapper.auth = true
