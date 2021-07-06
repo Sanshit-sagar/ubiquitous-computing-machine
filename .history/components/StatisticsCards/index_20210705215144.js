@@ -105,6 +105,7 @@ function StatisticsCards({ email }) {
                 loading={loading} 
                 error={error} 
             />
+            <LeaderboardTable /> 
         </div>
     );
 }

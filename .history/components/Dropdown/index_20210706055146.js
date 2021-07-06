@@ -8,9 +8,9 @@ import {
 } from '@supabase/ui'
 
 import { UserCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
-import { useSession, signOut, signIn } from 'next-auth/client'
 
 import Loader from '../Loader'
+import { useSession, signOut, signIn } from 'next-auth/client'
 
 const DropdownMenu = () => {
   const [session, loading] = useSession()
@@ -25,11 +25,7 @@ const DropdownMenu = () => {
             : <ExclamationCircleIcon className="h-6 w-6" /> 
           }
           className="w-full inline-flex justify-between align-center"
-          onClick={() => {
-            if(!session || !session.user) {
-              signIn();
-            }}
-          }
+          onClick={!session || !session.user ? signIn() : }
         >
           <Typography.Text>
             {   session && session?.user ? 
@@ -65,11 +61,7 @@ const DropdownMenu = () => {
         <> { session && session?.user && 
           <>
             <Divider light />
-            <Dropdown.Item 
-                icon={<IconLogOut />} 
-                onClick={() => {signOut()}
-              }
-            >
+            <Dropdown.Item icon={<IconLogOut />} onClick={() => {signOut()}}>
               <Typography.Text>
                 Log out
               </Typography.Text>

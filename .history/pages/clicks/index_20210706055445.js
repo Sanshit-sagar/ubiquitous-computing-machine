@@ -143,6 +143,7 @@ const ClickStreamTable = ({ clicks, reval }) => {
 
                     <TableBody>
                         { clickStream.map((value, index) => {
+                           
                             return (
                                 <TableRow key={index}>
                                     <Click value={value} index={index} uid={uid} />  

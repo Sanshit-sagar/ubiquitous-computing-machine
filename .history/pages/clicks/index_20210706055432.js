@@ -143,6 +143,8 @@ const ClickStreamTable = ({ clicks, reval }) => {
 
                     <TableBody>
                         { clickStream.map((value, index) => {
+                            // if(!value.slug) return null;
+                            // if(vale)
                             return (
                                 <TableRow key={index}>
                                     <Click value={value} index={index} uid={uid} />  

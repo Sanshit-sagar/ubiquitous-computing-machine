@@ -126,44 +126,44 @@ const ClickStreamTable = ({ clicks, reval }) => {
     let clickStream = clicks ? clicks.slice(0, 6) : []
 
     return (
-        <div className="container mx-auto p-2 m-2 rounded-md shadow-md">
-            <TableContainer>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            {columns.map(function(value, index) {
-                                return (
-                                    <TableCell key={index}>
-                                        {value.Header}
-                                    </TableCell>
-                                )
-                            })}
-                        </TableRow>
-                    </TableHeader>
-
-                    <TableBody>
-                        { clickStream.map((value, index) => {
+        <TableContainer>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        {columns.map(function(value, index) {
                             return (
-                                <TableRow key={index}>
-                                    <Click value={value} index={index} uid={uid} />  
-                                </TableRow>
-                            );
+                                <TableCell key={index}>
+                                    {value.Header}
+                                </TableCell>
+                            )
                         })}
-                    </TableBody>
-                </Table>
-                
-                <TableFooter>
-                    <Pagination 
-                        totalResults={clicks.length} 
-                        resultsPerPage={8} 
-                        onChange={() => {
-                            clickStream = clicks.slice(8, 16)
-                        }} 
-                        label="Table navigation" 
-                    />
-                </TableFooter>
-            </TableContainer>
-        </div>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    { clickStream.map((value, index) => {
+                        // if(!value.slug) return null;
+                        // if(vale)
+                        return (
+                            <TableRow key={index}>
+                                <Click value={value} index={index} uid={uid} />  
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+            
+            <TableFooter>
+                <Pagination 
+                    totalResults={clicks.length} 
+                    resultsPerPage={8} 
+                    onChange={() => {
+                        clickStream = clicks.slice(8, 16)
+                    }} 
+                    label="Table navigation" 
+                />
+            </TableFooter>
+        </TableContainer>
     );
 }
 
