@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import useSWR from 'swr'
 import axios from 'axios'
-import { useSession } from 'next-auth/client'
 
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
 import { NewSlugStore } from '../../store'
@@ -10,7 +9,7 @@ import Loader from '../../components/Loader'
 import StackedLayout from '@/sections/StackedLayout'
 import { DangerModal } from '../../buildingBlocks/Modal'
 
-import { Button, IconTrash, IconEye, Badge } from '@supabase/ui'
+import { Button, IconTrash, IconEye } from '@supabase/ui'
 
 import {
     TableContainer,
@@ -46,56 +45,27 @@ const useUserLibrary = (email) => {
     };
 }
 
-const useSlugViewsCount = (slug) => {
-    const {data, error} = useSWR(`/api/slugs/views/${slug}`, fetcher)
+export function formatDate(date) {
+    let month = '' + (date.getMonth() + 1)
+    let day = '' + date.getDate()
+    const year = date.getFullYear()
   
-    return {
-        numViews: data ? data.views : null,
-        loading: !data && !error,
-        error
-    }
-}
-
-function getLocaleTimestring(timestamp) {
-    return new Date(timestamp).toLocaleTimeString()
-}
-
-function getDateString(timestamp) {
-    return new Date(timestamp).toDateString()
-}
-
-const SlugViews = (slug) => {
-    const { numViews, loading, error } = useSlugViewsCount(slug)
-
-    if(loading) return <Loader />
-    if(error) return <span className="text-sm font-extralight text-red-500"> error! </span>
-
-    return (
-        <Badge type="success"> 
-            {`${numViews} views`}
-        </Badge> 
-    )
+    if (month.length < 2)
+        month = '0' + month
+    if (day.length < 2)
+        day = '0' + day
+  
+    return `${month}/${day}/${year}`; 
 }
   
 const LinkEntry = ({ index, cellsInRow, toggle }) => {
     const cells = JSON.parse(cellsInRow)
 
-    let creationTimestamp = parseInt(cells.timestamp)
-    let expiryTimestamp = cells.config ? (parseInt(cells.config.ttl) || '') : ''
-    let currentTimestamp = new Date().getTime()
-    
-    let lifespan = expiryTimestamp - creationTimestamp
-    let lifeLeft = expiryTimestamp - currentTimestamp
-    
-    let validity = lifeLeft > 0 ? 'Active' : 'Expired'
-    // let lifeLivedPercent = (validity==='Active' && lifespan && lifespan!==0) ? ((lifeLeft/lifespan)*100) : 0
-
     const cellValues = [
         [cells.slug, ''], 
         [sanitize(cells.url, 35), ''], 
-        [getLocaleTimestring(creationTimestamp), getDateString(creationTimestamp)],
-        [getLocaleTimestring(expiryTimestamp), getDateString(expiryTimestamp)],
-        [validity, ''],
+        [useDateTimeConverter(cells.timestamp).primaryText, useDateTimeConverter(cells.timestamp).secondaryText],
+        [cells.ttl ? formatDate(new Date(cells.ttl)) : '', '']
     ];
 
     const handleDelete = () => {
@@ -132,8 +102,8 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
                     </TableCell>
                 )
             })} </>
-            <TableCell>
-                <SlugViews slug={cells.slug} />
+            <TableCell> 
+                xx views 
             </TableCell>
             <TableCell>
                 <Button 
@@ -155,7 +125,7 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
 }
 
 const LinksTable = ({ links, visible, toggle }) => {
-    // const state = useContext(NewSlugStore.State)
+    const state = useContext(NewSlugStore.State)
 
     const [cursor, setCursor] = useState(0)
     const [pageSize, setPageSize] = useState(7)
@@ -169,12 +139,11 @@ const LinksTable = ({ links, visible, toggle }) => {
         { Header: 'Destination'},
         { Header: 'Created At' },
         { Header: 'Expiry (TTL)' },
-        { Header: 'Validity' },
         { Header: 'Views' },
         { Header: 'Actions' },
     ], []);
 
-    // let linksOnPage = links.slice(cursor, cursor + pageSize)
+    let linksOnPage = links.slice(cursor, cursor + pageSize)
 
     return (
         <TableContainer>
@@ -192,7 +161,7 @@ const LinksTable = ({ links, visible, toggle }) => {
                 </TableHeader>
 
                 <TableBody className="bg-white divide-y divide-gray-200">
-                    {links.map(function(value, idx) {
+                    {linksOnPage.map(function(value, idx) {
                         return  (
                             <LinkEntry 
                                 index={idx} 
@@ -218,10 +187,9 @@ const LinksTable = ({ links, visible, toggle }) => {
 
 
 const LinksTableWrapper = ({ visible, toggle }) => {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sasagar@ucsd.edu'
-
+    // const [session] = useSession()
+    // const email  = session ? session.user.email : ''
+    const email = 'sasagar@ucsd.edu'
     const [numUpdates, setNumUpdates] = useState(0)
     
     const state = useContext(NewSlugStore.State)
@@ -236,14 +204,10 @@ const LinksTableWrapper = ({ visible, toggle }) => {
                 payload: {
                     key: 'links',
                     value: links.sort((a, b) => {
-                        if(JSON.parse(a).timestamp && JSON.parse(b).timestamp) {
-                            return parseInt(JSON.parse(b).timestamp) - parseInt(JSON.parse(a).timestamp)
-                        } else if(JSON.parse(a).timestamp) {
-                            return parseInt(JSON.parse(a).timestamp)
-                        } else if(JSON.parse(b).timestamp) {
-                            return parseInt(JSON.parse(b).timestamp)
-                        } 
-                        return 0; 
+                        if(a.timestamp && b.timestamp) {
+                            return parseInt(b.timestamp) - parseInt(a.timestamp)
+                        }
+                        return (b.timestamp) ? 1 : -1; 
                     }),
                 }
             }); 
@@ -255,11 +219,14 @@ const LinksTableWrapper = ({ visible, toggle }) => {
     if(error) return <p> error! </p>
 
     return (
-        <LinksTable 
-            links={state.links}
-            visible={visible}
-            toggle={toggle}
-        />
+        <> 
+            <p>{numUpdates}</p> 
+            <LinksTable 
+                links={state.links}
+                visible={visible}
+                toggle={toggle}
+            />
+        </>
     )
 }
 
@@ -293,4 +260,4 @@ export default function LinksPage() {
     );
 }
 
-LinksPage.auth = true
+// LinksPage.auth = true

@@ -58,7 +58,6 @@ export const SuccessModal = ({ visible, toggle }) => {
               size="medium" 
               block 
               icon={<IconCheck />}
-              onClick={toggle}
             >
               Confirm
             </Button>

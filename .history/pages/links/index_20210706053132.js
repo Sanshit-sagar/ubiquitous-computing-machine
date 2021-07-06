@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import useSWR from 'swr'
 import axios from 'axios'
-import { useSession } from 'next-auth/client'
 
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
 import { NewSlugStore } from '../../store'
@@ -132,9 +131,9 @@ const LinkEntry = ({ index, cellsInRow, toggle }) => {
                     </TableCell>
                 )
             })} </>
-            <TableCell>
+            {/* <TableCell>
                 <SlugViews slug={cells.slug} />
-            </TableCell>
+            </TableCell> */}
             <TableCell>
                 <Button 
                     type="outline" 
@@ -218,10 +217,9 @@ const LinksTable = ({ links, visible, toggle }) => {
 
 
 const LinksTableWrapper = ({ visible, toggle }) => {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sasagar@ucsd.edu'
-
+    // const [session] = useSession()
+    // const email  = session ? session.user.email : ''
+    const email = 'sasagar@ucsd.edu'
     const [numUpdates, setNumUpdates] = useState(0)
     
     const state = useContext(NewSlugStore.State)
@@ -293,4 +291,4 @@ export default function LinksPage() {
     );
 }
 
-LinksPage.auth = true
+// LinksPage.auth = true

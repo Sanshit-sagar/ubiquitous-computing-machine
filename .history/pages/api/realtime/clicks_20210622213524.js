@@ -5,8 +5,8 @@ export default async function(req, res) {
     try {
         const indicies = getIndicies()
     
-        // const userId = `sasagar@ucsd.edu`
-        // const pageId = `dangerous-cannons-fasten-bhnhg`
+        const userId = `sasagar@ucsd.edu`
+        const pageId = `dangerous-cannons-fasten-bhnhg`
 
         var data = {
             'testField1': 'VALUE1',
