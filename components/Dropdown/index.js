@@ -13,7 +13,7 @@ import { useSession, signOut, signIn } from 'next-auth/client'
 
 import Loader from '../Loader'
 
-const DropdownMenu = () => {
+const DropdownMenu = ({ isModalOpen, setIsModalOpen, openModal, closeModal }) => {
   const router = useRouter()
   const [session, loading] = useSession()
 
@@ -47,10 +47,7 @@ const DropdownMenu = () => {
         </Dropdown.Misc>,
         <Divider light />,
 
-        <Dropdown.Item onClick={() => {
-              router.push('/profile')
-          }}
-        >
+        <Dropdown.Item onClick={() => {setIsModalOpen(!isModalOpen)}}>
           <Typography.Text>
             Dashboard 
           </Typography.Text>
@@ -61,8 +58,7 @@ const DropdownMenu = () => {
             <Divider light />
             <Dropdown.Item 
                 icon={<IconLogOut />} 
-                onClick={() => {signOut()}
-              }
+                onClick={() => signOut()}
             >
               <Typography.Text>
                 Log out
@@ -72,15 +68,19 @@ const DropdownMenu = () => {
         } </>
       ]}
     >
-      <Button type="primary" size="medium" iconRight={<IconChevronDown />}>
-        { 
-           session && session.user ? session.user.name 
-         : loading  ? <Loader /> 
-         : 
-          <span className="text-sm text-gray-700 font-extralight"> 
+      <Button 
+        type="primary" 
+        size="medium" 
+        iconRight={<IconChevronDown />} 
+        onClick={() => {
+            if(!loading && !session.user) {
+              signIn();
+            } 
+        }}
+      >
+          <span className="text-sm text-gray-700 font-extralight">
             Log in 
           </span>
-        }
       </Button>
     </Dropdown>
   )

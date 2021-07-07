@@ -29,7 +29,7 @@ const BarChart = ({ sortedData, title, type }) => {
 
     return (
         <div style = {{ 
-                height: '250px', width: '250px', border: 'thin solid transparent', 
+                height: '425px', width: '350px', border: 'thin solid transparent', 
                 borderRadius: '5px' 
             }}
         >

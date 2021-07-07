@@ -1,12 +1,10 @@
 import {
-  IconAlertCircle,
   Button,
   IconTrash,
   IconCheck,
   Modal,
   Space,
   Typography,
-  IconDatabase,
   IconExternalLink,
   IconActivity,
 } from "@supabase/ui";

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useSession, getSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 import useSWR from 'swr'
 import axios from 'axios'
 
@@ -161,11 +161,3 @@ const LeaderboardsCollection = () => {
 }
 
 export default LeaderboardsCollection
-
-export async function getServerSideProps(context) {
-    return {
-      props: {
-        session: await getSession(context)
-      }
-    }
-}

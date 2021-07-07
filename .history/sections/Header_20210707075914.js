@@ -45,7 +45,12 @@ const Header = ({ handleNavigation, broadcastToast }) => {
                 
                 <div className="relative p-1 flex items-center justify-end w-1/4 ml-5 mr-4 sm:mr-0 sm:right-auto">
                     <DarkMode />
-                    <DropdownMenu />
+                    <DropdownMenu 
+                        isModalOpen={isModalOpen} 
+                        setIsModalOpen={setIsModalOpen}
+                        openModal={openModal} 
+                        closeModal={closeModal}
+                    />
                 </div> 
 
             </div>

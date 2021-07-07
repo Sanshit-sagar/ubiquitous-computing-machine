@@ -9,37 +9,27 @@ const TagsList = ({ handleDeletion }) => {
     const state = useContext(NewSlugStore.State)
 
     return (
-        <div 
-            className="bg-gray-700 dark:bg-gray-300 text-white dark:text-gray-800 mb-5 p-3 border-white dark:border-black rounded-md"
-        >
-            <Card>
-                {!state.seoTags.length 
-                    ?   <Typography.Text> Add tags below to start seeing them here </Typography.Text> 
-                    :  <> <Typography.Title level={4}> SEO/UTM tags </Typography.Title> <br /> </>
-                }
-                <li className="inline-flex justify-start align-start flex-wrap max-w-full">
-                    {state.seoTags.map(function(value, index) {
-                        return (
-                            <ul key={index}>
-                                <Badge 
-                                    color="pink" 
-                                >
-                                    {value}
-                                    <Button 
-                                        onClick={() => {
-                                          handleDeletion(index)
-                                        }}
-                                        style={{ padding: '1px 2px 1px 2px', margin: '3px 2px 2px 5px', backgroundColor: 'green', color: 'white' }}
-                                    > 
-                                        x
-                                    </Button>
-                                </Badge> 
-                            </ul>
-                        )
-                    })}
-                </li> 
-            </Card>
-        </div>
+        <li className="inline-flex justify-start align-start flex-wrap max-w-full">
+            {state.seoTags.map(function(value, index) {
+                return (
+                    <ul key={index}>
+                        <Badge 
+                            color="pink" 
+                        >
+                            {value}
+                            <Button 
+                                onClick={() => {
+                                  handleDeletion(index)
+                                }}
+                                style={{ padding: '1px 2px 1px 2px', margin: '3px 2px 2px 5px', backgroundColor: 'green', color: 'white' }}
+                            > 
+                                x
+                            </Button>
+                        </Badge> 
+                    </ul>
+                )
+            })}
+        </li> 
     )
 }
 
@@ -146,7 +136,7 @@ const TagManager = () => {
           type: 'filter',
           payload: {
               key: 'seoTags',
-              index: index
+              index
           }
       }); 
     }
@@ -160,29 +150,26 @@ const TagManager = () => {
     }
    
     return (
-        <div className="w-full flex-col justify-start align-stretch">
+        <div className="w-full flex-col justify-start align-stretch mr-3 m-1">
+          {/* <p> {JSON.stringify(state.seoTags)} </p> */}
+
           <InputElementCardWrapper
               title="SEO/UTM tags"
               description="Select a field for the type and name of tag, and enter the value you want to assign to it"
               children={
-                <>
-                  <TagsList 
-                    handleDeletion={handleDeletion} 
-                  /> 
-                  <TagCategory
-                    category={category}
-                    handleCategoryChange={handleCategoryChange}
-                  />
-                  <TagKey
-                    category={category}
-                    handleKeyChange={handleKeyChange}
-                  />
-                  <TagValue 
-                    handleAddition={handleAddition} 
-                  />
-
-                </>
-              }
+              <>
+                <TagCategory
+                  category={category}
+                  handleCategoryChange={handleCategoryChange}
+                />
+                <TagKey
+                  category={category}
+                  handleKeyChange={handleKeyChange}
+                />
+                <TagValue 
+                  handleAddition={handleAddition} 
+                />
+             </>}
           />
         </div>
     );

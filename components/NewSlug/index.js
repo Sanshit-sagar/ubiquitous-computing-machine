@@ -1,5 +1,6 @@
 
-import React, { useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
+import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/client';
 
 import toast from 'react-hot-toast';
@@ -10,9 +11,15 @@ import SideMenu from './SideMenu'
 import TagManager from './TagManager'
 import BlacklistInputContent from './BlacklistInputContent'
 import EncryptionInput from './EncryptionInput'
-import { NewSlugStore } from '../../store'
 
-import { Card, IconActivity, IconSave, Input, Button, Radio } from '@supabase/ui'
+import Loader from '../../components/Loader'
+import { NewSlugStore } from '../../store'
+import { Card, IconSave, Input, Button } from '@supabase/ui'
+
+
+// import DisclosurePanels from '../../buildingBlocks/Disclosure'
+// import MyRadioGroup from '../../buildingBlocks/ActiveLink'
+// import MyModal from '../../buildingBlocks/MyModal'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -22,9 +29,9 @@ const UrlSlug = () => {
     return (
         <div className="mt-1">
             {
-                    !data && !error ? <p> loading...</p> 
+                    !data && !error ? <Loader />
                 :   error ? <p> error... </p> 
-                :   <input
+                :   <Input
                         value={data.slug}
                         type="text"
                         name="slug"
@@ -38,32 +45,81 @@ const UrlSlug = () => {
 
 const UrlInput = ({ mutate }) => {
     const state = useContext(NewSlugStore.State)
+    let [isModalOpen, setIsModalOpen] = useState(true)
+
+    function closeModal() {
+        setIsModalOpen(false)
+    }
+  
+    function openModal() {
+        setIsModalOpen(true)
+    }
 
     return (
-        <div  className="flex-col justify-start align-stretch">
-            <div className="mt-1 flex text-gray-600 font-extralight rounded-md shadow-sm">
-                <span className="inline-flex items-center py-2 px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                    https://
-                </span>
-                <Input
-                    value={state.destination}
-                    onChange={(event) => mutate('destination', event.target.value)}
-                    type="url"
-                    name="destination"
-                    id="destination"
-                    actions={[
-                        <Button 
-                            type="dashed" 
-                            icon={<IconActivity />}
-                        >
-                          Open Graph
-                        </Button>
-                    ]}
-                    className="flex-1 block rounded-md border-gray-300"
-                    placeholder="www.example.com"
-                />
-            </div>
-        </div>
+        <Transition appear show={isModalOpen} as={Fragment}>
+            <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto"
+                onClose={closeModal}
+            >
+                <div className="min-h-screen px-4 text-center">
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    >
+                        <Dialog.Overlay className="fixed inset-0" />
+                    </Transition.Child>
+
+                    
+                    <span
+                        className="inline-block h-screen align-middle"
+                        aria-hidden="true"
+                    >
+                        &#8203;
+                    </span>
+
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
+                        <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                            <Dialog.Title
+                                as="h3"
+                                className="text-lg font-medium leading-6 text-gray-900"
+                            >
+                                Payment successful
+                            </Dialog.Title>
+                            <div className="mt-2">
+                                <p className="text-sm text-gray-500">
+                                    Your payment has been successfully submitted. We’ve sent
+                                    your an email with all of the details of your order.
+                                </p>
+                            </div>
+
+                            <div className="mt-4">
+                                <button
+                                    type="button"
+                                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                                    onClick={closeModal}
+                                >
+                                    Got it, thanks!
+                                </button>
+                            </div>
+                        </div>
+                    </Transition.Child>
+                </div>
+            </Dialog>
+        </Transition>
     )
 }
 
@@ -87,7 +143,7 @@ const CustomExpirationSelector = ({ mutate }) => {
             description='When should this link go offline?'
             children={
                
-                <input 
+                <Input 
                     name="ttl" 
                     id="ttl" 
                     value={state.ttl}
@@ -103,48 +159,6 @@ const CustomExpirationSelector = ({ mutate }) => {
         />
     );
 }
-
-const CustomRoutingRulesSelector = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-        
-    return (
-        <InputElementCardWrapper
-            title='Redirection Status Code'
-            description='How should incoming requests be re-directed?'
-            children={
-                
-                <Radio.Group
-                    type="cards"
-                    label="Select the status code which should be used to redirect web traffic for your link"
-                    labelOptional="Optional label-TODO"
-                    descriptionText="Hint-TODO"
-                    value={state.routingStatus}
-                    onChange={(event) => mutate('routingStatus', event.target.value)}
-                >
-                    <>
-                        <p> {state.routingStatus} </p>
-                        <Radio
-                            label="HTTP 301"
-                            description="Moved Permanently [most common]"
-                            value="301"
-                        />
-                        <Radio
-                            label="HTTP 302"
-                            description="Moved Temporarily"
-                            value="302"
-                        />
-                        <Radio
-                            label="HTTP 307"
-                            description="TODO"
-                            value="307"
-                        />
-                    </>
-                </Radio.Group> 
-            }
-        />
-    );
-}
-
 
 
 const DestinationSlugInput = ({ mutate }) => {
@@ -183,7 +197,7 @@ const BlacklistInput = () => {
 }
 
 
-function NewSlugActions() {
+function ActionButtons() {
     const [session, loading] = useSession()
 
     const state = useContext(NewSlugStore.State)
@@ -258,31 +272,23 @@ function NewSlugActions() {
         publish(slug, url, config)
     }
 
-    const PublishButton = () => {
-        return (
-            <div className="text-black mt-6 inline-flex justify-end align-stretch w-full">
-                <Button
-                    type="primary"
-                    size="medium"
-                    iconRight={<IconSave />}
-                    onClick={handleSubmit}
-                    disabled={!session || loading}
-                >
-                    Save
-                </Button>
-            </div> 
-        )
-    }
-
+   
     return (
-        <div className="ml-4 mt-4 flex-shrink-0">
-            <PublishButton /> 
-        </div>
-    )
+        <Button
+            block
+            type="primary"
+            size="medium"
+            iconRight={<IconSave />}
+            onClick={handleSubmit}
+            disabled={!session || loading}
+        >
+            Save
+        </Button>
+    );
 }
 
 
-function NewSlugCard() {
+const NewSlug = ({ email }) => {
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
     
@@ -298,35 +304,26 @@ function NewSlugCard() {
 
     return (
         <Card>
-            <div className="w-full inline-flex justify-start items-stretch">
-                <SideMenu /> 
-                
-                <div className="w-full flex-col justify-start align-stretch">
-                    <div>
-                        {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
-                        {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
-                        {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
-                        {state.currentTab === 'password' && <EncryptionInput />}
-                        {state.currentTab === 'blacklists' && <BlacklistInput />}
-                        { state.currentTab === 'redirects' && <CustomRoutingRulesSelector mutate={assignmentMutation} /> }
-                        {/* rate limiter, A/B testing */}
-                        { state.currentTab === 'seo' && <TagManager />}
-                    </div>
-                    <NewSlugActions />
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <> 
+                    <SideMenu /> 
+                </>
+            
+                <>
+                    {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
+                    {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
+                    {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
+                    {state.currentTab === 'password' && <EncryptionInput />}
+                    {state.currentTab === 'blacklists' && <BlacklistInput />}
+                    {/* {state.currentTab === 'redirects' && <DisclosurePanels mutate={assignmentMutation} /> } */}
+                    {/* rate limiter, A/B testing */}
+                    {state.currentTab === 'seo' && <TagManager />}
+                </> 
             </div>
 
-           
+            <ActionButtons />
         </Card>
     )
 }
-
-function NewSlug() {
-    return (
-        <div className="w-full h-full mb-4">
-            <NewSlugCard /> 
-        </div>
-    )
-  }
 
 export default NewSlug  

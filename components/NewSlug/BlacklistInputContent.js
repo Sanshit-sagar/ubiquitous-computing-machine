@@ -105,10 +105,10 @@ const BlaclistInputContent = () => {
 
     return (
         <>
-            <BlacklistedIpList 
+            {/* <BlacklistedIpList 
                 blacklist={state.blacklist} 
                 handleBlacklistDeletion={handleBlacklistDeletion} 
-            /> 
+            />  */}
             <IpAddressInput 
                 handleBlacklistAddition={handleBlacklistAddition} 
             />

@@ -14,8 +14,6 @@ import Loader from '../Loader'
 
 import useSWR from 'swr'
 import axios from 'axios'
-import { useSession } from 'next-auth/client'
-
 import {generateSortedList} from '../../lib/statistics'
 const fetcher = url => axios.get(url).then(res => res.data);
 
@@ -38,10 +36,10 @@ const aggregateStats = (data) => {
     let count = 0; 
 
     data.forEach(click => {
-        const ip = click.ipAddress
-        const country = click.country
-        const userAgent = click.userAgent
-        const host = click.host
+        const ip = click.visitor.ip
+        const country = click.geodata.country
+        const userAgent = click.visitor.system
+        const host = click.visitor.host
         const tlsVersion = click.tlsVersion
         const httpProtocol = click.httpProtocol
 
@@ -83,16 +81,6 @@ const aggregateStats = (data) => {
     }
 }
 
-
-function useClickstreamLeaderboards(email)  {
-    const { data, error } = useSWR(email && email?.length ? [`/api/stream/statistics`, email] : null, fetcher)
-
-    return {
-        data: data ? data.headers : {},
-        loading: !data && !error,
-        error
-    };
-}
 
 
 const DataTable = ({ data, title }) => {
@@ -156,7 +144,7 @@ let leaderboards = [
     { id: 'topHosts',  title: 'Hosts', type: 'bar' }, 
 ]
 
-const LeaderboardTableItem = ({ data, title, type }) => {
+const LeaderboardTableItem = ({ email, data, title, type }) => {
     if(!data) return null
 
     const [displayType, setDisplayType] = useState('table')
@@ -204,20 +192,36 @@ const LeaderboardTableItem = ({ data, title, type }) => {
 // data: aggregatedStats.ips.slice(0, 5), data: aggregatedStats.httpProtocols.slice(0,5),data: aggregatedStats.userAgents.slice(0, 5),
 // let aggregatedStats = aggregateStats(data)
 
-const LeaderboardTable = () => {
-    const [session, sessionLoading] = useSession(); 
-    let email = session && session?.user ? session.user.email : ''
-    
-    const {data, loading, error} = useClickstreamLeaderboards(email) 
 
-    if(loading || sessionLoading) return <Loader />
-    if(error) return <p> {`error: ${error.message}`} </p>
+function useClickstreamStatistics(email)  {
+    const { data, error } = useSWR(email && email.length ? `/api/stream/statistics/${email}` : null, fetcher)
+
+    return {
+        data: data ? data.headers : null,
+        loading: !data && !error,
+        error
+    };
+}
+
+const LeaderboardTable = ({ email }) => {
+    
+    const {data, loading, error} = useClickstreamStatistics(email) 
+
+    if(loading) return <Loader />
+    if(error) return <p> {error.message} </p>
 
     return (
         <div className="flex justify-start align-stretch m-1 p-2 rounded-md shadow">
-            <LeaderboardTableItem data={data} />
+            {/* <LeaderboardTableItem
+                email={email}
+                data={data}
+                title='IP Addresses'
+                type='bar'
+            /> */}
+            <p> {JSON.stringify(data)} </p>
         </div>
-    )
+    );
 }
 
 export default LeaderboardTable
+

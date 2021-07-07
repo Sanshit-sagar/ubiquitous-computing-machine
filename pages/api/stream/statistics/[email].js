@@ -1,6 +1,4 @@
-
-import redis from '../../../lib/redis'
-
+import redis from '../../../../lib/redis'
 
 function sortClickstream(rawClickstream) {
     return rawClickstream.sort((a, b) => {
@@ -19,14 +17,18 @@ function sortClickstream(rawClickstream) {
 }
 
 export default async function handler(req, res) {
-    var timeseries = [];
-    var count = 0;
-    var skipped = 0; 
-    var freqs = {}
-    let baseline = 0
+    const { email } = req.query
 
     try {
-        const rawClickstream = await redis.lrange(`clickstream.global`, 0, -1);
+        var timeseries = [];
+        var headers = [];
+        var freqs = {}; 
+
+        var count = 0;
+        var skipped = 0; 
+        var baseline = 0; 
+        
+        const rawClickstream = await redis.lrange(`clickstream.user.${email}`, 0, -1);
         const clickstream = sortClickstream(rawClickstream)
 
         var max = Number.MIN_SAFE_INTEGER
@@ -40,7 +42,7 @@ export default async function handler(req, res) {
             if(baseline===-1) {
                 baseline = details.timestamp
             }
-
+            
             if(details.timestamp || details.misc && details.misc?.finalTimestamp) {
                 let timestamp = (details.timestamp) ? parseInt(details.timestamp) : parseInt(details.misc.finalTimestamp);
                 let date = new Date(timestamp)
@@ -58,20 +60,26 @@ export default async function handler(req, res) {
                 }
 
                 timeseries.push({
-                    x: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+                    x: details.timestamp || details.misc?.finalTimestamp,
                     y: count,
                 }); 
+                headers.push(details)
             } else {
                 skipped++; 
             }
             count++;
         }); 
+
+        console.log(JSON.stringify(freqs));
+
+        console.log("*******")
+
+        console.log(JSON.stringify(timeseries))
         
         let average = count===1 ? timeseries[0].x : count===0 ? 0 : -1 * (timeseries[count -skipped - 1].x - timeseries[0].x)/(count - skipped)
-        res.status(200).json({ timeseries, skipped, count, freqs, average, max, maxIndex, earliestEvent, latestEvent })
+        res.status(200).json({ timeseries, headers, freqs, skipped, count, average, max, maxIndex, earliestEvent, latestEvent })
     } catch (error) {
-        console.log(error.message)
         console.log(`Iteration ended at counter: ${count}`)
         res.status(500).json({ error: "unable to fetch data" })
-    }
+    }         
 }

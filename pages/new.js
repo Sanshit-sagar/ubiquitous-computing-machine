@@ -2,25 +2,25 @@ import React from 'react'
 import { useSession } from 'next-auth/client'
 
 import StackedLayout from '../sections/StackedLayout'
-import InputForm from '../components/NewSlug'
+import NewSlug from '../components/NewSlug'
 
-
-export default function NewLinkPage() {
-  const [session, loading] = useSession()
+const NewLinkPage = () => {
+  // const [session] = useSession()
+  const email = 'sasagar@ucsd.edu'
 
   return (
-    
       <StackedLayout 
           pageMeta={{ 
             title: 'Create a new Slug',
             href: '/new' 
           }} 
           children={
-            <InputForm />
+            <NewSlug email={email} />
           }
       />
-   
   );
 };
 
 NewLinkPage.auth = false; 
+
+export default NewLinkPage 

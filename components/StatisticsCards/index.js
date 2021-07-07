@@ -12,9 +12,6 @@ import {
 import Loader from '../Loader'
 import Statistic from '../StatisticalGraphic/index'
 
-import { Typography, Card } from '@supabase/ui'
-import { TableContainer, TableHeader, TableBody, TableRow, TableCell, Table } from '@windmill/react-ui'
-
 const useUserSummarizedData = (uid) => {
     const {data, error} =  useSWR(uid.length ? `/api/slugs/user-views/${uid}` : null, fetcher)
 
@@ -71,86 +68,36 @@ function StatisticsCardsBase({ stats, loading, error }) {
         unit: 0,
         delta: '50%',
         fallback: <p> --/-- </p>
-    },
-];
+    }];
 
     return (
-        <div className="contaner mx-auto p-2 m-2 rounded-md inline-flex justify-start align-stretch space-x-2">
+        <div className="container mx-auto p-2 m-2 rounded-md inline-flex justify-start align-stretch space-x-2">
             {Object.entries(availableStats).map(function(stat, i) {
                 return (
-                    <span 
-                        key={i} 
-                        className="rounded-md shadow-lg"
-                    >
+                    <div key={i}>
                         <Statistic 
                             stat={stat[1]} 
                             unitsList={unitsList} 
                             loading={loading} 
                         />
-                    </span>
+                    </div>
                 );
             })}
         </div>
     );  
 }
 
-const DataTable = ({ title, variable, data }) => {
-
-    return (
-        <Card title={
-                <Typography.Title level={4}>
-                    {title}
-                </Typography.Title>
-            }
-        >
-            <TableContainer>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableCell> {variable} </TableCell>
-                            <TableCell> Frequency </TableCell>
-                        </TableRow>
-                    </TableHeader>
-
-                    <TableBody>
-                        {data.map(function(value, index) {
-                            return (
-                                <TableRow key={index}>
-                                    <TableCell> 
-                                        {JSON.stringify(value)}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Card>
-    )
-}
 
 function StatisticsCards({ email }) {
     const uid = email
     const { stats, links, clicks, loading, error } = useUserSummarizedData(uid)
 
     return (
-        <div className="container mx-auto">
-            <StatisticsCardsBase 
-                stats={stats} 
-                loading={loading} 
-                error={error} 
-            />
-            <DataTable 
-                title="Most Visited Links" 
-                variable="Destination URL" 
-                data={links} 
-            /> 
-            <DataTable 
-                title="Most Frequent Visitors" 
-                variable="IP Address" 
-                data={clicks}
-            /> 
-        </div>
+        <StatisticsCardsBase 
+            stats={stats} 
+            loading={loading} 
+            error={error} 
+        />
     );
 }
 

@@ -28,10 +28,7 @@ const PieChart = ({ sortedData, title }) => {
     }); 
 
     return (
-      <div style={{ height: '250px', width: '350px', display: 'flex', flexDirection: 'row',
-                    alignItems: 'stretch', backgroundColor:'white', borderRadius: '5px',  justifyContent: 'start', 
-                  }}
-      >
+      <div style = {{ height: '425px', width: '350px', border: 'thin solid transparent', borderRadius: '5px' }}>
         <ResponsivePie
             data={data}
             margin={{ top: 10, right: 80, bottom: 80, left: 70 }}

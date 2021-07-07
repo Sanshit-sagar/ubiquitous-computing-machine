@@ -39,29 +39,27 @@ function NewSlugNavMenu() {
     ]
 
     return (
-        <div className="w-100">
-            <Menu className='w-full h-full m-0 pr-7'>
-                <Menu.Group title="Actions" />
+        <Menu className='w-full h-full mr-2 bg-gray-200 dark:bg-gray-600 rounded-md shadow-lg'>
+            <Menu.Group title="Actions" />
 
-                <> {items.map(function(item, index) {
-                    return (
-                        <div key={index}>
-                            <Menu.Item 
-                                icon={item.icon} 
-                                showActiveBar 
-                                active={state.currentTab===item.id}
-                                onClick={(event) => {
-                                        handleTabChange(event, item.id)
-                                    }
+            <> {items.map(function(item, index) {
+                return (
+                    <div key={index}>
+                        <Menu.Item 
+                            icon={item.icon} 
+                            showActiveBar 
+                            active={state.currentTab===item.id}
+                            onClick={(event) => {
+                                    handleTabChange(event, item.id)
                                 }
-                            >
-                                {item.title} 
-                            </Menu.Item> 
-                        </div>
-                    )
-                })} </>
-            </Menu>    
-        </div>   
+                            }
+                        >
+                            {item.title} 
+                        </Menu.Item> 
+                    </div>
+                )
+            })} </>
+        </Menu>    
     );
   }
   
