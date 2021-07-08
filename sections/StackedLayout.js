@@ -5,6 +5,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import { GlobalStore } from '../store'
 import Sidebar from './Sidebar'
 import Header from './Header'
+import SharedModal from './SharedModal'
 
 function StackedLayout({ children, pageMeta }) {
     const router = useRouter()
@@ -50,7 +51,7 @@ function StackedLayout({ children, pageMeta }) {
                 /> 
 
                 <div className="w-full h-full flex-col justify-start items-stretch order-last">
-                  
+                    <SharedModal /> 
 
                     <Header 
                         handleNavigation={renavigate}

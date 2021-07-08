@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 import {
   Dropdown,
   Button,
@@ -8,14 +8,16 @@ import {
   IconChevronDown,
 } from '@supabase/ui'
 
-import { UserCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
-import { useSession, signOut, signIn } from 'next-auth/client'
+import { NewSlugStore } from '../../store'
 
+import { UserCircleIcon, ExclamationCircleIcon, LoginIcon } from '@heroicons/react/solid'
+import { useSession, signOut, signIn } from 'next-auth/client'
 import Loader from '../Loader'
 
-const DropdownMenu = ({ isModalOpen, setIsModalOpen, openModal, closeModal }) => {
-  const router = useRouter()
+const DropdownMenu = () => {
   const [session, loading] = useSession()
+
+  const dispatch = useContext(NewSlugStore.Dispatch)
 
   return (
     <Dropdown
@@ -47,9 +49,21 @@ const DropdownMenu = ({ isModalOpen, setIsModalOpen, openModal, closeModal }) =>
         </Dropdown.Misc>,
         <Divider light />,
 
-        <Dropdown.Item onClick={() => {setIsModalOpen(!isModalOpen)}}>
+        <Dropdown.Item onClick={() => {
+            dispatch({
+              type: 'openModal',
+              payload: {
+                title: 'Profile',
+                description: 'View your profile',
+                content:<p> yoyoyo </p>,
+                status: 'info',
+                tenant: 'dropdownMenu'
+              }
+            });  
+          }
+        }>
           <Typography.Text>
-            Dashboard 
+            Profile 
           </Typography.Text>
         </Dropdown.Item>,
         
@@ -69,17 +83,22 @@ const DropdownMenu = ({ isModalOpen, setIsModalOpen, openModal, closeModal }) =>
       ]}
     >
       <Button 
-        type="primary" 
+        type="outline" 
         size="medium" 
-        iconRight={<IconChevronDown />} 
+        iconRight={
+            session && session.user 
+          ? <IconChevronDown className="h-4 w-4 text-gray-700 font-extralight" /> 
+          : <LoginIcon className="h-4 w-4 text-gray-700 font-extralight" />
+        }
         onClick={() => {
-            if(!loading && !session.user) {
-              signIn();
-            } 
-        }}
+          if(!loading && !session || !session?.user) {
+            // show modal to signin or smth
+          } 
+        }} 
+        style={{ marginLeft: '5px' }}
       >
           <span className="text-sm text-gray-700 font-extralight">
-            Log in 
+            Login 
           </span>
       </Button>
     </Dropdown>

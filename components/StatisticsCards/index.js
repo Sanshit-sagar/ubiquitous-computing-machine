@@ -26,7 +26,7 @@ const useUserSummarizedData = (uid) => {
 
 function StatisticsCardsBase({ stats, loading, error }) {
 
-    const custom_icon_class = "w-6 h-6 text-indigo-700 dark:text-white"
+    const custom_icon_class = "w-5 h-5 text-gray-800 dark:text-white bg-white dark:bg-gray-800 mx-2 my-1"
     let unitsList = [
         { value: 1, title: '1 day', str: 'day', secs: 24*60*60 },
         { value: 7, title: '7 days', str: 'week', secs: 7*24*60*60 },
@@ -71,7 +71,7 @@ function StatisticsCardsBase({ stats, loading, error }) {
     }];
 
     return (
-        <div className="container mx-auto p-2 m-2 rounded-md inline-flex justify-start align-stretch space-x-2">
+        <div className="container mx-auto ml-3 mt-1 pr-2 rounded-sm shadow-lg flex-col justify-start align-stretch space-y-2 border-black border-1 dark:border-white">
             {Object.entries(availableStats).map(function(stat, i) {
                 return (
                     <div key={i}>

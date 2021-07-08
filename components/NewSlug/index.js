@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { useSession } from 'next-auth/client';
 
@@ -14,112 +14,122 @@ import EncryptionInput from './EncryptionInput'
 
 import Loader from '../../components/Loader'
 import { NewSlugStore } from '../../store'
-import { Card, IconSave, Input, Button } from '@supabase/ui'
+import { Card, IconSave, Input, Button, IconLink, IconActivity, IconExternalLink, IconRefreshCw, IconCalendar } from '@supabase/ui'
 
-
-// import DisclosurePanels from '../../buildingBlocks/Disclosure'
-// import MyRadioGroup from '../../buildingBlocks/ActiveLink'
-// import MyModal from '../../buildingBlocks/MyModal'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-const UrlSlug = () => {
+var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
+
+const UrlInput = () => {
+    const [urlValue, setUrlValue] = useState('')
+    const [isValidUrl, setIsValidUrl] = useState(false)
+
+    useEffect(() => {
+        setIsValidUrl(urlValidator.test(urlValue));
+    }, [isValidUrl, urlValue, urlValidator]);
+
+    const handleUrlUpdate = (event) => {
+        setUrlValue(event.target.value)
+    }
+
+    return (
+        <Input 
+            label="Destination URL"
+            type="url"
+            value={urlValue}
+            onChange={handleUrlUpdate}
+            error={urlValue.length >= 4 && urlValidationError ? 'Invalid URL' : null}
+            icon={<IconLink />}
+            descriptionText="Enter a valid destination URL" 
+            labelOptional="HTTP/HTTPS protocol only"
+            actions={[
+                <Button 
+                    size="small"
+                    type="dashed" 
+                    icon={<IconExternalLink />} 
+                    disabled={!isValidUrl}
+                    onClick={() => {
+                        if(isValidUrl) {
+                            router.push(`${urlValue}`)
+                        }
+                    }}
+                />
+            ]}
+        />
+    );
+}
+
+const UrlSlug = async () => {
+    // const [url, setUrl] = useState(`/api/slugs/refresh?category=${category}`);
+
+    const [category, setCategory] = useState('')
+    const [slug, setSlug] = useState('')
+    const [createdAt, setCreatedAt] = useState('')
+    const [isError, setIsError] = useState('')
+    const [isStale, setIsStale] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleRefresh = () => {
+        setIsStale(true); 
+    }
+
+    useEffect(() => {
+        const currentTimestamp = new Date().getTime();
+
+        if((currentTimestamp - parseInt(createdAt)) > 60) {
+            setIsStale(true);
+        }
+        const fetchData = async () => {
+            setIsError(false);
+            setIsLoading(true);
+            setIsStale(false); 
+
+            await axios(`/api/slugs/refresh?category=${category}`)
+            .then((resp) => {
+                console.log(`Response******${JSON.stringify(resp)}`)
+                setSlug('newslughere');
+                setCreatedAt(new Date().getTime().toString());
+            }).catch((err) => {
+                console.log(`Error: ${err.message}`);
+                setIsError(true)
+            });
+            setIsLoading(false);
+        };
+        fetchData(); 
+    }, [category, isStale, slug]); 
+
     const { data, error } = useSWR('/api/slugs/new', fetcher)
 
     return (
         <div className="mt-1">
             {
-                    !data && !error ? <Loader />
-                :   error ? <p> error... </p> 
-                :   <Input
-                        value={data.slug}
-                        type="text"
-                        name="slug"
-                        id="slug"
-                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    />
+                !data && !error 
+            ?   <Loader />
+            :   <Input
+                    label="Custom Slug"
+                    value={JSON.stringify(data.slug)}
+                    type="text"
+                    name="slug"
+                    error={error ? 'ERRORRR' : null}
+                    id="slug"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    descriptionText="Choose a category from ones available in the upper right hand corner" 
+                    labelOptional="Required"
+                    actions={[
+                        <Button 
+                            type="dashed" 
+                            icon={<IconRefreshCw />} 
+                            disabled={!isStale}
+                            loading={isLoading}
+                            onClick={handleRefresh}
+                        >
+                            OpenGraph
+                        </Button>,
+                    ]}
+                />
             }
         </div>
-    )
-}
-
-const UrlInput = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-    let [isModalOpen, setIsModalOpen] = useState(true)
-
-    function closeModal() {
-        setIsModalOpen(false)
-    }
-  
-    function openModal() {
-        setIsModalOpen(true)
-    }
-
-    return (
-        <Transition appear show={isModalOpen} as={Fragment}>
-            <Dialog
-                as="div"
-                className="fixed inset-0 z-10 overflow-y-auto"
-                onClose={closeModal}
-            >
-                <div className="min-h-screen px-4 text-center">
-                    <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                    >
-                        <Dialog.Overlay className="fixed inset-0" />
-                    </Transition.Child>
-
-                    
-                    <span
-                        className="inline-block h-screen align-middle"
-                        aria-hidden="true"
-                    >
-                        &#8203;
-                    </span>
-
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                    >
-                        <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                            <Dialog.Title
-                                as="h3"
-                                className="text-lg font-medium leading-6 text-gray-900"
-                            >
-                                Payment successful
-                            </Dialog.Title>
-                            <div className="mt-2">
-                                <p className="text-sm text-gray-500">
-                                    Your payment has been successfully submitted. We’ve sent
-                                    your an email with all of the details of your order.
-                                </p>
-                            </div>
-
-                            <div className="mt-4">
-                                <button
-                                    type="button"
-                                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                                    onClick={closeModal}
-                                >
-                                    Got it, thanks!
-                                </button>
-                            </div>
-                        </div>
-                    </Transition.Child>
-                </div>
-            </Dialog>
-        </Transition>
     )
 }
 
@@ -128,6 +138,7 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
             <Card>
+                <Card.Meta title={title} description={description} /> 
                 {children}
             </Card>
         </div>
@@ -154,6 +165,7 @@ const CustomExpirationSelector = ({ mutate }) => {
                     className="mt-2 mb-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="MM/DD/YYYY"
                     aria-describedby="expiry-optional"
+                    icon={<IconCalendar className="h-5 w-5" />}
                 />
             }
         />
@@ -313,10 +325,8 @@ const NewSlug = ({ email }) => {
                     {state.currentTab === 'destination' && <DestinationUrlInput mutate={assignmentMutation} />}
                     {state.currentTab === 'slug' && <DestinationSlugInput mutate={assignmentMutation} />}
                     {state.currentTab === 'ttl' && <CustomExpirationSelector mutate={assignmentMutation} />}
-                    {state.currentTab === 'password' && <EncryptionInput />}
+                    {state.currentTab === 'password' && <EncryptionInput mutate={assignmentMutation} />}
                     {state.currentTab === 'blacklists' && <BlacklistInput />}
-                    {/* {state.currentTab === 'redirects' && <DisclosurePanels mutate={assignmentMutation} /> } */}
-                    {/* rate limiter, A/B testing */}
                     {state.currentTab === 'seo' && <TagManager />}
                 </> 
             </div>

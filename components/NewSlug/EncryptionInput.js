@@ -26,9 +26,10 @@ const EncryptionInput = () => {
                 description="Enter a secure password that visitors must enter to gain access"
                 children={
                     <Input 
-                        label="Password" 
+                        label="Encryption Key" 
                         value={state.password}
                         onChange={handlePasswordChange}
+                        optionalLabel="Optional"
                     />
                 }
             />
