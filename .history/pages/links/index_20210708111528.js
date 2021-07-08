@@ -280,7 +280,7 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
 export default function LinksPage({ meta }) {
     // const [session] = useSession()
     // const email  = session.user.email
-    const email = 'sasagar@ucsd.edu'
+    // const email = 'sasagar@ucsd.edu'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -301,13 +301,11 @@ export default function LinksPage({ meta }) {
             pageMeta={meta} 
             children={
                 <div className="mt-2">
-                    <DangerModal
-                        email={email}  
+                    <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
                     <InfoModal
-                        email={email} 
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
                         data={infoModalDetails}

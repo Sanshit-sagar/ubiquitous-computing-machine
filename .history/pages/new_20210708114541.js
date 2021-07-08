@@ -84,9 +84,9 @@ const NewLinkCard = () => {
 }
 
 const NewLinkPage = () => {
-  // const [session] = useSession()
-  // const email = session && session?.user ? session.user.email : ''
-  const email = 'sasagar@ucsd.edu'
+  const [session] = useSession()
+  const email = session && session?.user ? session.user.email : ''
+  // const email = 'sasagar@ucsd.edu'
 
   return (
       <StackedLayout 

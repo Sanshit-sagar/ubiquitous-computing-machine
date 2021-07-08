@@ -19,12 +19,19 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+
 function MyApp({ Component, pageProps }) {
   
   return (
     <SWRConfig 
       value={{
-        refreshInterval: 6000,
+        refreshInterval: 8000,
+        onError: (error, key) => {
+          if (error.status !== 403 && error.status !== 404) {
+            // We can send the error to Sentry,
+            // or show a notification UI.
+          }
+        },
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >

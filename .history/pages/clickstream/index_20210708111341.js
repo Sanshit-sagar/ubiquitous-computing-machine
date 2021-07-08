@@ -387,11 +387,11 @@ const ClickstreamTable = ({ email }) => {
 }
 
 export default function Clickstream() {
-    // const [session] = useSession()
-    // const email  = session.user.email 
-    const email = 'sasagar@ucsd.edu'
+    const [session] = useSession()
+    const email  = session.user.email 
+    // const email = 'sasagar@ucsd.edu'
 
-    const meta = {
+    const dashboardMetadata = {
         'title': 'Dashboard',
         'description': 'Realtime stats such as: Number of views, unique visitors, most viewed pages and live clickstreams',
     }; 
@@ -399,7 +399,7 @@ export default function Clickstream() {
     return (
         <>  
             <StackedLayout 
-                pageMeta={meta} 
+                pageMeta={dashboardMetadata} 
                 children={
                     <ClickstreamTable email={email} />
                 }    

@@ -183,7 +183,11 @@ const LinkEntry = ({ email, index, cellsInRow, toggle, toggleInfoModal }) => {
 }
 
 const LinksTable = ({ email, links, visible, toggle, toggleInfoModal }) => {
-  
+    // const state = useContext(NewSlugStore.State)
+
+    const [cursor, setCursor] = useState(0)
+    const [pageSize, setPageSize] = useState(7)
+
     const columns = React.useMemo(() => [
         { Header: 'URLs' },
         { Header: 'Created At' },
@@ -278,9 +282,9 @@ const LinksTableWrapper = ({ email, visible, toggle, toggleInfoModal }) => {
 }
 
 export default function LinksPage({ meta }) {
-    // const [session] = useSession()
-    // const email  = session.user.email
-    const email = 'sasagar@ucsd.edu'
+    const [session] = useSession()
+    const email  = session.user.email
+    // const email = 'sasagar@ucsd.edu'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -301,13 +305,11 @@ export default function LinksPage({ meta }) {
             pageMeta={meta} 
             children={
                 <div className="mt-2">
-                    <DangerModal
-                        email={email}  
+                    <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
                     <InfoModal
-                        email={email} 
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
                         data={infoModalDetails}

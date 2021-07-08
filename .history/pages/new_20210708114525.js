@@ -12,7 +12,7 @@ const NewLinkCard = () => {
     <div className="bg-white pt-6 shadow sm:rounded-md sm:overflow-hidden">
       <div className="px-4 sm:px-6">
         <h2 id="billing-history-heading" className="text-lg leading-6 font-medium text-gray-900">
-          Create New URL Slug
+          Generate URL Slug
         </h2>
       </div>
       <div className="mt-6 flex flex-col">
@@ -84,9 +84,9 @@ const NewLinkCard = () => {
 }
 
 const NewLinkPage = () => {
-  // const [session] = useSession()
-  // const email = session && session?.user ? session.user.email : ''
-  const email = 'sasagar@ucsd.edu'
+  const [session] = useSession()
+  const email = session && session?.user ? session.user.email : ''
+  // const email = 'sasagar@ucsd.edu'
 
   return (
       <StackedLayout 

@@ -60,10 +60,12 @@ import StackedLayout from '../sections/StackedLayout'
 // }
 
 export function useHourlyClickstream(email) {
-    const { data, error } = useSWR(`/api/stream/clickstream/hourly?email=${email}`)
+    const { data, error } = useSWR('/api/stream/clickstream/hourly?email=${email}')
 
     if(error) {
-        return <p> `{`Error: ${error.message}`}` </p>
+        return (
+            <p> `{`Error: ${error.message}`}` </p>
+        );
     }
 
     return {

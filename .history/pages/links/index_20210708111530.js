@@ -301,13 +301,11 @@ export default function LinksPage({ meta }) {
             pageMeta={meta} 
             children={
                 <div className="mt-2">
-                    <DangerModal
-                        email={email}  
+                    <DangerModal 
                         visible={modalVisible} 
                         toggle={toggleModal} 
                     /> 
                     <InfoModal
-                        email={email} 
                         visible={infoModalVisible}
                         toggle={toggleInfoModal}
                         data={infoModalDetails}

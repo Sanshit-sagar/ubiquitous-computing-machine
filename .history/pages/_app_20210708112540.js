@@ -8,8 +8,7 @@ import Router from 'next/router';
 import { Store } from '../store';
 import { ThemeProvider } from 'next-themes'
 import { Provider } from 'next-auth/client'
-import { SWRConfig } from 'swr'
-import toast from 'react-hot-toast'
+import useSWR, { SWRConfig } from 'swr'
 
 import AuthListener from '../components/Auth/AuthListener'
 
@@ -19,12 +18,13 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+
 function MyApp({ Component, pageProps }) {
   
   return (
     <SWRConfig 
       value={{
-        refreshInterval: 6000,
+        refreshInterval: 8000,
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >

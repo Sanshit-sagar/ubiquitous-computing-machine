@@ -12,7 +12,7 @@ const NewLinkCard = () => {
     <div className="bg-white pt-6 shadow sm:rounded-md sm:overflow-hidden">
       <div className="px-4 sm:px-6">
         <h2 id="billing-history-heading" className="text-lg leading-6 font-medium text-gray-900">
-          Create New URL Slug
+          Billing history
         </h2>
       </div>
       <div className="mt-6 flex flex-col">
@@ -49,21 +49,16 @@ const NewLinkCard = () => {
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="bg-white divide-y divide-gray-200">
                   {payments.map((payment) => (
-                    
                     <tr key={payment.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         <time dateTime={payment.datetime}>{payment.date}</time>
                       </td>
-
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {payment.description}
                       </td>
-
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{payment.amount}</td>
-                      
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a href={payment.href} className="text-orange-600 hover:text-orange-900">
                           View receipt
@@ -84,9 +79,9 @@ const NewLinkCard = () => {
 }
 
 const NewLinkPage = () => {
-  // const [session] = useSession()
-  // const email = session && session?.user ? session.user.email : ''
-  const email = 'sasagar@ucsd.edu'
+  const [session] = useSession()
+  const email = session && session?.user ? session.user.email : ''
+  // const email = 'sasagar@ucsd.edu'
 
   return (
       <StackedLayout 
