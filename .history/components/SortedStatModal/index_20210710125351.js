@@ -298,8 +298,8 @@ const SortedStatModal = () => {
         }, 1000)
     }, [])
 
-    if(loading || isLoading) return <Loader />
-    if(!session && !loading || error) return <p> {`Error: ${error.message}`} </p>
+    if(isLoading) return <Loader />
+    if(isError) return <p> {`Error: ${error.message}`} </p>
     
     return (
         <div className="inline-block align-middle min-w-full">
