@@ -7,27 +7,13 @@ import Loader from '../Loader'
 const ProfileDetails = () => {
   const [session, loading] = useSession()
 
-  if(!session && !loading) {
-    return (
-      <button 
-        disabled={loading}
-        onClick={() => {
-          router.push('/api/auth/signin')
-        }}
-        className="px-3 py-1 bg-black text-white dark:bg-white dark:text-black hover:bg-green hover:text-white rounded-md shadow-md m-3 text-md font-bold"
-      >
-        { loading ? <Loader /> : <p> signin </p> }
-      </button>
-    )
-  }
+  if(!session && !loading) return <p> error! </p>;
 
   return (
     <Card>
-    <div className="mt-5 divide-y divide-gray-200">
+    <div className="mt-10 divide-y divide-gray-200">
       <div className="space-y-1">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Profile
-        </h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900">Profile</h3>
        
       </div>
       <div className="mt-6">

@@ -23,11 +23,9 @@ const ProfileDetails = () => {
 
   return (
     <Card>
-    <div className="mt-5 divide-y divide-gray-200">
+    <div className="mt-10 divide-y divide-gray-200">
       <div className="space-y-1">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">
-          Profile
-        </h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900">Profile</h3>
        
       </div>
       <div className="mt-6">
