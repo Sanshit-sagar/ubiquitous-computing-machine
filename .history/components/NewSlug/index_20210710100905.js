@@ -182,7 +182,7 @@ const UrlSlug = () => {
     return (
         <div className="mt-1">
             {
-                    !data && !error ? <Loader /> 
+                    !data && !error ? <p> loading...</p> 
                 :   error ? <p> error... </p> 
                 :   <Input
                         value={data.slug}

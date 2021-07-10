@@ -106,19 +106,6 @@ function NewSlugNavMenu() {
     );
 }
 
-export const InputElementCardWrapper = ({ title, description, children }) => {
-
-    return (
-        <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card>
-                <Card.Meta title={title} description={description} /> 
-                {children}
-            </Card>
-        </div>
-    )
-}
-
-
 var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
 
 const UrlInput = () => {
@@ -127,7 +114,7 @@ const UrlInput = () => {
 
     useEffect(() => {
         setIsValidUrl(urlValidator.test(urlValue));
-    }, [urlValue, urlValidator]);
+    }, [isValidUrl, urlValue, urlValidator]);
 
     const handleUrlUpdate = (event) => {
         setUrlValue(event.target.value)
@@ -139,13 +126,26 @@ const UrlInput = () => {
             type="url"
             value={urlValue}
             onChange={handleUrlUpdate}
-            error={isValidUrl ? "invalid url" : ""}
+            error={urlValue.length >= 4 && urlValidationError ? 'Invalid URL' : null}
             icon={<IconLink className="h-6 w-6 text-black" />}
             descriptionText="Enter a valid destination URL" 
-            labelOptional="HTTP/HTTPS only"
+            labelOptional="HTTP/HTTPS protocol only"
             className="mt-6"
         />
     );
+}
+
+
+export const InputElementCardWrapper = ({ title, description, children }) => {
+
+    return (
+        <div className="w-full align-col justify-start align-stretch m-2 p-1">
+            <Card>
+                <Card.Meta title={title} description={description} /> 
+                {children}
+            </Card>
+        </div>
+    )
 }
 
 export const CustomExpirationSelector = ({ mutate }) => {
@@ -176,24 +176,79 @@ export const CustomExpirationSelector = ({ mutate }) => {
 }
 
 
-const UrlSlug = () => {
+const UrlSlug = async () => {
+    // const [url, setUrl] = useState(`/api/slugs/refresh?category=${category}`);
+
+    const [category, setCategory] = useState('')
+    const [slug, setSlug] = useState('')
+    const [createdAt, setCreatedAt] = useState('')
+    const [isError, setIsError] = useState('')
+    const [isStale, setIsStale] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleRefresh = () => {
+        setIsStale(true); 
+    }
+
+    useEffect(() => {
+        const currentTimestamp = new Date().getTime();
+
+        if((currentTimestamp - parseInt(createdAt)) > 60) {
+            setIsStale(true);
+        }
+        const fetchData = async () => {
+            setIsError(false);
+            setIsLoading(true);
+            setIsStale(false); 
+
+            await axios(`/api/slugs/refresh?category=${category}`)
+            .then((resp) => {
+                console.log(`Response******${JSON.stringify(resp)}`)
+                setSlug('newslughere');
+                setCreatedAt(new Date().getTime().toString());
+            }).catch((err) => {
+                console.log(`Error: ${err.message}`);
+                setIsError(true)
+            });
+            setIsLoading(false);
+        };
+        fetchData(); 
+    }, [category, isStale, slug]); 
+
     const { data, error } = useSWR('/api/slugs/new', fetcher)
 
     return (
         <div className="mt-1">
             {
-                    !data && !error ? <Loader /> 
-                :   error ? <p> error... </p> 
-                :   <Input
-                        value={data.slug}
-                        type="text"
-                        label="Slug"
-                        descriptionText="Select the Slug you'd like your viewers to click" 
-                    />
+                !data && !error 
+            ?   <Loader />
+            :   <Input
+                    label="Custom Slug"
+                    value={JSON.stringify(data.slug)}
+                    type="text"
+                    name="slug"
+                    error={error ? 'ERRORRR' : null}
+                    id="slug"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    descriptionText="Choose a category from ones available in the upper right hand corner" 
+                    labelOptional="Required"
+                    actions={[
+                        <Button 
+                            type="dashed" 
+                            icon={<IconRefreshCw />} 
+                            disabled={!isStale}
+                            loading={isLoading}
+                            onClick={handleRefresh}
+                        >
+                            OpenGraph
+                        </Button>,
+                    ]}
+                />
             }
         </div>
     )
 }
+
 
 const DestinationSlugInput = () => {
 
