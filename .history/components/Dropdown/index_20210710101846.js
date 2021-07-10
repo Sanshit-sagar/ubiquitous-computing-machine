@@ -95,7 +95,8 @@ const DropdownMenu = () => {
       >
           <span className="text-sm text-gray-700 font-extralight">
             {
-                loading ? <Loader /> : session && session?.user 
+                loading ? <Loader /> 
+              : session && session?.user 
               ? <span className="text-black dark:text-white text-sm font-extralight"> {session.user.name} </span> 
               : <span className="text-black dark:text-white text-sm font-extralight"> Login </span> 
             } 

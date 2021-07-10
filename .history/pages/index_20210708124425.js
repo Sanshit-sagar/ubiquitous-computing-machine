@@ -36,7 +36,7 @@ const HomePage = ({ meta }) => {
           children={
             <>
               <CallToAction />
-              {/* <FeaturesCard />  */}
+              <FeaturesCard /> 
             </>
           }
         />
