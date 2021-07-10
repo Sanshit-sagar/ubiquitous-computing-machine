@@ -121,10 +121,7 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
 var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
 
-const UrlInput = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-    // const dispatch = useContext(NewSlugStore.Dispatch)
-
+const UrlInput = () => {
     const [urlValue, setUrlValue] = useState('')
     const [isValidUrl, setIsValidUrl] = useState(false)
 
@@ -140,11 +137,8 @@ const UrlInput = ({ mutate }) => {
         <Input 
             label="Destination URL"
             type="url"
-            value={state.destination}
-            onChange={(event) => {
-                handleUrlUpdate(event);
-                mutate('destination', event.target.value)
-            }}
+            value={urlValue}
+            onChange={handleUrlUpdate}
             error={isValidUrl ? "invalid url" : ""}
             icon={<IconLink className="h-6 w-6 text-black" />}
             descriptionText="Enter a valid destination URL" 
@@ -241,8 +235,6 @@ const NewSlug = () => {
 
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
-
-    const { data, error } = useSWR('/api/slugs/new')
     
     const assignmentMutation = (key, value) => {
         dispatch({
@@ -270,12 +262,8 @@ const NewSlug = () => {
     }
 
     const publish = async (slug, url, config) => {
-        alert(`publishing... slug: ${slug} and URL: ${url}`)
-
         if(!session || loading) return;
         if(!slug || !slug.length || !url || !url.length) return;
-
-       
 
         const res = await fetch('/api/slugs/save', {
             body: JSON.stringify({ 
@@ -304,6 +292,11 @@ const NewSlug = () => {
     }   
 
     const handleSubmit = () => {
+        if(error) {
+            toast.error(`Error! ${error.message}`)
+            return; 
+        }
+
         let url =  `${state.destination}` || '';
         let slug = data ? `${data.slug}` : null
         let ttl = `${state.ttl}` || '';
@@ -316,10 +309,17 @@ const NewSlug = () => {
         let routingStatus = state.routingStatus || '301';
 
         const config = { ttl, password, blacklist, seoTags, routingStatus }; 
-        alert(`Submitting ${JSON.stringify(config)} for slug:${slug} with destination ${url}`);
-
         publish(slug, url, config)
     }
+
+    const LinkIconSvg = () => {
+        return (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
+            </svg>
+        )
+    }
+
  
     return (
       <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
@@ -350,7 +350,7 @@ const NewSlug = () => {
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                 <button
                     onClick={handleSubmit}
-                    disabled={!session && !loading}
+                    disabled={!session || loading}
                     type="submit"
                     className="bg-black border border-transparent rounded-sm shadow-md py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-200 hover:text-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                 >

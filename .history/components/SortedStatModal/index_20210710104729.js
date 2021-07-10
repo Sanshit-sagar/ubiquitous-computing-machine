@@ -196,7 +196,6 @@ const SortedStatModal = () => {
     const [session, loading] = useSession()
     const email = session && session?.user ? session.user.email : ''
     // const email = 'sasagar@ucsd.edu'
-    
     const { clickstream, loading, error } = useUserClickstreams(email)
 
     const columns = React.useMemo(() => [

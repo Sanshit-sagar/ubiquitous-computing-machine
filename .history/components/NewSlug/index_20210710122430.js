@@ -121,10 +121,7 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 
 var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
 
-const UrlInput = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-    // const dispatch = useContext(NewSlugStore.Dispatch)
-
+const UrlInput = () => {
     const [urlValue, setUrlValue] = useState('')
     const [isValidUrl, setIsValidUrl] = useState(false)
 
@@ -140,11 +137,8 @@ const UrlInput = ({ mutate }) => {
         <Input 
             label="Destination URL"
             type="url"
-            value={state.destination}
-            onChange={(event) => {
-                handleUrlUpdate(event);
-                mutate('destination', event.target.value)
-            }}
+            value={urlValue}
+            onChange={handleUrlUpdate}
             error={isValidUrl ? "invalid url" : ""}
             icon={<IconLink className="h-6 w-6 text-black" />}
             descriptionText="Enter a valid destination URL" 
@@ -270,12 +264,8 @@ const NewSlug = () => {
     }
 
     const publish = async (slug, url, config) => {
-        alert(`publishing... slug: ${slug} and URL: ${url}`)
-
         if(!session || loading) return;
         if(!slug || !slug.length || !url || !url.length) return;
-
-       
 
         const res = await fetch('/api/slugs/save', {
             body: JSON.stringify({ 
@@ -316,8 +306,6 @@ const NewSlug = () => {
         let routingStatus = state.routingStatus || '301';
 
         const config = { ttl, password, blacklist, seoTags, routingStatus }; 
-        alert(`Submitting ${JSON.stringify(config)} for slug:${slug} with destination ${url}`);
-
         publish(slug, url, config)
     }
  

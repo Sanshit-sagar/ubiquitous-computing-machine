@@ -5,9 +5,9 @@ import StackedLayout from '@/sections/StackedLayout'
 import NewSlug from '../components/NewSlug'
 
 const NewLinkPage = () => {
-  const [session] = useSession()
-  const email = session && session?.user ? session.user.email : ''
-  // const email = 'sasagar@ucsd.edu'
+  // const [session] = useSession()
+  // const email = session && session?.user ? session.user.email : ''
+  const email = 'sasagar@ucsd.edu'
 
   return (
       <StackedLayout 
@@ -22,7 +22,7 @@ const NewLinkPage = () => {
   );
 };
 
-NewLinkPage.auth = true;
 
 export default NewLinkPage 
- 
+
+NewLinkPage.auth = false; 

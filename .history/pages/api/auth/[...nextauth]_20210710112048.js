@@ -20,22 +20,8 @@ const options = {
         signIn: '/auth/signin',
         signOut: '/auth/signout',
     },
-    callbacks: {
-        async signIn(user, account, profile) {
-          return true
-        },
-        async redirect(url, baseUrl) {
-            return url.startsWith(baseUrl) ? url: baseUrl
-        },
-        async session(session, user) {
-          return session
-        },
-        async jwt(token, user, account, profile, isNewUser) {
-          return token
-        },
-    },
     theme: 'light',
     debug: true,
-};
+}
 
 export default (req, res) => NextAuth(req, res, options)

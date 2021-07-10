@@ -122,9 +122,6 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
 var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
 
 const UrlInput = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-    // const dispatch = useContext(NewSlugStore.Dispatch)
-
     const [urlValue, setUrlValue] = useState('')
     const [isValidUrl, setIsValidUrl] = useState(false)
 
@@ -140,11 +137,8 @@ const UrlInput = ({ mutate }) => {
         <Input 
             label="Destination URL"
             type="url"
-            value={state.destination}
-            onChange={(event) => {
-                handleUrlUpdate(event);
-                mutate('destination', event.target.value)
-            }}
+            value={urlValue}
+            onChange={(event) => mutate('destination', event.target.value)}
             error={isValidUrl ? "invalid url" : ""}
             icon={<IconLink className="h-6 w-6 text-black" />}
             descriptionText="Enter a valid destination URL" 

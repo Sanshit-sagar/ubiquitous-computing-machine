@@ -51,36 +51,46 @@ const MyPopover = () => {
     return (
         <div className="w-full max-w-sm px-4 fixed top-16">
             <Popover className="relative">
-                <Popover.Panel 
-                    className="absolute z-10 w-30 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
-                    ref={setPopperElement}
-                    style={styles.popper}
-                    {...attributes.popper}
-                >
-                    <div className="overflow-hidden rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div className="relative grid gap-8 bg-white p-7">
-                            {solutions.map((item) => (
-                                <a
-                                    key={item.name}
-                                    href={item.href}
-                                    className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                                >
-                                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
-                                        <item.icon className="h-6 w-6 text-red-400" /> 
-                                    </div>
-                                    <div className="ml-4">
-                                    <p className="text-sm font-medium text-gray-900">
-                                        {item.name}
-                                    </p>
-                                    <p className="text-sm text-gray-500">
-                                        {item.description}
-                                    </p>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </Popover.Panel>
+                {({ open }) => (
+                    <>
+                        <Popover.Button ref={setReferenceElement} className='p-2 border border-black rounded-md shadow-md'>
+                            <ChevronRightIcon
+                                className={`${open ? 'transform rotate-90' : ''} h-6 w-6 text-green-400`}
+                            />
+                        </Popover.Button>
+            
+                        <Popover.Panel 
+                            className="absolute z-10 w-30 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
+                            ref={setPopperElement}
+                            style={styles.popper}
+                            {...attributes.popper}
+                        >
+                            <div className="overflow-hidden rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                                <div className="relative grid gap-8 bg-white p-7">
+                                    {solutions.map((item) => (
+                                        <a
+                                            key={item.name}
+                                            href={item.href}
+                                            className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                        >
+                                            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
+                                                <item.icon className="h-6 w-6 text-red-400" /> 
+                                            </div>
+                                            <div className="ml-4">
+                                            <p className="text-sm font-medium text-gray-900">
+                                                {item.name}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                {item.description}
+                                            </p>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </Popover.Panel>
+                    </>
+                )}
             </Popover>
         </div>
     )
@@ -120,13 +130,13 @@ const ResultsPopover = ({ results, timestamp }) => {
   
 const SearchBar = () => {
     const [session, loading] = useSession()
-    const email = session && session?.user ? session.user.email : ''
-
+    const email = session.user.email
+    
     // const email = 'sasagar@ucsd.edu'
     const [results, setResults] = useState()
 
     return (
-        <div className="bg-white rounded-md shadow-md">
+        <>
             <Input
                 type="text"
                 placeholder="Search"
@@ -158,7 +168,7 @@ const SearchBar = () => {
                 <ResultsPopover results={results} timestamp={new Date().getTime().toString()} />
                 : null
             }
-        </div>
+        </>
     )
 }
 

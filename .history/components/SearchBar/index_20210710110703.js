@@ -151,7 +151,7 @@ const SearchBar = () => {
                     setResults(temp); 
                 }}
             />
-            {/* <MyPopover /> */}
+            <MyPopover />
            
 
             {results && results?.length ?

@@ -19,10 +19,10 @@ const Dashboard = ({ email }) => {
     )
 }
 
-const DashboardPage = ({ meta }) => {
-    const [session] = useSession()
-    const email = session.user.email
-    // const email = 'sasagar@ucsd.edu'
+export default function DashboardPage({ meta }) {
+    // const [session] = useSession()
+    // const email = session.user.email;
+    const email = 'sasagar@ucsd.edu'
 
     return (
         <StackedLayout
@@ -42,5 +42,3 @@ DashboardPage.defaultProps = {
         description: 'Displays key metrics'
     }
 }
-
-export default DashboardPage

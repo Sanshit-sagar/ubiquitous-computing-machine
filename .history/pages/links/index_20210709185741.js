@@ -329,9 +329,9 @@ const LinksTableWrapper = ({ email, visible, deleteConfirmed, setDeleteConfirmed
 }
 
 export default function LinksPage({ meta }) {
-    const [session] = useSession()
-    const email  = session.user.email
-    // const email = 'sasagar@ucsd.edu'
+    // const [session] = useSession()
+    // const email  = session.user.email
+    const email = 'sasagar@ucsd.edu'
 
     const [modalVisible, setModalVisible] = useState(false)
     const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -380,7 +380,7 @@ export default function LinksPage({ meta }) {
     );
 }
 
-LinksPage.auth = true
+LinksPage.auth = false
 
 LinksPage.defaultProps = {
     meta: { 

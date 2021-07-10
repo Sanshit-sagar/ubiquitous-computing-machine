@@ -388,9 +388,9 @@ const ClickstreamTable = ({ email }) => {
 }
 
 export default function Clickstream() {
-    const [session] = useSession()
-    const email  = session && session.user.email 
-    // const email = 'sasagar@ucsd.edu'
+    // const [session] = useSession()
+    // const email  = session.user.email 
+    const email = 'sasagar@ucsd.edu'
 
     const meta = {
         'title': 'Dashboard',
@@ -409,4 +409,4 @@ export default function Clickstream() {
     )
 }
 
-Clickstream.auth = true; 
+Clickstream.auth = false; 

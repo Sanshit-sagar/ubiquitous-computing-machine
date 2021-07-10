@@ -22,7 +22,7 @@ const NewLinkPage = () => {
   );
 };
 
-NewLinkPage.auth = true;
 
 export default NewLinkPage 
- 
+
+NewLinkPage.auth = true; 

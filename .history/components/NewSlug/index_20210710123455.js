@@ -123,8 +123,8 @@ var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}
 
 const UrlInput = ({ mutate }) => {
     const state = useContext(NewSlugStore.State)
-    // const dispatch = useContext(NewSlugStore.Dispatch)
-
+    const dispatch = useContext(NewSlugStore.Dispatch)
+    
     const [urlValue, setUrlValue] = useState('')
     const [isValidUrl, setIsValidUrl] = useState(false)
 
