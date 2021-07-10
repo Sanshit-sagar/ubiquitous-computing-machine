@@ -91,6 +91,11 @@ const DropdownMenu = () => {
             ? <IconChevronDown className="h-4 w-4 text-gray-700 font-extralight" /> 
             : <UserIcon className="h-4 w-4 text-gray-700 font-extralight" /> 
         }
+        // onClick={() => {
+        //   if(!loading && !session || !session?.user) {
+        //     // show modal to signin or smth
+        //   } 
+        // }} 
         style={{ marginLeft: '5px' }}
       >
           <span className="text-sm text-gray-700 font-extralight">

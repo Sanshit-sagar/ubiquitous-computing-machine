@@ -13,7 +13,6 @@ import { NewSlugStore } from '../../store'
 import { UserCircleIcon, ExclamationCircleIcon, LoginIcon } from '@heroicons/react/solid'
 import { useSession, signOut, signIn } from 'next-auth/client'
 import Loader from '../Loader'
-import { UserIcon } from '@heroicons/react/outline'
 
 const DropdownMenu = () => {
   const [session, loading] = useSession()
@@ -87,10 +86,13 @@ const DropdownMenu = () => {
         type="outline" 
         size="small" 
         iconRight={
-              session && session.user 
-            ? <IconChevronDown className="h-4 w-4 text-gray-700 font-extralight" /> 
-            : <UserIcon className="h-4 w-4 text-gray-700 font-extralight" /> 
+            session && session.user ? <IconChevronDown className="h-4 w-4 text-gray-700 font-extralight" /> : null
         }
+        // onClick={() => {
+        //   if(!loading && !session || !session?.user) {
+        //     // show modal to signin or smth
+        //   } 
+        // }} 
         style={{ marginLeft: '5px' }}
       >
           <span className="text-sm text-gray-700 font-extralight">
