@@ -22,7 +22,7 @@ const Greeting = () => {
 }
 
 const CallToAction = () => {
-    const router = useRouter()
+    const router = useRouter();
     const [session, loading] = useSession()
   
     return (
