@@ -4,12 +4,8 @@ import { Card } from '@supabase/ui'
 
 import Loader from '../Loader'
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ email }) => {
   const [session, loading] = useSession()
-
-  if(loading) return <Loader />;
-  if(!session && !loading) return <p> error! </p>;
-
 
   return (
     <Card>
@@ -82,7 +78,7 @@ const ProfileDetails = () => {
                   type="button"
                   className="bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
-                  loading ? <Loader /> :  Update 
+                  loading ? <Loader /> : Update
                 </button>
               </span>
             </dd>
@@ -107,8 +103,6 @@ const ProfileDetails = () => {
   </Card>
   );
 }
-
-export default ProfileDetails
 
 // const ProfileDetails = ({ user }) => {
   
@@ -141,3 +135,5 @@ export default ProfileDetails
 //     </Card>
 //   );
 // }
+
+export default Profile

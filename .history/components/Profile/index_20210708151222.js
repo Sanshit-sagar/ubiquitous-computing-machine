@@ -1,37 +1,32 @@
 import { useSession } from 'next-auth/client'
+import dynamic from 'next/dynamic'
 
-import { Card } from '@supabase/ui'
+import { Card, Input } from '@supabase/ui'
 
-import Loader from '../Loader'
+const UnauthenticatedComponent = dynamic(() =>
+  import('../AccessDenied')
+)
+const Loader = dynamic(() => 
+  import('../Loader')
+)
 
-const ProfileDetails = () => {
-  const [session, loading] = useSession()
-
-  if(loading) return <Loader />;
-  if(!session && !loading) return <p> error! </p>;
-
+const ProfileDetails = ({ email }) => {
 
   return (
     <Card>
     <div className="mt-10 divide-y divide-gray-200">
       <div className="space-y-1">
         <h3 className="text-lg leading-6 font-medium text-gray-900">Profile</h3>
-       
+        <p className="max-w-2xl text-sm text-gray-500">
+          This information will be displayed publicly so be careful what you share.
+        </p>
       </div>
       <div className="mt-6">
         <dl className="divide-y divide-gray-200">
           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
             <dt className="text-sm font-medium text-gray-500">Name</dt>
             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <span className="flex-grow">
-                {
-                    loading ? <Loader /> 
-                  : session && session?.user 
-                  ? <p> {session.user.name} </p> 
-                  : <p> error </p> 
-                }  
-              </span>
-
+              <span className="flex-grow">Chelsea Hagon</span>
               <span className="ml-4 flex-shrink-0">
                 <button
                   type="button"
@@ -46,13 +41,11 @@ const ProfileDetails = () => {
             <dt className="text-sm font-medium text-gray-500">Photo</dt>
             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <span className="flex-grow">
-                {loading ? <Loader /> : session ?
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={session.user.image}
-                  alt={session.user.name}
-                /> : null
-                }
+                  src={user.image}
+                  alt={user.name}
+                />
               </span>
               <span className="ml-4 flex-shrink-0 flex items-start space-x-4">
                 <button
@@ -82,7 +75,7 @@ const ProfileDetails = () => {
                   type="button"
                   className="bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
-                  loading ? <Loader /> :  Update 
+                  Update
                 </button>
               </span>
             </dd>
@@ -96,7 +89,7 @@ const ProfileDetails = () => {
                   type="button"
                   className="bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
-                  loading ? <Loader /> : Update
+                  Update
                 </button>
               </span>
             </dd>
@@ -107,8 +100,6 @@ const ProfileDetails = () => {
   </Card>
   );
 }
-
-export default ProfileDetails
 
 // const ProfileDetails = ({ user }) => {
   
@@ -141,3 +132,13 @@ export default ProfileDetails
 //     </Card>
 //   );
 // }
+
+const Profile = () => {
+  const [session, loading] = useSession()
+
+  if (typeof window !== 'undefined' && loading) return <Loader /> 
+  if (!session) return <UnauthenticatedComponent />
+  return <ProfileDetails user={session.user} />
+}
+
+export default Profile

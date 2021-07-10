@@ -4,7 +4,7 @@ import { Card } from '@supabase/ui'
 
 import Loader from '../Loader'
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ email }) => {
   const [session, loading] = useSession()
 
   if(loading) return <Loader />;
@@ -108,8 +108,6 @@ const ProfileDetails = () => {
   );
 }
 
-export default ProfileDetails
-
 // const ProfileDetails = ({ user }) => {
   
 
@@ -141,3 +139,5 @@ export default ProfileDetails
 //     </Card>
 //   );
 // }
+
+export default Profile

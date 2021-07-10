@@ -4,7 +4,7 @@ import { Card } from '@supabase/ui'
 
 import Loader from '../Loader'
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ email }) => {
   const [session, loading] = useSession()
 
   if(loading) return <Loader />;

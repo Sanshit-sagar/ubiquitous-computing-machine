@@ -4,19 +4,17 @@ import { Card } from '@supabase/ui'
 
 import Loader from '../Loader'
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ email }) => {
   const [session, loading] = useSession()
-
-  if(loading) return <Loader />;
-  if(!session && !loading) return <p> error! </p>;
-
 
   return (
     <Card>
     <div className="mt-10 divide-y divide-gray-200">
       <div className="space-y-1">
         <h3 className="text-lg leading-6 font-medium text-gray-900">Profile</h3>
-       
+        <p className="max-w-2xl text-sm text-gray-500">
+          This information will be displayed publicly so be careful what you share.
+        </p>
       </div>
       <div className="mt-6">
         <dl className="divide-y divide-gray-200">
@@ -82,7 +80,7 @@ const ProfileDetails = () => {
                   type="button"
                   className="bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
-                  loading ? <Loader /> :  Update 
+                  loading ? <Loader /> : Update
                 </button>
               </span>
             </dd>
@@ -107,8 +105,6 @@ const ProfileDetails = () => {
   </Card>
   );
 }
-
-export default ProfileDetails
 
 // const ProfileDetails = ({ user }) => {
   
@@ -141,3 +137,5 @@ export default ProfileDetails
 //     </Card>
 //   );
 // }
+
+export default Profile
