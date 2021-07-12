@@ -7,6 +7,7 @@ import DataCharts from '../components/Timeseries'
 const Visualizer = ({ meta }) => {
     const [session] = useSession()
     const email = session && session?.user ? session.user.email : ''
+    // const email = 'sasagar@ucsd.edu'
     
     return (
         <StackedLayout
