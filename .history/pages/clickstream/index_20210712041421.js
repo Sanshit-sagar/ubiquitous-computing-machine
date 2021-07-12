@@ -315,6 +315,7 @@ const ClickstreamTable = ({ email }) => {
         { Header: 'Engine', icon: <AdjustmentsIcon  className="h-4 w-4" />},
         { Header: 'Views', icon: <EyeIcon className="h-4 w-4" /> },
         { Header: 'Timestamp', icon: <CalendarIcon className="h-4 w-4" />},
+        // { Header: 'Actions', icon: <LinkIcon className="h-4 w-4" /> },
     ], []);
 
     const { clickstream, loading, error } = useUserClickstreams(email)

@@ -22,7 +22,7 @@ import {
     TableRow,
     TableCell
 } from '@windmill/react-ui'
-import { LockOpenIcon } from '@heroicons/react/solid'
+import { BanIcon, LockOpenIcon } from '@heroicons/react/solid'
 
 const sanitize = (text, len) => {
     return text && text.length ? text.substring(0, len) : ''

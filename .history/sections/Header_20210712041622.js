@@ -1,10 +1,16 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 
 import DarkMode from '../components/DarkMode/index'
+import Loader from '../components/Loader'
+
 import DropdownMenu from '../components/Dropdown'
 import SearchBar from '../components/SearchBar'
+import { LockClosedIcon } from '@heroicons/react/solid'
 
 const Header = () => {
+    const [session, loading] = useSession()
+  
   
     return (
         <header className="w-90 mx-5 mb-10 pb-3 pt-2 shadow-md bg-white dark:bg-gray-700 items-center rounded-md">
