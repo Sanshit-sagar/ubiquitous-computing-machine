@@ -13,11 +13,10 @@ function generateData(freqsArr, doFill, graphName, start, end) {
         freqsLabels.push(`${value.x}`); 
     }); 
     
-
     const data = {
         labels: freqsLabels,
         datasets: [{
-            label: `${graphName}`,
+            label: graphName,
             fill: doFill,
             lineTension: 0.3,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -63,9 +62,9 @@ const useViewsByFrequency = (email) => {
     };
 }
 
-const barChartStr = " Pageview"
-const lineChartStr = " Visit #"
-const scatterPlotStr = " "
+const barChartStr = "Pageview"
+const lineChartStr = "Visit #"
+const scatterPlotStr = "Datetime"
 
 const DataCharts = ({ email }) => {
     const [freqsArr, setFreqsArr] = useState([])
@@ -137,17 +136,19 @@ const DataCharts = ({ email }) => {
                                                 var label = context.dataset.label || '';
 
                                                 if (label) {
-                                                    label += `${context.raw.timeOfDay}`;
+                                                    label += ` - ${context.raw.timeOfDay}`;
                                                     label += ` on ${context.raw.date}`; 
                                                 }
                                                 return label;
                                             },
                                         }
-                                    },
+                                    }
+                                },
+                                plugins: {
                                     legend: {
                                         display: false,
                                     }
-                                },
+                                }
                             }}
                         />
                     </div>

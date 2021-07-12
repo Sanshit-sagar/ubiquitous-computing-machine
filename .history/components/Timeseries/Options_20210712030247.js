@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, Button } from '@supabase/ui'
 
-const OptionsBar = ({ bar, line, scatter, toggleFill }) => {
+const OptionsBar = ({ bar, line, scatter }) => {
 
     return (
       <Tabs
@@ -9,9 +9,7 @@ const OptionsBar = ({ bar, line, scatter, toggleFill }) => {
         size="medium"
         scrollable
         addOnBefore={[
-            <Button 
-                type="outline"
-            >
+            <Button type="outline">
                 Time Period
             </Button>
         ]}

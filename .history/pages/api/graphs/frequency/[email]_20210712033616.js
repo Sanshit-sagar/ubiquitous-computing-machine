@@ -41,7 +41,6 @@ function getSortedFreqs(clicks) {
             windowEnd = (windowEnd===0) ? parseInt(click.timestamp) : Math.max(windowEnd, parseInt(click.timestamp))
         }  
     });
-    
     //sort input to improve efficiency for chart.js
     scatterPlotArr.sort((a, b) => {
         if(a.x === b.x) {

@@ -7,19 +7,18 @@ import OptionsBar from './Options';
 import useSWR from 'swr'
 import Loader from '../Loader'
 
-function generateData(freqsArr, doFill, graphName, start, end) {
+function generateData(freqsArr, doFill, start, end) {
     let freqsLabels = [];
     freqsArr.forEach(function (value, index) {
         freqsLabels.push(`${value.x}`); 
     }); 
     
-
     const data = {
         labels: freqsLabels,
         datasets: [{
-            label: `${graphName}`,
+            label: "Page visits",
             fill: doFill,
-            lineTension: 0.3,
+            lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
             borderCapStyle: 'butt',
@@ -28,12 +27,12 @@ function generateData(freqsArr, doFill, graphName, start, end) {
             borderJoinStyle: 'miter',
             pointBorderColor: 'rgba(75,192,192,1)',
             pointBackgroundColor: '#fff',
-            pointBorderWidth: 2,
+            pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(75,192,192,1)',
             pointHoverBorderColor: 'rgba(220,220,220,1)',
             pointHoverBorderWidth: 2,
-            pointRadius: 2,
+            pointRadius: 1,
             pointHitRadius: 10,
             data: freqsArr,
         }],
@@ -63,15 +62,16 @@ const useViewsByFrequency = (email) => {
     };
 }
 
-const barChartStr = " Pageview"
-const lineChartStr = " Visit #"
-const scatterPlotStr = " "
 
 const DataCharts = ({ email }) => {
     const [freqsArr, setFreqsArr] = useState([])
     const [cummFreqsArr, setCummFreqsArr] = useState([])
     const [scatterPlotArr, setScatterPlotArr] = useState([])
     const [doFill, setDoFill] = useState(true)
+
+    const toggleGraphFill = () => {
+        setDoFill(!doFill); 
+    }
 
     const [fetchCount, setFetchCount] = useState(0)
     const { data, loading, error } = useViewsByFrequency(email);
@@ -95,16 +95,11 @@ const DataCharts = ({ email }) => {
                 bar={
                     <div style={{ height: '100%', width: '100%', margin: '10px 5px 20px 5px' }}>
                         <Bar
-                            data={generateData(freqsArr, false, barChartStr, data.start, data.end)}
+                            data={generateData(freqsArr, false, data.start, data.end)}
                             width={1000}
                             height={500}
                             options={{
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                    }
-                                }
+                                maintainAspectRatio: false
                             }}
                         />
                     </div>
@@ -112,14 +107,9 @@ const DataCharts = ({ email }) => {
                 line={
                     <div style={{ height: '500px', width: '100%', margin: '10px 5px 20px 5px' }}>
                         <Line
-                            data={generateData(cummFreqsArr, true, lineChartStr, data.start, data.end)}
+                            data={generateData(cummFreqsArr, true, data.start, data.end)}
                             options={{
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                    }
-                                }
+                                maintainAspectRatio: false
                             }}
                         />
                     </div>
@@ -127,7 +117,7 @@ const DataCharts = ({ email }) => {
                 scatter={
                     <div style={{  height: '500px', width: '100%', margin: '10px 5px 20px 5px' }}>
                         <Scatter
-                            data={generateData(scatterPlotArr, false, scatterPlotStr, data.start, data.end)}
+                            data={generateData(scatterPlotArr, false, data.start, data.end)}
                             options={{
                                 maintainAspectRatio: false,
                                 plugins: {
@@ -137,17 +127,22 @@ const DataCharts = ({ email }) => {
                                                 var label = context.dataset.label || '';
 
                                                 if (label) {
-                                                    label += `${context.raw.timeOfDay}`;
+                                                    label += ` - ${context.raw.timeOfDay}`;
                                                     label += ` on ${context.raw.date}`; 
                                                 }
                                                 return label;
                                             },
                                         }
-                                    },
-                                    legend: {
-                                        display: false,
                                     }
                                 },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        labels: {
+                                            color: 'rgb(255, 99, 132)'
+                                        }
+                                    }
+                                }
                             }}
                         />
                     </div>

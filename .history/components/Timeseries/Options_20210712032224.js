@@ -10,6 +10,7 @@ const OptionsBar = ({ bar, line, scatter, toggleFill }) => {
         scrollable
         addOnBefore={[
             <Button 
+                onClick={toggleFill}
                 type="outline"
             >
                 Time Period

@@ -41,14 +41,13 @@ function getSortedFreqs(clicks) {
             windowEnd = (windowEnd===0) ? parseInt(click.timestamp) : Math.max(windowEnd, parseInt(click.timestamp))
         }  
     });
-    
-    //sort input to improve efficiency for chart.js
-    scatterPlotArr.sort((a, b) => {
-        if(a.x === b.x) {
-            return parseInt(a.y) - parseInt(b.y);
-        }
-        return parseInt(new Date(a.x).toString()) - parseInt(new Date(b.x).toString())
-    }); 
+
+    // scatterPlotArr.sort((a, b) => {
+    //     if(a.x === b.x) {
+    //         return parseInt(a.y) - parseInt(b.y);
+    //     }
+    //     return parseInt(new Date(a.x).toString()) - parseInt(new Date(b.x).toString())
+    // }); 
 
     let start = new Date(windowStart).toLocaleDateString();
     let end = new Date(windowEnd).toLocaleDateString();

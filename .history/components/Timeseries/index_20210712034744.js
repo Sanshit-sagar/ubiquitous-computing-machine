@@ -63,9 +63,9 @@ const useViewsByFrequency = (email) => {
     };
 }
 
-const barChartStr = " Pageview"
-const lineChartStr = " Visit #"
-const scatterPlotStr = " "
+const barChartStr = "Pageview"
+const lineChartStr = "Visit #"
+const scatterPlotStr = "@"
 
 const DataCharts = ({ email }) => {
     const [freqsArr, setFreqsArr] = useState([])

@@ -63,9 +63,9 @@ const useViewsByFrequency = (email) => {
     };
 }
 
-const barChartStr = " Pageview"
-const lineChartStr = " Visit #"
-const scatterPlotStr = " "
+const barChartStr = "Pageview"
+const lineChartStr = "Visit #"
+const scatterPlotStr = "Datetime"
 
 const DataCharts = ({ email }) => {
     const [freqsArr, setFreqsArr] = useState([])
@@ -137,7 +137,7 @@ const DataCharts = ({ email }) => {
                                                 var label = context.dataset.label || '';
 
                                                 if (label) {
-                                                    label += `${context.raw.timeOfDay}`;
+                                                    label += ` - ${context.raw.timeOfDay}`;
                                                     label += ` on ${context.raw.date}`; 
                                                 }
                                                 return label;
