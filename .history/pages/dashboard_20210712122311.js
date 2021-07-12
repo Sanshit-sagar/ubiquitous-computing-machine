@@ -20,9 +20,10 @@ const Dashboard = ({ email }) => {
 }
 
 const DashboardPage = ({ meta }) => {
-    const [session] = useSession()
-    const email = session.user.email
-
+    // const [session] = useSession()
+    // const email = session.user.email
+    const email = 'sasagar@ucsd.edu'
+    
     return (
         <StackedLayout
             pageMeta={meta}
@@ -33,7 +34,7 @@ const DashboardPage = ({ meta }) => {
     )
 }
 
-DashboardPage.auth = true; 
+DashboardPage.auth = false; 
 
 DashboardPage.defaultProps = {
     meta: {
