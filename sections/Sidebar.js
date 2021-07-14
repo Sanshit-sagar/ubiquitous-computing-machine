@@ -25,7 +25,7 @@ const Sidebar = ({ handleNavigation }) => {
 
     return (
       <div className="h-full flex-col w-20 rounded-md">
-        <div className="h-full flex-col flex-1 text-black bg-white dark:bg-black dark:text-white">
+        <div className="h-full flex-col flex-1 text-gray-700 bg-white dark:bg-gray-700 dark:text-white">
           <div className="h-full flex-1 flex flex-col">
              
             <nav aria-label="Sidebar" className="py-6 flex flex-col items-center space-y-3">

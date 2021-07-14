@@ -1,66 +1,86 @@
-
-import React from 'react'
-import Link from 'next/link'
-
-import { useSession } from 'next-auth/client'
-import { useTable, usePagination } from 'react-table'
-import styled from 'styled-components'
+import React, { useState, useContext, useEffect } from 'react'
 
 import useSWR from 'swr'
+import { useSession } from 'next-auth/client'
+import { useTable, usePagination } from 'react-table'
+import { Card, AnchorButton, ButtonGroup, Elevation, NumericInput } from '@blueprintjs/core'
+
 import Loader from '../Loader/index'
 import getColumns from './columns'
+import { GlobalStore } from '../../store'
 
-const Styles = styled.div`
-  padding: 1rem;
+const Pagination = ({
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    pageIndex,
+    pageSize,
+    loading
+ }) => {
+    const state = useContext(GlobalStore.State)
+    const [pageIndexInput, setPageIndexInput] = useState(pageIndex + 1);
 
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
+    return (
+        <div className="pagination">
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'start', width: '100%'}}>
+                <ButtonGroup>
+                    <AnchorButton loading={loading} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        {'<<'}
+                    </AnchorButton>{' '}
+                    <AnchorButton  loading={loading} onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        {'<'}
+                    </AnchorButton>{' '}
+                    <AnchorButton  loading={loading} onClick={() => nextPage()} disabled={!canNextPage}>
+                        {'>'}
+                    </AnchorButton>{' '}
+                    <AnchorButton  loading={loading} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        {'>>'}
+                    </AnchorButton>{' '}
+                </ButtonGroup>
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
-`
-// function useUserClickstreams(email) {
-//     let time = '30'
-//     const { data, err } = useSWR(email && email?.length ? `/api/stream/users/${email}?time=${time}` : null)
-
-//     return {
-//         clickstream: data ? data.clickstream : [],
-//         isLoading: !data && !err,
-//         isError: err
-//     };
-// }
-
-// function useUserUniqueClickstream(email)  {
-//     const { data, err } = useSWR(email && email?.length ? `/api/stream/uniques/${email}` : null)
-
-//     return {
-//         uniques: data ? data.uniques : [],
-//         isLoading: !data && !err,
-//         isError: err
-//     };
-// }
-
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                    <span style={{ marginRight: '10px' }}>
+                        Page{' '}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{' '}
+                    </span>
+                    <span style={{ marginRight: '10px' }}>
+                        {/* | Go to page:{' '} */}
+                        <NumericInput
+                            value={pageIndexInput}
+                            onChange={(e)=> {
+                                const page = (e.target.value) ? parseInt(e.target.value) - 1 : 0
+                                setPageIndexInput(page)
+                                gotoPage(page)
+                            }}
+                        />
+                    </span>{' '}
+                    <div class="bp3-select">
+                        <select
+                            value={pageSize}
+                            onChange={e => {
+                                setPageSize(Number(e.target.value))
+                            }}
+                        >
+                            {[5, 10, 20, 30, 40, 50].map(pageSize => (
+                                <option key={pageSize} value={pageSize}>
+                                    Show {pageSize}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 const StatisticTable = ({ columns, data, fetchData, loading, pageCount: controlledPageCount }) => {
+    const state = useContext(GlobalStore.State)
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -90,113 +110,68 @@ const StatisticTable = ({ columns, data, fetchData, loading, pageCount: controll
     React.useEffect(() => {
         fetchData({ pageIndex, pageSize })
     }, [fetchData, pageIndex, pageSize])
-    
 
-    return (
-        <>
-            {/* <pre>
-                <code>
-                    {JSON.stringify(
-                        {
-                            pageIndex,
-                            pageSize,
-                            pageCount,
-                            canNextPage,
-                            canPreviousPage,
-                        }, null, 2
-                    )}
-                </code>
-            </pre> */}
-
-            <table {...getTableProps()}>
-                <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()}>
-                            {column.render('Header')}
-                            <span>
-                                {column.isSorted
-                                ? column.isSortedDesc
-                                    ? ' 🔽'
-                                    : ' 🔼'
-                                : ''}
-                            </span>
-                            </th>
-                        ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return (
-                                        <td {...cell.getCellProps()}>
-                                            {cell.render('Cell')}
-                                        </td>
-                                    );
-                                })}
+    return (       
+        <Card 
+            interactive={true} 
+            elevation={Elevation.TWO} 
+            style={{ marginVertical: '20px' }}
+        >
+            <Pagination 
+                canPreviousPage={canPreviousPage}
+                canNextPage={canNextPage}
+                pageOptions={pageOptions}
+                pageCount={pageCount}
+                gotoPage={gotoPage}
+                nextPage={nextPage}
+                previousPage={previousPage}
+                setPageSize={setPageSize}
+                pageIndex={pageIndex}
+                pageSize={pageSize}
+                loading={loading}
+            />  
+            <div style={{ marginTop: '20px' }}>      
+                <table 
+                    {...getTableProps()} 
+                    className="bp3-html-table bp3-html-table-striped bp3-html-table-bordered 
+                                bp3-html-table-condensed bp3-interactive bp3-small"
+                >
+                    <thead>
+                        {headerGroups.map(headerGroup => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map(column => (
+                                    <th  
+                                        {...column.getHeaderProps()} 
+                                        className={loading ? "bp3-skeleton" : ""}
+                                    >
+                                        {column.render('Header')}
+                                    </th>
+                                ))}
                             </tr>
-                        );
-                    })}
-                     <tr>
-                        {loading ? (<td>Loading...</td>) : (
-                            <td>
-                                Showing {page.length} of ~{controlledPageCount * pageSize}{' '} results
-                            </td>
-                        )}
-                    </tr>
-                </tbody>
-            </table>
-
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
-                    Page{' '}
-                <strong>
-                    {pageIndex + 1} of {pageOptions.length}
-                </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                <input
-                    type="number"
-                    defaultValue={pageIndex + 1}
-                    onChange={e => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    gotoPage(page)
-                    }}
-                    style={{ width: '100px' }}
-                />
-                </span>{' '}
-                <select
-                    value={pageSize}
-                    onChange={e => {
-                        setPageSize(Number(e.target.value))
-                    }}
-                    >
-                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
+                        ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                        {page.map((row, i) => {
+                            prepareRow(row)
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <td {...cell.getCellProps()}>
+                                                <span className={loading ? "bp3-skeleton" : ""}>
+                                                    {cell.render('Cell')}
+                                                </span>
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
-        </>
+        </Card>
+        
     );
 }
 
@@ -210,56 +185,60 @@ function useFilteredStatList(email, filter)  {
     };
 }
 
-const SortedStatModal = ({ filter }) => {
-    const [session, sessionLoading] = useSession()
-    let email = session && session?.user ? session.user.email : ''
-    filter = filter || 'allViews'; 
+const SortedStatModalWrapper = ({ email, filter }) => {
 
     const { filteredData, isLoading, isError } = useFilteredStatList(email, filter)
+    
 
-    const columns = getColumns(filter);
     const [data, setData] = React.useState([])
-    const [dataLoading, setDataLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(false)
     const [pageCount, setPageCount] = React.useState(0)
     const fetchIdRef = React.useRef(0)
 
+    let cellsLoading = loading || isLoading
+    const columns = getColumns(filter, email, cellsLoading);
+  
     const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
         const fetchId = ++fetchIdRef.current
-        setDataLoading(true);
+        setLoading(true);
 
-        setTimeout(() => {
+        if(!isLoading && !isError && filteredData && filteredData.length) {
             if (fetchId === fetchIdRef.current) {
                 const startRow = pageSize * pageIndex
                 const endRow = startRow + pageSize
-                
-                if(!isLoading && !isError && filteredData && filteredData?.length) {
-                    setData(filteredData.slice(startRow, endRow));
-                    setPageCount(Math.ceil(filteredData.length / pageSize));
-                } else {
-                    setData([]);
-                    setPageCount(0)
-                }
-                setDataLoading(false)
+                setData(filteredData.slice(startRow, endRow))
+                setPageCount(Math.ceil(filteredData.length / pageSize))
+                setLoading(false)
             }
-        }, 1000)
-    }, []);
-
-    if(sessionLoading) return <Loader />
-    if(isError) return <p> {`Error: ${isError.message}`} </p>
+        }
+    }, [filteredData, isLoading, isError]); 
     
     return (
-        <div className="inline-block align-middle min-w-full">
-            <Styles>
-                <StatisticTable 
-                    columns={columns} 
-                    data={filteredData} 
-                    fetchData={fetchData}
-                    loading={dataLoading}
-                    pageCount={pageCount}
-                />
-            </Styles>
-        </div>
+        <StatisticTable 
+            columns={columns} 
+            data={data} 
+            fetchData={fetchData}
+            loading={cellsLoading}
+            pageCount={pageCount}
+        />
     )
+}
+
+const SortedStatModal = ({ filter }) => {
+    // const state = useContext(GlobalStore.State)
+    // filter = filter || 'allViews'; 
+   
+    const [session] = useSession()
+    let email = session && session?.user ? session.user.email : ''
+    
+    
+    
+    return (
+        <SortedStatModalWrapper
+            email={email}
+            filter={filter || 'allViews'}
+        />
+    );
 }
 
 export default SortedStatModal 

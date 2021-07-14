@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from 'react'
 import { Card,  Button, IconPieChart, InputNumber, IconBarChart } from '@supabase/ui'
 import { TableContainer, Table, TableHeader, TableBody, TableRow, TableCell  } from '@windmill/react-ui'
+import { Tag } from '@blueprintjs/core'
 
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
@@ -28,7 +29,6 @@ function useUserClickstreams(email, timeFilter)  {
 }
 
 
-
 const ActiveDatasetSelector = ({ email }) => {
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
@@ -48,7 +48,6 @@ const ActiveDatasetSelector = ({ email }) => {
         { index: '6', title: 'Top Engines', variable: 'engines', stat: sortedIps, loading: suaLoading },
     ];
     
-
     const handleUpdatedSelection = (updatedSelection) => {
         dispatch({
             type: 'assign',
@@ -124,68 +123,73 @@ const ActiveDatasetSelector = ({ email }) => {
     ); 
 }
 
-const DatasetSizeLimiter = ({ email, finalizedData }) => {
-    const state = useContext(NewSlugStore.State)
-    const dispatch = useContext(NewSlugStore.Dispatch)
+// const DatasetSizeLimiter = ({ email, finalizedData }) => {
+//     const state = useContext(NewSlugStore.State)
+//     const dispatch = useContext(NewSlugStore.Dispatch)
 
-    const handleResizeDataset = (updatedSize) => {
-        dispatch({
-            type: 'resize',
-            payload: {
-                key: 'datasetSize',
-                value: updatedSize
-            }
-        });
-    }
+//     const handleResizeDataset = (updatedSize) => {
+//         dispatch({
+//             type: 'resize',
+//             payload: {
+//                 key: 'datasetSize',
+//                 value: updatedSize
+//             }
+//         });
+//     }
 
-    return (
-        <InputNumber 
-            min={1} 
-            max={10}
-            value={state.datasetSize}
-            onChange={handleResizeDataset}
-            style={{ margin: '2px 5px 0px 7px' }}
-        />
-    )
-}
-                
-
+//     return (
+//         <InputNumber 
+//             min={1} 
+//             max={10}
+//             value={state.datasetSize}
+//             onChange={handleResizeDataset}
+//             style={{ margin: '2px 5px 0px 7px' }}
+//         />
+//     )
+// }
 
 const DataTable = ({ title, variable, data, loading }) => {
 
     return (
-        <TableContainer>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableCell className="text-sm font-extralight"> 
+        <table 
+            className="bp3-html-table bp3-html-table-striped bp3-html-table-bordered 
+                        bp3-html-table-condensed bp3-interactive bp3-small"
+            style={{ width: '500px' }}
+        >
+            <thead>
+                <tr>
+                    <th style={{ minWidth: '350px', maxWidth: '350px' }}>
+                        <span className="text-sm font-extralight"> 
                             {variable} 
-                        </TableCell>
-                        <TableCell className="text-sm font-extralight"> 
+                        </span>
+                    </th>
+                    <th style={{ minWidth: '150px', maxWidth: '150px' }}>
+                        <span className="text-sm font-extralight"> 
                             Visits 
-                        </TableCell>
-                    </TableRow>
-                </TableHeader>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
 
-                <TableBody>
-                    {data && data.length &&
-                        data.map(function(value, index) {
-                            return (
-                                <TableRow key={index}>
-                                    <TableCell className="text-sm font-extralight"> 
-                                    {loading ? <Loader /> 
-                                    : `${value[0].substring(0, 30)}${value[0].length >= 30 ? '...' : ''}`}
-                                    </TableCell>
-                                    <TableCell className="text-sm font-extralight"> 
-                                        {loading ? <Loader /> : value[1]}
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
+            <tbody>
+                {data && data.length && data.map(function(value, index) {
+                    return (
+                        <tr key={index}>
+                            <td>
+                                <span className="text-sm font-extralight"> 
+                                    {loading ? <Loader /> : `${value[0].substring(0, 30)}${value[0].length >= 30 ? '...' : ''}`}
+                                </span>
+                            </td>
+                            <td>
+                                <span className="text-sm font-extralight"> 
+                                    {loading ? <Loader /> : value[1]}
+                                </span>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
     );
 }
 

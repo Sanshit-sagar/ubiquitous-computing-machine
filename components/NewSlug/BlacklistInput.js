@@ -103,7 +103,7 @@ const IpAddressInput = ({ handleBlacklistAddition }) => {
 
 
 
-const BlacklistInput = () => {
+const IpBlacklist = () => {
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
     
@@ -128,24 +128,25 @@ const BlacklistInput = () => {
     }
 
     return (
-        <>
-            {/* <BlacklistedIpList 
-                blacklist={state.blacklist} 
-                handleBlacklistDeletion={handleBlacklistDeletion} 
-            />  */}
+        <div className="w-full flex-col justify-start align-stretch">
             <InputElementCardWrapper
-                title="IP Blacklist"
-                description="Enter the IP addresses you'd like blacklisted"
+                title="Destination URL"
+                description="Where should visitors be directed?"
                 children={
                     <IpAddressInput 
                         handleBlacklistAddition={handleBlacklistAddition} 
                     />
                 }
             />
-        </>
+        </div>
     );
-  }
+}
   
-   export default BlacklistInput
+export default IpBlacklist
    
-  
+
+
+{/* <BlacklistedIpList 
+    blacklist={state.blacklist} 
+    handleBlacklistDeletion={handleBlacklistDeletion} 
+/>  */}

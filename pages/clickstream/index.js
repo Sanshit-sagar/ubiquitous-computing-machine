@@ -8,6 +8,7 @@ import axios from 'axios'
 import useDateTimeConverter from '../../hooks/useDateTimeLocalizer'
 import StackedLayout from '../../sections/StackedLayout'
 import Loader from '../../components/Loader'
+import SortedStatModal from '../../components/SortedStatModal'
 
 import {
     TableContainer,
@@ -377,8 +378,7 @@ const ClickstreamTable = ({ email }) => {
 export default function Clickstream() {
     const [session] = useSession()
     const email  = session && session?.user ? session.user.email : ''
-    // const email = 'sasagar@ucsd.edu'
-
+    
     const meta = {
         'title': 'Dashboard',
         'description': 'Realtime stats such as: Number of views, unique visitors, most viewed pages and live clickstreams',
@@ -389,8 +389,10 @@ export default function Clickstream() {
             <StackedLayout 
                 pageMeta={meta} 
                 children={
-                    <ClickstreamTable email={email} />
-                }    
+                    <SortedStatModal 
+                        filter="allViews" 
+                    />
+                }
             />
         </>
     )

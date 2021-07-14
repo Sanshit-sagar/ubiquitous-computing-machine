@@ -31,7 +31,12 @@ export default async function handlers(req, res) {
                 allVisits.forEach(function(visit, j) {
                     let visitInfo = JSON.parse(visit); 
                     let ip = visitInfo.visitor?.ip;
-                    let ua = parser(`${visitInfo.visitor.system}`);
+                    
+                    let ua = {};
+                    if(visitInfo.visitor && visitInfo.visitor?.system) {
+                        ua = parser(`${visitInfo.visitor.system}`);
+                    } 
+
                     //initial, final visited sites and most viewed site 
 
                     if(ipMap[ip]) {
@@ -40,9 +45,9 @@ export default async function handlers(req, res) {
                             'destination': visitInfo.destination,
                             'timestamp': visitInfo.timestamp,
                             'geodata': `${visitInfo.geodata?.city}, ${visitInfo.geodata?.country}, ${visitInfo.geodata?.postalCode}`,
-                            'browser': `${ua.browser.name}`,
-                            'os': `${ua.os.name}`,
-                            'engine': `${ua.engine.name}`,
+                            'browser': ua.browser ? `${ua.browser.name}` : '',
+                            'os': ua.os ? `${ua.os.name}` : '',
+                            'engine': ua.engine ? `${ua.engine.name}` : '',
                         });
                     }
                 }); 
@@ -55,37 +60,59 @@ export default async function handlers(req, res) {
 
                 allVisits.forEach(function(visit, index) {
                     let visitInfo = JSON.parse(visit); 
-                    let dateStr = new Date(parseInt(visitInfo.timestamp)).toLocaleString();
-                    let ua = parser(`${visitInfo.visitor.system}`);
+                    if(visitInfo.timestamp && visitInfo.destination && visitInfo.slug) {
+                        let dateStr = new Date(parseInt(visitInfo.timestamp)).toLocaleString();
+                        let ua = {};
+                        if(visitInfo.visitor && visitInfo.visitor?.system) {
+                            ua = parser(`${visitInfo.visitor.system}`);
+                        } 
+                        
+                        let urlObj = new URL(visitInfo.destination)
 
-                    filteredData.push({
-                        'index': index, 
-                        'timestamp': visitInfo.timestamp,
-                        'datetime': dateStr,
-                        'key': visitInfo.key,
-                        'slug': visitInfo.slug,
-                        'destination': visitInfo.destination,
-                        'ip': visitInfo.visitor.ip,
-                        'host': visitInfo.visitor.host,
-                        'geodata': `${visitInfo.geodata?.city}, ${visitInfo.geodata?.country}, ${visitInfo.geodata?.postalCode}`,
-                        'coordinates': `${visitInfo.geodata.longitude}, ${visitInfo.geodata.latitude}`,
-                        'browser': ua.browser.name,
-                        'os': ua.os.name,
-                        'engine': ua.engine.name,
-                        'initialTimestamp': visitInfo.misc.initialTimestamp,
-                        'finalTimestamp': visitInfo.misc.finalTimestamp,
-                        'timeTaken': visitInfo.misc.timeTaken,
-                    });
+                        filteredData.push({
+                            'index': index, 
+                            'timestamp': visitInfo.timestamp,
+                            'datetime': dateStr,
+                            'key': visitInfo.key,
+                            'slug': visitInfo.slug,
+                            'links': { 
+                                'slug': visitInfo.slug,
+                            },
+                            'destination': {
+                                'url': visitInfo.destination,
+                                'hostname': urlObj.hostname,
+                            },
+                            'ipInfo': {
+                                'ip': visitInfo.visitor.ip,
+                                'host': visitInfo.visitor.host,
+                            },
+                            'geodata': {
+                                'location': `${visitInfo.geodata?.city}, ${visitInfo.geodata?.country}, ${visitInfo.geodata?.postalCode}`,
+                                'coordinates': `${visitInfo.geodata.longitude}, ${visitInfo.geodata.latitude}`,
+                            },
+                            'browser': ua.browser ? `${ua.browser.name}` : '',
+                            'os': ua.os ? `${ua.os.name}` : '',
+                            'engine': ua.engine ? `${ua.engine.name}` : '',
+                            'initialTimestamp': visitInfo.misc.initialTimestamp,
+                            'finalTimestamp': visitInfo.misc.finalTimestamp,
+                            'timeTaken': visitInfo.misc.timeTaken,
+                        });
+                    }
                 });
             } else if(filter==='allLinks') {
-                let userLinksList = await redis.hgetall(`aliases::${email}`);
-                Object.entries(userLinksList).map(function(value, index) {
-                    let linkInfo = JSON.parse(value[1]);
+                let userLinksListRaw = await redis.hgetall(`aliases::${email}`);
+                // console.log("!!!!" + userLinksListRaw)
+                let userLinksList = Object.values(userLinksListRaw).sort((a, b) => parseInt(JSON.parse(b).timestamp) - parseInt(JSON.parse(a).timestamp));
+                // console.log("***" + userLinksList)
+
+                userLinksList.map(function(value, index) {
+                    // console.log(`${index} YAYAY ${JSON.parse(value).slug}`)
+                    let linkInfo = JSON.parse(value); 
                     let dateStr = new Date(parseInt(linkInfo.timestamp)).toLocaleString();
                     let expiryStr = new Date(parseInt(linkInfo.config.ttl)).toLocaleString(); 
                     let lifetime = parseInt(linkInfo.config.ttl) - parseInt(linkInfo.timestamp); 
                     let lifeleft = parseInt(linkInfo.config.ttl) - parseInt(new Date().getTime().toString()); 
-                    let lifeleftPct = Math.round(((lifeleft/lifetime)*100));
+                    let lifeleftPct = lifeleft > 0 ? Math.floor((lifeleft/lifetime)*100) : 0;
 
                     filteredData.push({
                         'slug': `${linkInfo.slug}`,
@@ -93,6 +120,7 @@ export default async function handlers(req, res) {
                         'datetime': `${dateStr}`,
                         'lifetime': `${lifetime}`,
                         'lifeleft': `${lifeleft}`,
+                        'expiry': `${parseInt(linkInfo.config.ttl)}`,
                         'lifeleftPct': `${lifeleftPct}`,
                         'destination': `${linkInfo.url}`,
                         'ttl': `${expiryStr}`,
@@ -102,7 +130,9 @@ export default async function handlers(req, res) {
                         'seoTags': [...linkInfo.config.seoTags],
                     }); 
                 });
+                // console.log(JSON.stringify(filteredData[0])); 
             } 
+            
             res.status(200).json({ filteredData });
         } else {
             res.status(401).json({ error: 'Incorrect parameters provided' });

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 
 import { IconMail, Input } from '@supabase/ui'
 import { useSession } from 'next-auth/client'
-import useSWR from 'swr'
-import axios from 'axios'
-import Loader from '../../components/Loader'
+import { Popover2 } from '@blueprintjs/popover2'
 
 import { Popover } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import { ChevronRightIcon } from '@heroicons/react/solid'
+import useSWR from 'swr'
+import axios from 'axios'
+import Loader from '../../components/Loader'
 
 // const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -120,44 +121,56 @@ const ResultsPopover = ({ results, timestamp }) => {
   
 const SearchBar = () => {
     const [session, loading] = useSession()
+
+    const [isOpen, setIsOpen] = useState()
+    const [results, setResults] = useState()
+
+    const handleInteraction = (event) => {
+        console.log(`interacting`)
+    }
+
     const email = session && session?.user ? session.user.email : ''
 
-    // const email = 'sasagar@ucsd.edu'
-    const [results, setResults] = useState()
+    useEffect(() => {
+        if(results && results?.length && !isOpen) {
+            setIsOpen(true); 
+        }
+    }, [results, isOpen]);
 
     return (
         <div className="bg-white rounded-md shadow-md">
-            <Input
-                type="text"
-                placeholder="Search"
-                onChange={async (e) => {
-                    const { value } = e.currentTarget
-                    let options = {
-                        includeScore: true,
-                        keys: ['slug', 'url', 'views'],
-                    };
-                    const Fuse = (await import('fuse.js')).default
-                    const fuse = new Fuse(clicks, options)
+            
+                <Input
+                    type="text"
+                    placeholder="Search"
+                    onChange={async (e) => {
+                        const { value } = e.currentTarget
+                        if(value && value.length) {
+                            let options = {
+                                includeScore: true,
+                                keys: ['slug', 'url', 'views'],
+                            };
+                            const Fuse = (await import('fuse.js')).default
+                            const fuse = new Fuse(clicks, options)
 
-                    let temp = [];
-                    let results = fuse.search(value)
-                    results.map(function(value, index) {
-                        temp.push({ 
-                            slug: value.item.slug, 
-                            index: value.refIndex,
-                            score: value.score,
-                        }); 
-                    });
-                    setResults(temp); 
-                }}
-            />
-            {/* <MyPopover /> */}
-           
+                            let temp = [];
+                            let results = fuse.search(value)
+                            if(results && results.length) {
+                                results.map(function(value, index) {
+                                    temp.push({ 
+                                        slug: value.item.slug, 
+                                        index: value.refIndex,
+                                        score: value.score,
+                                    }); 
+                                });
+                                setResults(temp); 
+                            } else {
+                                setResults([]); 
+                            }
+                        }
+                    }}
+                />
 
-            {results && results?.length ?
-                <ResultsPopover results={results} timestamp={new Date().getTime().toString()} />
-                : null
-            }
         </div>
     )
 }

@@ -1,8 +1,9 @@
-import React, { Fragment, useContext } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { NewSlugStore } from '../store'
+import React, { useState, useContext } from 'react'
+import { Dialog, AnchorButton, Classes, Intent } from '@blueprintjs/core'
+import { NewSlugStore, GlobalStore } from '../store'
 
 const SharedModal = () => {
+    const uiState = useState(GlobalStore.State)
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
 
@@ -13,70 +14,34 @@ const SharedModal = () => {
     }
 
     return (
-        <Transition appear show={state.modalOpen} as={Fragment}>
-            <Dialog
-                as="div"
-                className="fixed inset-0 z-10 overflow-y-auto"
-                onClose={handleCloseModal}
-            >
-                
-                <div className="h-screen px-4 text-center">
-                    
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-200"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-30"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-30"
-                        leaveTo="opacity-0"
+        <Dialog 
+            isOpen={state.modalOpen} 
+            onClose={handleCloseModal}
+            canOutsideClickClose={true}
+            canEscapeKeyClose={true}
+            autoFocus={true}
+            usePortal={true}
+            title={state.modalData.title}
+            icon="feed"
+            className={uiState.darkMode ? 'bp3-dark' : ''}
+            lazy={true}
+            style={{ width: '1325px', height: '800px', overflowY: 'scroll' }}
+        >
+            <div className={Classes.DIALOG_BODY}>
+                <p> {state.modalData.description || null} </p>
+                {state.modalData.content}
+            </div>
+            <div className={Classes.DIALOG_FOOTER}>
+                <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+                    <AnchorButton
+                        intent={Intent.PRIMARY}
+                        onClick={handleCloseModal}
                     >
-                        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-30" />
-                    </Transition.Child>
-
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 scale-95"
-                        enterTo="opacity-100 scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 scale-100"
-                        leaveTo="opacity-0 scale-95"
-                    >
-                        <div className="inline-block p-6 my-8 text-left align-middle transition-all transform bg-white text-black dark:bg-gray-700 dark:text-white shadow-md rounded-md">
-                            <Dialog.Title
-                                as="h3"
-                                className="text-lg font-medium leading-6 text-gray-900"
-                            >
-                                <span className="text-md font-extralight text-black dark:text-white">
-                                    {state.modalData.title}
-                                </span>
-                            </Dialog.Title>
-
-                            <Dialog.Description>
-                               <span className="text-sm font-extralight">
-                                   {state.modalData.description || "description here: TODO"}
-                                </span>
-                            </Dialog.Description>
-
-                            <div className="m-2 p-2 rounded-sm shadow-md">
-                                {state.modalData.content}
-                            </div>
-
-                            <div className="mt-4">
-                                <button
-                                    type="button"
-                                    className="inline-flex justify-center px-4 py-2 text-sm font-extralight text-white bg-green-400 border border-transparent rounded-md hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-500"
-                                    onClick={handleCloseModal}
-                                >
-                                    Done
-                                </button>
-                            </div>
-                        </div>
-                    </Transition.Child>
+                        Done
+                    </AnchorButton>
                 </div>
-            </Dialog>
-        </Transition>
+            </div>
+        </Dialog>
     )
 }
 

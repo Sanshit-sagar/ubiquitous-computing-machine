@@ -10,7 +10,7 @@ import {
 
 import { NewSlugStore } from '../../store'
 
-import { UserCircleIcon, ExclamationCircleIcon, LoginIcon } from '@heroicons/react/solid'
+import { UserCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import { useSession, signOut, signIn } from 'next-auth/client'
 import Loader from '../Loader'
 import { UserIcon } from '@heroicons/react/outline'
@@ -24,6 +24,7 @@ const DropdownMenu = () => {
     <Dropdown
       overlay={[
         <Dropdown.Misc 
+          key="profileInfo"
           icon={
               loading ? <Loader />  
             : session && session.user ? <UserCircleIcon className="h-6 w-6" /> 
@@ -50,7 +51,9 @@ const DropdownMenu = () => {
         </Dropdown.Misc>,
         <Divider light />,
 
-        <Dropdown.Item onClick={() => {
+        <Dropdown.Item 
+          key="action1"
+          onClick={() => {
             dispatch({
               type: 'openModal',
               payload: {
@@ -72,6 +75,7 @@ const DropdownMenu = () => {
           <>
             <Divider light />
             <Dropdown.Item 
+                key="authButton"
                 icon={<IconLogOut />} 
                 onClick={() => signOut()}
             >

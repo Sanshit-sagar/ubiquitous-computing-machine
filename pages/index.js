@@ -6,6 +6,8 @@ import dynamic from 'next/dynamic'
 import Loader from '../components/Loader'
 import StackedLayout from '../sections/StackedLayout'
 
+import { styled } from '../stiches.config'
+
 const FeaturesCard = dynamic(
   () => import('../components/Marketing/Features'),
   { loading: () => <Loader /> }
@@ -15,6 +17,25 @@ const CallToAction = dynamic(
   () => import('../components/Marketing/CallToAction'),
   { loading: () => <Loader />,  ssr: false } 
 )
+
+// const Text = styled('p', {
+//   fontFamily: '$system',
+//   color: '$hiContrast',
+
+//   variants: {
+//     size: {
+//       1: {
+//         fontSize: '$1',
+//       },
+//       2: {
+//         fontSize: '$2',
+//       },
+//       3: {
+//         fontSize: '$3',
+//       },
+//     },
+//   },
+// });
 
 const HomePage = ({ meta }) => {
    

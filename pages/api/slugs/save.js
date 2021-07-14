@@ -25,6 +25,7 @@ export default async function handler(req, res) {
                 timestamp: new Date().getTime().toString(),
                 views: 0
             }
+            // console.log(`$$$${JSON.stringify(serializedData)}`);
 
             const pipeline = await redis.pipeline();
             pipeline.hset('aliases', slug, JSON.stringify(serializedData))
@@ -42,7 +43,8 @@ export default async function handler(req, res) {
                 data: { 
                     slug, 
                     owner: userEmail, 
-                    destination: url 
+                    destination: url,
+                    expiry: config.ttl,
                 }
             }).then(function(response) {
                 console.log(response);

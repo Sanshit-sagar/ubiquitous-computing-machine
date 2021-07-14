@@ -12,6 +12,8 @@ import { NewSlugStore } from '../../store'
 import { ViewsDisplay } from '../clickstream'
 import { getLocaleTimestring, getDateString } from '../../lib/datetime'
 
+import SortedStatModal from '../../components/SortedStatModal'
+
 import toast from 'react-hot-toast';
 import { Button, IconTrash, IconEye } from '@supabase/ui'
 import {
@@ -165,102 +167,102 @@ const LinkEntry = ({ email, index, cellsInRow, deleteConfirmed, setDeleteConfirm
     );
 }
 
-const LinksTable = ({ email, links, visible, deleteConfirmed, setDeleteConfirmed, toggle, toggleInfoModal }) => {
+// const LinksTable = ({ email, links, visible, deleteConfirmed, setDeleteConfirmed, toggle, toggleInfoModal }) => {
   
-    const columns = React.useMemo(() => [
-        { Header: 'URLs' },
-        { Header: 'Created At' },
-        { Header: 'Expiry' },
-        { Header: 'Lifetime'},
-        { Header: 'Validity' }, //todo: add a ttl field to the right of this
-        { Header: 'Views' },
-        { Header: 'Password' },
-        { Header: 'Actions' },
-    ], []);
+//     const columns = React.useMemo(() => [
+//         { Header: 'URLs' },
+//         { Header: 'Created At' },
+//         { Header: 'Expiry' },
+//         { Header: 'Lifetime'},
+//         { Header: 'Validity' }, //todo: add a ttl field to the right of this
+//         { Header: 'Views' },
+//         { Header: 'Password' },
+//         { Header: 'Actions' },
+//     ], []);
 
-    return (
-        <TableContainer>
-            <Table className="p-2 rounded-md">
-                <TableHeader>
-                    <TableRow className="text-left">
-                        {columns.map(function(value, index) {
-                            return (
-                                <TableCell key={index}>
-                                    {value.Header}
-                                </TableCell>
-                            )
-                        })}
-                    </TableRow>
-                </TableHeader>
+//     return (
+//         <TableContainer>
+//             <Table className="p-2 rounded-md">
+//                 <TableHeader>
+//                     <TableRow className="text-left">
+//                         {columns.map(function(value, index) {
+//                             return (
+//                                 <TableCell key={index}>
+//                                     {value.Header}
+//                                 </TableCell>
+//                             )
+//                         })}
+//                     </TableRow>
+//                 </TableHeader>
 
-                <TableBody className="bg-white divide-y divide-gray-200">
-                    {links.map(function(value, idx) {
-                        return  (
-                            <LinkEntry 
-                                index={idx} 
-                                cellsInRow={value} 
-                                deleteConfirmed={deleteConfirmed}
-                                setDeleteConfirmed={setDeleteConfirmed}
-                                toggle={toggle}
-                                toggleInfoModal={toggleInfoModal}
-                                email={email}
-                            />
-                        )
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
+//                 <TableBody className="bg-white divide-y divide-gray-200">
+//                     {links.map(function(value, idx) {
+//                         return  (
+//                             <LinkEntry 
+//                                 index={idx} 
+//                                 cellsInRow={value} 
+//                                 deleteConfirmed={deleteConfirmed}
+//                                 setDeleteConfirmed={setDeleteConfirmed}
+//                                 toggle={toggle}
+//                                 toggleInfoModal={toggleInfoModal}
+//                                 email={email}
+//                             />
+//                         )
+//                     })}
+//                 </TableBody>
+//             </Table>
+//         </TableContainer>
+//     );
+// }
 
 
-const LinksTableWrapper = ({ email, visible, deleteConfirmed, setDeleteConfirmed, toggle, toggleInfoModal }) => {
-    const [numUpdates, setNumUpdates] = useState(0)
+// const LinksTableWrapper = ({ email, visible, deleteConfirmed, setDeleteConfirmed, toggle, toggleInfoModal }) => {
+//     const [numUpdates, setNumUpdates] = useState(0)
     
-    const state = useContext(NewSlugStore.State)
-    const dispatch = useContext(NewSlugStore.Dispatch)
+//     const state = useContext(NewSlugStore.State)
+//     const dispatch = useContext(NewSlugStore.Dispatch)
 
-    const { links, loading, error } = useUserLibrary(email)
+//     const { links, loading, error } = useUserLibrary(email)
 
-    useEffect(() => {
-        if(!loading && !error && links.length!==state.links.length) {
-            dispatch({
-                type: 'assign',
-                payload: {
-                    key: 'links',
-                    value: links.sort((a, b) => {
-                        if(JSON.parse(a).timestamp && JSON.parse(b).timestamp) {
-                            return parseInt(JSON.parse(b).timestamp) - parseInt(JSON.parse(a).timestamp)
-                        } else if(JSON.parse(a).timestamp) {
-                            return parseInt(JSON.parse(a).timestamp)
-                        } else if(JSON.parse(b).timestamp) {
-                            return parseInt(JSON.parse(b).timestamp)
-                        } 
-                        return 0; 
-                    }),
-                }
-            }); 
-            setNumUpdates(numUpdates + 1)
-        }
-    }, [state.links, links, loading, error, numUpdates]); 
+//     useEffect(() => {
+//         if(!loading && !error && links.length!==state.links.length) {
+//             dispatch({
+//                 type: 'assign',
+//                 payload: {
+//                     key: 'links',
+//                     value: links.sort((a, b) => {
+//                         if(JSON.parse(a).timestamp && JSON.parse(b).timestamp) {
+//                             return parseInt(JSON.parse(b).timestamp) - parseInt(JSON.parse(a).timestamp)
+//                         } else if(JSON.parse(a).timestamp) {
+//                             return parseInt(JSON.parse(a).timestamp)
+//                         } else if(JSON.parse(b).timestamp) {
+//                             return parseInt(JSON.parse(b).timestamp)
+//                         } 
+//                         return 0; 
+//                     }),
+//                 }
+//             }); 
+//             setNumUpdates(numUpdates + 1)
+//         }
+//     }, [state.links, links, loading, error, numUpdates]); 
 
-    if(loading) return <Loader />
-    if(error) return <p> error! </p>
+//     if(loading) return <Loader />
+//     if(error) return <p> error! </p>
 
-    return (
-        <> 
-            <LinksTable 
-                email={email}
-                links={state.links}
-                visible={visible}
-                deleteConfirmed={deleteConfirmed}
-                setDeleteConfirmed={setDeleteConfirmed}
-                toggle={toggle}
-                toggleInfoModal={toggleInfoModal}
-            />
-        </>
-    )
-}
+//     return (
+//         <> 
+//             <LinksTable 
+//                 email={email}
+//                 links={state.links}
+//                 visible={visible}
+//                 deleteConfirmed={deleteConfirmed}
+//                 setDeleteConfirmed={setDeleteConfirmed}
+//                 toggle={toggle}
+//                 toggleInfoModal={toggleInfoModal}
+//             />
+//         </>
+//     )
+// }
 
 export default function LinksPage({ meta }) {
     const [session] = useSession()
@@ -300,14 +302,15 @@ export default function LinksPage({ meta }) {
                         data={infoModalDetails}
                         setData={setInfoModalDetails}
                     /> 
-                    <LinksTableWrapper
+                    {/* <LinksTableWrapper
                         email={email} 
                         visible={modalVisible}
                         deleteConfirmed={deleteConfirmed}
                         setDeleteConfirmed={setDeleteConfirmed}
                         toggle={toggleModal}
                         toggleInfoModal={toggleInfoModal}
-                    />
+                    /> */}
+                    <SortedStatModal filter="allLinks" />
                 </div>
             }
         />

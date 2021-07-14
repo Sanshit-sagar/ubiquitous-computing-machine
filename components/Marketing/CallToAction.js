@@ -26,13 +26,13 @@ const CallToAction = () => {
     const [session, loading] = useSession()
   
     return (
-        <Card>
+        <div h-100 className="dark:bg-gray-700 dark:text-white">
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white dark:bg-gray-700 sm:text-4xl">
                 <span className="block">
                   Web analytics delivered from the edge
                 </span>
-                <span className="block text-pink-700">
+                <span className="block text-green-400">
                   cute.ly, secure.ly, analytic.ly, 
                 </span>
               </h2>
@@ -49,7 +49,7 @@ const CallToAction = () => {
                         iconRight={<LoginIcon className="-ml-1 mr-2 h-5 w-5" />}
                         className="inline-flex items-center px-4 py-2 border border-transparent shadow-md text-lg font-extralight rounded-md text-white bg-black  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
                         onClick={() => {
-                          router.push('/auth/signin')
+                          router.push('/api/auth/signin')
                         }}
                       >
                         
@@ -59,7 +59,7 @@ const CallToAction = () => {
                 </div>
               </div>
             </div>
-        </Card>
+        </div>
     );
   }
   

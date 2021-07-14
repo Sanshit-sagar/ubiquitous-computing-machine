@@ -7,6 +7,7 @@ export default async function handler(req, res) {
         const clickstream = await redis.lrange(`clickstream.user.${email}`, 0 , -1); 
 
         let {freqs, freqsArr, cummFreqArr, scatterPlotArr, start, end} = getSortedFreqs(clickstream);
+        console.log(cummFreqArr);
 
         res.status(200).json({ freqs, freqsArr, cummFreqArr, scatterPlotArr, start, end });
     } catch (error) {
@@ -50,16 +51,16 @@ function getSortedFreqs(clicks) {
         return parseInt(new Date(a.x).toString()) - parseInt(new Date(b.x).toString())
     }); 
 
-    let start = new Date(windowStart).toLocaleDateString();
-    let end = new Date(windowEnd).toLocaleDateString();
+    let start = new Date(windowStart - 86400000).toLocaleDateString();
+    let end = new Date(windowEnd + 86400000).toLocaleDateString();
 
-    let idx = new Date(windowStart); 
-    let endIdx = new Date(windowEnd);
+    let idx = new Date(windowStart - 86400000);
+    let endIdx = new Date(windowEnd + 86400000);
     let freqsArr = [];
     let cummFreqArr = []; 
 
     let cummFreq = 0; 
-    while(idx < endIdx) {
+    while(idx <= endIdx) {
         let dateKey = new Date(idx).toLocaleDateString();
        
 
@@ -76,7 +77,11 @@ function getSortedFreqs(clicks) {
         idx = new Date(newDate);
     }
 
-    return { freqs, freqsArr, scatterPlotArr, cummFreqArr, start, end }; 
+    chronologicalSort(freqsArr);
+    chronologicalSort(cummFreqArr); 
+
+
+    return { freqs, freqsArr, cummFreqArr, scatterPlotArr, start, end }; 
 }
 
 function getDayOfYear(datetime) {
@@ -87,4 +92,14 @@ function getDayOfYear(datetime) {
     var dayOfYear = Math.floor(diff / oneDay);
    
     return dayOfYear;
+}
+
+function chronologicalSort(arr) {
+    arr.sort((a, b) => {
+        if(a.x === b.x) {
+            return parseInt(a.y) - parseInt(b.y);
+        }
+        return parseInt(new Date(a.x).toString()) - parseInt(new Date(b.x).toString())
+    }); 
+    return arr; 
 }

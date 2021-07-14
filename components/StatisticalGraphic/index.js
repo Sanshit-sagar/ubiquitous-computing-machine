@@ -15,7 +15,8 @@ const Statistic = ({ email, stat, loading }) => {
             payload: {
                 tenant: `Statistic: ${name}`,
                 title: `${name}`,
-                content: <SortedStatModal filter={id} email={email} />
+                content: 
+                    <SortedStatModal filter={id} />
             }
         });
     }
