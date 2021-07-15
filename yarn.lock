@@ -873,7 +873,7 @@
     "@radix-ui/react-polymorphic" "0.0.12"
     "@radix-ui/react-primitive" "0.0.14"
 
-"@radix-ui/react-slot@0.0.12":
+"@radix-ui/react-slot@^0.0.12", "@radix-ui/react-slot@0.0.12":
   "integrity" "sha512-Em8P/xYyh3O/32IhrmARJNH+J/XCAVnw6h2zGu6oeReliIX7ktU67pMSeyyIZiU2hNXzaXYB/xDdixizQe/DGA=="
   "resolved" "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-0.0.12.tgz"
   "version" "0.0.12"
