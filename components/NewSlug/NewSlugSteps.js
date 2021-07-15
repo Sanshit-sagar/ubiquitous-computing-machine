@@ -7,7 +7,7 @@ const steps = [
   { id: '04', name: 'Share', href: '#', status: 'upcoming' },
 ]
 
-const Steps = () => {
+const NewSlugSteps = () => {
   return (
     <nav aria-label="Progress">
       <ol className="border border-gray-300 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
@@ -67,4 +67,4 @@ const Steps = () => {
   )
 }
 
-export default Steps 
+export default NewSlugSteps 

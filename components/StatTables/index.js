@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from 'react'
-import { Card,  Button, IconPieChart, InputNumber, IconBarChart } from '@supabase/ui'
+import { IconPieChart, InputNumber, IconBarChart } from '@supabase/ui'
 import { TableContainer, Table, TableHeader, TableBody, TableRow, TableCell  } from '@windmill/react-ui'
-import { Tag } from '@blueprintjs/core'
+import { Card, Elevation, Tag, Button } from '@blueprintjs/core'
 
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
@@ -122,31 +122,6 @@ const ActiveDatasetSelector = ({ email }) => {
         </div>
     ); 
 }
-
-// const DatasetSizeLimiter = ({ email, finalizedData }) => {
-//     const state = useContext(NewSlugStore.State)
-//     const dispatch = useContext(NewSlugStore.Dispatch)
-
-//     const handleResizeDataset = (updatedSize) => {
-//         dispatch({
-//             type: 'resize',
-//             payload: {
-//                 key: 'datasetSize',
-//                 value: updatedSize
-//             }
-//         });
-//     }
-
-//     return (
-//         <InputNumber 
-//             min={1} 
-//             max={10}
-//             value={state.datasetSize}
-//             onChange={handleResizeDataset}
-//             style={{ margin: '2px 5px 0px 7px' }}
-//         />
-//     )
-// }
 
 const DataTable = ({ title, variable, data, loading }) => {
 
@@ -291,7 +266,7 @@ const StatTables = ({ email }) => {
     }
 
     return (
-        <Card>
+        <Card interactive={true} elevation={Elevation.TWO} className={state.darkMode ? 'bp3-dark' : ''} style={{ width: '1100px'}}>
             <div style={{ width: '100%', marginHorizontal: '12.5px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'stretch', margin: '0px 0px 20px 0px', padding: '2.5px' }}>
                 <div>
                      <ActiveDatasetSelector email={email} /> 
@@ -302,14 +277,14 @@ const StatTables = ({ email }) => {
                     <Button
                         size="medium"
                         type="outline"
-                        icon={<IconPieChart />}
+                        icon="pie-chart"
                         onClick={() => {handleGraphTypeUpdate('pie')}}
                         style={{ margin: '0px 5px 0px 5px' }}
                     />
                     <Button
                         size="medium"
                         type="outline"
-                        icon={<IconBarChart />}
+                        icon="horizontal-bar-chart"
                         onClick={() => {handleGraphTypeUpdate('bar')}}
                         style={{ margin: '0px 5px 0px 5px' }}
                     /> 

@@ -151,7 +151,7 @@ const CampaignTracker = () => {
     return (
         <div className="w-full flex-col justify-start align-stretch mr-3 m-1">
           <InputElementCardWrapper
-              title="SEO/UTM tags"
+              title="Campaign Tracking"
               description="Select a field for the type and name of tag, and enter the value you want to assign to it"
               children={
               <>

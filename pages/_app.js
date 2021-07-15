@@ -66,16 +66,14 @@ function MyApp({ Component, pageProps }) {
                 reverseOrder={false}
                 gutter={8}
                 toastOptions={{
-                  success: {
-                    theme: {
-                      primary: 'green',
-                      secondary: 'black',
-                    },
+                  style: {
+                    border: '1px solid #713200',
+                    padding: '16px',
+                    color: '#713200',
                   },
-                  error: {
-                    style: {
-                      background: 'red',
-                    },
+                  iconTheme: {
+                    primary: '#713200',
+                    secondary: '#FFFAEE',
                   },
                 }}
               />

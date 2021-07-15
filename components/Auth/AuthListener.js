@@ -7,7 +7,7 @@ const AuthListener = ({ children }) => {
     const isUser = !!session?.user
     
     useEffect(() => {
-      if (loading) return <Loader />
+      if (loading) return  <Loader />;
       if (!isUser) signIn() 
     }, [isUser, loading])
   
@@ -15,7 +15,7 @@ const AuthListener = ({ children }) => {
       return children
     }
   
-    return <Loader /> 
+    return <Loader />;
 }
 
 export default AuthListener

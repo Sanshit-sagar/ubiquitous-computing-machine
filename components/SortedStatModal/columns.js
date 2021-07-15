@@ -36,7 +36,7 @@ export const timeAgo = (dateTime) => {
 
 const UserAgentCell = ({ data, title, isLoading }) => {
     return (
-        <span className={"text-xs font-extralight text-black" + isLoading ? "bp3-skeleton" : ""}> 
+        <span className="text-xs font-extralight text-black"> 
             {data} 
         </span>
     ); 
@@ -324,6 +324,8 @@ const getColumns = (key, email, cellsLoading) => {
             Header: 'Health',
             accessor: `expiry`,
             Cell: ({ value }) => {
+                if(!value) return null;
+
                 let now = new Date().getTime();
                 const isActive = !value || !value.length || parseInt(value)>now
                 return (

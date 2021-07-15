@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { NewSlugStore } from '../../store'
+import React from 'react'
+import Loader from '../Loader'
 
 import { InputElementCardWrapper } from './index'; 
 import { Input } from '@supabase/ui'

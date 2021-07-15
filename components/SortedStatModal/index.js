@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/client'
 import { useTable, usePagination } from 'react-table'
 import { Card, AnchorButton, ButtonGroup, Elevation, NumericInput } from '@blueprintjs/core'
 
-import Loader from '../Loader/index'
 import getColumns from './columns'
 import { GlobalStore } from '../../store'
 
@@ -113,24 +112,32 @@ const StatisticTable = ({ columns, data, fetchData, loading, pageCount: controll
 
     return (       
         <Card 
-            interactive={true} 
-            elevation={Elevation.TWO} 
             style={{ marginVertical: '20px' }}
         >
-            <Pagination 
-                canPreviousPage={canPreviousPage}
-                canNextPage={canNextPage}
-                pageOptions={pageOptions}
-                pageCount={pageCount}
-                gotoPage={gotoPage}
-                nextPage={nextPage}
-                previousPage={previousPage}
-                setPageSize={setPageSize}
-                pageIndex={pageIndex}
-                pageSize={pageSize}
-                loading={loading}
-            />  
-            <div style={{ marginTop: '20px' }}>      
+            <Card 
+                className={state.darkMode ? "bp3-dark" : ""} 
+                style={{ padding: '5px' }}
+            >
+                <Pagination 
+                    canPreviousPage={canPreviousPage}
+                    canNextPage={canNextPage}
+                    pageOptions={pageOptions}
+                    pageCount={pageCount}
+                    gotoPage={gotoPage}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                    setPageSize={setPageSize}
+                    pageIndex={pageIndex}
+                    pageSize={pageSize}
+                    loading={loading}
+                />  
+            </Card>
+            <Card 
+                className={state.darkMode ? "bp3-dark" : ""}
+                interactive={true} 
+                elevation={Elevation.ONE}
+                style={{ marginTop: '20px', padding: '2.5px', border: 'thin solid black', borderRadius: '5px' }}
+            >      
                 <table 
                     {...getTableProps()} 
                     className="bp3-html-table bp3-html-table-striped bp3-html-table-bordered 
@@ -169,7 +176,7 @@ const StatisticTable = ({ columns, data, fetchData, loading, pageCount: controll
                         })}
                     </tbody>
                 </table>
-            </div>
+            </Card>
         </Card>
         
     );
@@ -225,13 +232,8 @@ const SortedStatModalWrapper = ({ email, filter }) => {
 }
 
 const SortedStatModal = ({ filter }) => {
-    // const state = useContext(GlobalStore.State)
-    // filter = filter || 'allViews'; 
-   
     const [session] = useSession()
     let email = session && session?.user ? session.user.email : ''
-    
-    
     
     return (
         <SortedStatModalWrapper

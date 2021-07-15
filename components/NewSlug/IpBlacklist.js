@@ -128,10 +128,11 @@ const IpBlacklist = () => {
     }
 
     return (
+        // todo: where should they be redirected to? default: http cat
         <div className="w-full flex-col justify-start align-stretch">
             <InputElementCardWrapper
-                title="Destination URL"
-                description="Where should visitors be directed?"
+                title="IP Blacklist"
+                description="Enter the IP Addresses that shouldn't be allowed to view your webpage" 
                 children={
                     <IpAddressInput 
                         handleBlacklistAddition={handleBlacklistAddition} 

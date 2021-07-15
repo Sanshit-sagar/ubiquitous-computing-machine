@@ -1,8 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-
-import { Input } from '@supabase/ui'
-import { Icon } from '@blueprintjs/core'
-
+import React, { useState, useEffect, useContext } from 'react';
+import { FormGroup, InputGroup, Icon, Button, Text } from '@blueprintjs/core'
 import { NewSlugStore } from '../../store'
 import { InputElementCardWrapper } from './index'; 
 
@@ -27,24 +24,32 @@ const DestinationUrl = ({ mutate }) => {
             <InputElementCardWrapper
                 title="Custom Slug"
                 description={'Select or enter a slug of your liking'}
-                children={
-                    <Input 
+                children={<>
+                    <FormGroup
+                        helperText="Enter a valid destination URL"
                         label="Destination URL"
-                        type="url"
-                        value={state.destination}
-                        onChange={(event) => {
-                            handleUrlUpdate(event);
-                            mutate('destination', event.target.value)
-                        }}
-                        error={!isValidUrl ? "invalid url" : ""}
-                        icon={
-                            <Icon icon="link" />
-                        }
-                        descriptionText="Enter a valid destination URL" 
-                        labelOptional="HTTP/HTTPS only"
-                        className="mt-6"
-                    />
-                }
+                        labelFor="url"
+                        labelInfo="(required)"
+                    >
+                        <InputGroup 
+                            id="url" 
+                            placeholder="https://www.example.com"
+                            onChange={(event) => {
+                                handleUrlUpdate(event);
+                                mutate('destination', event.target.value)
+                            }}
+                            leftIcon={<Icon icon="link" intent="primary" />}
+                            intent={!isValidUrl ? "danger" : "primary"}    
+                            autocomplete="off"
+                            rightElement={<Icon icon={isValidUrl ? 'tick-circle' : 'error'} style={{ margin: '5px 5px 0px 0px' }} />}
+                        />
+                    </FormGroup>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                        <span className={isValidUrl ? 'text-green-400' : 'text-red-500'}> 
+                            {isValidUrl ? 'Looks good!' : 'Hmmm, that doesnt look like a valid URL'}
+                        </span> 
+                    </div>
+                </>}
             />
         </div>
     );

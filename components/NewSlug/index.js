@@ -2,203 +2,84 @@
 import React, { useContext } from 'react';
 import { useSession } from 'next-auth/client';
 
+import { Button, Card, Elevation } from '@blueprintjs/core'
 import toast from 'react-hot-toast';
 import useSWR from 'swr'
 
+
+import { NewSlugStore } from '../../store'
+import NewSlugSteps from './NewSlugSteps'
 import DestinationUrl from './DestinationUrl'
-import PersonalizedSlug from './PersonalizedSlug';
+import PersonalizedSlug from './PersonalizedSlug'
+import ExpirationDateTime from './ExpirationDateTime'
 import IpBlacklist from './IpBlacklist'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 import EncryptionInput from './EncryptionInput'
 import CampaignTracker from './CampaignTracker'
-import Steps from './Steps'
 
-import Loader from '../../components/Loader'
-import { NewSlugStore } from '../../store'
-import { SaveIcon } from '@heroicons/react/outline';
 import VerticalTabs from '../../primitives/VerticalTabs'
 
+// function NewSlugMenu() {
+//     const state = useContext(NewSlugStore.State)
+//     const dispatch = useContext(NewSlugStore.Dispatch)
 
-import { Card, IconCalendar } from '@supabase/ui'
+//     const handleTabChange = (tabId) => {
+//         dispatch({
+//             type: 'assign',
+//             payload: {
+//                 key: 'currentTab',
+//                 value: tabId
+//             }
+//         }); 
+//     }
 
-function NewSlugMenu() {
-    const state = useContext(NewSlugStore.State)
-    const dispatch = useContext(NewSlugStore.Dispatch)
-
-    const handleTabChange = (tabId) => {
-        dispatch({
-            type: 'assign',
-            payload: {
-                key: 'currentTab',
-                value: tabId
-            }
-        }); 
-    }
-
-    // const details = [
-    //     { id: 'destination', title: 'Destination', icon: <LinkIcon className="h-6 w-6" /> },
-    //     { id: 'slug', title: 'Customization', icon: <CursorClickIcon className="h-6 w-6" /> },
-    //     { id: 'ttl', title: 'Expiration', icon: <CalendarIcon className="h-6 w-6"  />},
-    // ]; 
-
-    // const analytics = [
-    //     { id: 'seo', title: 'UTM Tags', icon: <UserGroupIcon className='h-6 w-6' /> },
-    //     // { id: 'abtests', title: 'A/B Tests', icon: <BeakerIcon className='h-6 w-6' /> }
-    // ];
-      
-    // const flags = [ 
-    //     { id: 'blacklists', title: 'Blacklists', icon: <BanIcon className="h-6 w-6"  /> },
-    //     { id: 'password', title: 'Encryption', icon: <LockClosedIcon className="h-6 w-6" /> },
-    //     // { id: 'ratelimits', title: 'Rate Limits', icon: <PauseIcon className="h-6 w-6"  /> },
-    //     // { id: 'redirects', title: 'Redirects', icon: <ExternalLinkIcon className='h-6 w-6' /> },
-    //     // { id: 'cache', title: 'Cache', icon: <DatabaseIcon className='h-6 w-6' /> }
-    // ]; 
-
-    // const actions = [
-    //     // { id: 'duplicate', title: 'Duplicate', icon: <DocumentDuplicateIcon className='h-6 w-6' /> },
-    //     { id: 'share', title: 'Share', icon: <GlobeAltIcon className='h-6 w-6' /> },
-    //     // { id: 'discard', title: 'Discard', icon: <TrashIcon className='h-6 w-6' /> }
-    // ];
-
-    // const items = [
-    //     { index: 0, content: [...details], title: 'Details'},
-    //     { index: 1, content: [...analytics], title: 'Analytics'},
-    //     { index: 2, content: [...flags], title: 'Feature Flags'},
-    //     { index: 3, content: [...actions], title: 'Actions'}
-    // ]; 
-
-    return (
-        <VerticalTabs 
-            urlInput={<DestinationUrl />}
-            slugInput={<PersonalizedSlug />}
-            ttlInput={<ExpirationDateTime />}
-            blacklistInput={<IpBlacklist />}
-            encryptionInput={<EncryptionInput />}
-            campaignTracker={<CampaignTracker />}
-        />
-    );
-}
+//     return (
+        
+//     );
+// }
 
 export const InputElementCardWrapper = ({ title, description, children }) => {
 
     return (
         <div className="w-full align-col justify-start align-stretch m-2 p-1">
-            <Card>
-                <Card.Meta title={title} description={description} />
+            <Card interactive={true} elevation={Elevation.TWO}>
+                <h5>
+                    <span className="text-md font-extralight text-black">
+                        {title}
+                    </span>        
+                </h5>
+                <span className="text-sm font-extralight text-gray-700"> 
+                    {description} 
+                </span>
+                
                 <div className="mt-6">
-                    {children}
-                </div> 
+                    <span className="text-sm font-extralight text-gray-700">
+                        {children}
+                    </span> 
+                </div>
             </Card>
         </div>
     )
 }
 
-// const DestinationUrl = ({ mutate }) => {
-//     var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
-//     const state = useContext(NewSlugStore.State)
+const useNewSlugInfo = () => {
+    const { data, error } = useSWR('/api/slugs/new')
 
-//     const [urlValue, setUrlValue] = useState('')
-//     const [isValidUrl, setIsValidUrl] = useState(false)
-
-//     useEffect(() => {
-//         setIsValidUrl(urlValidator.test(urlValue));
-//     }, [urlValue, urlValidator]);
-
-//     const handleUrlUpdate = (event) => {
-//         setUrlValue(event.target.value)
-//     }
-
-//     return (
-//         <div className="w-full flex-col justify-start align-stretch">
-//             <InputElementCardWrapper
-//                 title="Custom Slug"
-//                 description={'Select or enter a slug of your liking'}
-//                 children={
-//                     <Input 
-//                         label="Destination URL"
-//                         type="url"
-//                         value={state.destination}
-//                         onChange={(event) => {
-//                             handleUrlUpdate(event);
-//                             mutate('destination', event.target.value)
-//                         }}
-//                         error={!isValidUrl ? "invalid url" : ""}
-//                         icon={
-//                             <IconLink className="h-6 w-6 text-black" />
-//                         }
-//                         descriptionText="Enter a valid destination URL" 
-//                         labelOptional="HTTP/HTTPS only"
-//                         className="mt-6"
-//                     />
-//                 }
-//             />
-//         </div>
-//     );
-// }
-
-// const PersonalizedSlug = () => {
-//     const { data, error } = useSWR('/api/slugs/new')
-
-//     if(!data && !error) return <Loader />
-//     if(error) return <p> Error: {error.message} </p>
-
-//     return (
-//         <div className="w-full flex-col justify-start align-stretch">
-//             <InputElementCardWrapper
-//                 title="Custom Slug"
-//                 description={'Select or enter a slug of your liking'}
-//                 children={
-//                     <div className="mt-1">
-//                         <Input
-//                             value={data.slug}
-//                             type="text"
-//                             label="Slug"
-//                             descriptionText="Select the Slug you'd like your viewers to click" 
-//                         />
-//                     </div>
-//                 }
-//             />
-//         </div>
-//     )
-// }
-
-
-export const ExpirationDateTime = ({ mutate }) => {
-    const state = useContext(NewSlugStore.State)
-
-    return (
-        <div className="w-full flex-col justify-start align-stretch">
-            <InputElementCardWrapper
-                title='Expiration [Time To Live]'
-                description='When should this link go offline?'
-                children={
-                
-                    <input 
-                        name="ttl" 
-                        id="ttl" 
-                        value={state.ttl}
-                        onChange={(event) => {
-                            mutate('ttl', event.target.value)
-                        }}
-                        type='datetime-local'
-                        className="mt-2 mb-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md dark:text-white dark:bg-gray-700"
-                        placeholder="MM/DD/YYYY"
-                        aria-describedby="expiry-optional"
-                        icon={<IconCalendar className="h-5 w-5" />}
-                    />
-                }
-            />
-        </div>
-    );
+    return {
+        data: data,
+        dataLoading: !data && !error,
+        dataError: error,
+    }; 
 }
+   
+
 
 const NewSlug = () => {
     const [session, loading] = useSession()
-
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
 
-    const { data, error } = useSWR('/api/slugs/new')
-    
+    const { data, dataLoading, dataError } = useNewSlugInfo(); 
+ 
     const assignmentMutation = (key, value) => {
         dispatch({
             type: 'assign',
@@ -224,13 +105,10 @@ const NewSlug = () => {
         })
     }
 
-    const publish = async (slug, url, config) => {
-        alert(`publishing... slug: ${slug} and URL: ${url}`)
-
-        if(!session || loading) return;
+    const publish = async (slug, url, config, toastId) => {
+        if(!session || loading || dataLoading) return;
         if(!slug || !slug.length || !url || !url.length) return;
 
-       
 
         const res = await fetch('/api/slugs/save', {
             body: JSON.stringify({ 
@@ -246,6 +124,12 @@ const NewSlug = () => {
         })
 
         const { didSave, message, error } = await res.json()
+
+        if(toastId) {
+            toast.dismiss(toastId);
+        } else {
+            toast.dismiss();
+        }
         
         if(error) {
             toast.error(`Error! ${error}`)
@@ -259,46 +143,57 @@ const NewSlug = () => {
     }   
 
     const handleSubmit = () => {
-        let url =  `${state.destination}` || '';
+        let url =  `${state.destination}` || ''
         let slug = data ? `${data.slug}` : null
-        let ttl = `${state.ttl}` || '';
+        let ttl = `${state.ttl}` || ''
         if(ttl) {
-            ttl = new Date(ttl).getTime().toString();
+            ttl = new Date(ttl).getTime().toString()
         }
-        let password = `${state.password}` || '';
-        let blacklist = state.blacklist.length ? [...state.blacklist] : [];
-        let seoTags = state.seoTags.length ? [...state.seoTags] : [];
-        let routingStatus = state.routingStatus || '301';
+        let password = `${state.password}` || ''
+        let blacklist = state.blacklist.length ? [...state.blacklist] : []
+        let seoTags = state.seoTags.length ? [...state.seoTags] : []
+        let routingStatus = state.routingStatus || '301'
 
         const config = { ttl, password, blacklist, seoTags, routingStatus }; 
-        alert(`Submitting ${JSON.stringify(config)} for slug:${slug} with destination ${url}`);
+        const toastId = toast.loading('Creating your new slug...');
+        publish(slug, url, config, toastId)
+    }
 
-        publish(slug, url, config)
+    if(dataError) {
+        toast.error(dataError); 
     }
  
     return (
-        <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+        <Card>
             <div className="py-6 px-4 w-full h-full flex-col justify-items-start align-stretch">
-                <div>
-                    <Steps />
+                <div> 
+                    <NewSlugSteps /> 
                 </div>
-                <div>
-                    <NewSlugMenu /> 
+                <div> 
+                    <VerticalTabs 
+                        urlInput={<DestinationUrl mutate={assignmentMutation} />}
+                        slugInput={<PersonalizedSlug mutate={assignmentMutation} />}
+                        ttlInput={<ExpirationDateTime mutate={assignmentMutation} />}
+                        blacklistInput={<IpBlacklist mutate={assignmentMutation} />}
+                        encryptionInput={<EncryptionInput mutate={assignmentMutation} />}
+                        campaignTracker={<CampaignTracker mutate={assignmentMutation} />}
+                    /> 
                 </div>
             </div>
                 
-            <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                <button
+            <div className="px-4 py-3 bg-gray-100 text-right sm:px-6">
+                <Button
                     onClick={handleSubmit}
-                    disabled={!session && !loading}
+                    disabled={!session}
+                    loading={loading || dataLoading}
                     type="submit"
-                    className="bg-black border border-transparent rounded-sm shadow-md py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-200 hover:text-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                    rightIcon="floppy-disk"
+                    intent="success"
                 >
                     Save
-                    <SaveIcon />
-                </button>
+                </Button> 
             </div>
-        </div>
+        </Card>
     );
 }
   

@@ -28,27 +28,31 @@ const Statistic = ({ email, stat, loading }) => {
     
 
     return (
-        <div class="bg-white text-gray-700 shadow-md rounded-md p-2">
-            <div class="flex items-center">
+        <div className="bg-white text-gray-700 shadow-md rounded-md p-2">
+            <div className="flex items-center">
                 {icon}
                 <span class="text-md ml-2 text-extralight">
                     {name}
                 </span>
             </div>
         
-            <div class="flex flex-col justify-start">
-                <p class="text-4xl text-left font-bold my-4">
+            <div className="inline-flex justify-between align-stretch w-full">
+                <p className="text-4xl text-left font-bold my-4">
                     {loading || loadingStat ? <Loader /> : `${value}`}
                 </p>
+
+                {/* <div className="rounded-sm shadow-lg bg-gray-300">
+                    <Button onClick={handleView<p>-</p> 
+                </div> */}
                 
-                <div className="mt-1">
+                {/* <div className="mt-1">
                     <button 
                         onClick={handleViewAll}
                         className="w-full flex justify-center items-center px-3 py-1 border border-gray-300 shadow-sm text-sm font-extralight rounded-sm text-gray-700 bg-white hover:bg-gray-50"
                     >
                         View {name}
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
