@@ -114,6 +114,10 @@ export default async function handlers(req, res) {
                     let lifeleft = parseInt(linkInfo.config.ttl) - parseInt(new Date().getTime().toString()); 
                     let lifeleftPct = lifeleft > 0 ? Math.floor((lifeleft/lifetime)*100) : 0;
 
+                    if(`${parseInt(linkInfo.config.ttl)}` === 'NaN') {
+                        lifeleftPct = 'NaN';
+                    }
+
                     filteredData.push({
                         'slug': `${linkInfo.slug}`,
                         'createdAt': linkInfo.timestamp,

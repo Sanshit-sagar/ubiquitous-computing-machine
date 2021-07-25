@@ -10,6 +10,8 @@ export default async function handler(req, res) {
                 res.status(200).json({ deletedLink });                 
             } else {
                 var links = await redis.hgetall(`aliases::${email}`)
+                
+                console.log(`Returning: ${links}`)
                 res.status(200).json({ links }); 
             }
         } else {

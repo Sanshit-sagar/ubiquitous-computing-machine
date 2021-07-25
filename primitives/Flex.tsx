@@ -92,7 +92,7 @@ export const Flex = styled('div', {
     }
   },
   defaultVariants: {
-    direction: 'row',
+    direction: 'column',
     align: 'stretch',
     justify: 'start',
     wrap: 'noWrap',

@@ -1,102 +1,130 @@
 import React, { useState, useContext } from 'react';
 
 import { NewSlugStore } from '../../store'
-import { Card, Input, Button, Badge, Typography } from '@supabase/ui'
-import { InputElementCardWrapper } from './index'; 
+import { InputElementCardWrapper } from './index'
+import { TagInput, Icon } from '@blueprintjs/core'
+import toast from 'react-hot-toast'
 
-const BlacklistedIpList = ({ blacklist, handleBlacklistDeletion }) => {
+// const BlacklistedIpList = ({ blacklist, handleBlacklistDeletion }) => {
+
+//     return (
+//         <div 
+//             className="bg-gray-700 dark:bg-gray-300 text-white dark:text-gray-800 mb-5 p-3 border-white dark:border-black rounded-md"
+//         >
+//             <Card>
+//                 {!blacklist.length 
+//                     ?   
+//                         <Typography.Text> 
+//                             Add IP addresses below to start seeing your blacklist here 
+//                         </Typography.Text> 
+//                     :  
+//                         <> 
+//                             <Typography.Title level={4}> 
+//                                 Blacklisted IP Addresses 
+//                             </Typography.Title> 
+//                             <br /> 
+//                         </>
+//                 }
+//                 <li className="inline-flex justify-start align-start flex-wrap max-w-full">
+//                     {blacklist.map(function(value, index) {
+//                         return (
+//                             <ul key={index}>
+//                                 <Badge 
+//                                     color="pink" 
+//                                 >
+//                                     {value}
+//                                     <Button 
+//                                         onClick={() => {
+//                                             handleBlacklistDeletion(index)
+//                                         }}
+//                                         style={{ padding: '1px 2px 1px 2px', margin: '3px 2px 2px 5px', backgroundColor: 'green', color: 'white' }}
+//                                     > 
+//                                         x
+//                                     </Button>
+//                                 </Badge> 
+//                             </ul>
+//                         )
+//                     })}
+//                 </li> 
+//             </Card>
+//         </div>
+//     )
+// }
+const IpBlacklistDisplay = ({ blacklist, handleBlacklistDeletion }) => {
+
+    const handleBlacklistChange = () => {
+        toast.success('updating...'); 
+    }
+
+    const handleAdd = () => {
+        toast.success('adding to blackist...');
+    }
+
 
     return (
-        <div 
-            className="bg-gray-700 dark:bg-gray-300 text-white dark:text-gray-800 mb-5 p-3 border-white dark:border-black rounded-md"
-        >
-            <Card>
-                {!blacklist.length 
-                    ?   
-                        <Typography.Text> 
-                            Add IP addresses below to start seeing your blacklist here 
-                        </Typography.Text> 
-                    :  
-                        <> 
-                            <Typography.Title level={4}> 
-                                Blacklisted IP Addresses 
-                            </Typography.Title> 
-                            <br /> 
-                        </>
+        <div className="w-full flex-col justify-start align-stretch">
+            <TagInput 
+                values={blacklist}
+                placeholder="Enter a valid address to create a blacklist"
+                onChange={handleBlacklistChange}
+                leftIcon="ip-address"
+                rightElement={
+                    <Icon 
+                        icon="warning-sign" 
+                        intent="danger" 
+                    />
                 }
-                <li className="inline-flex justify-start align-start flex-wrap max-w-full">
-                    {blacklist.map(function(value, index) {
-                        return (
-                            <ul key={index}>
-                                <Badge 
-                                    color="pink" 
-                                >
-                                    {value}
-                                    <Button 
-                                        onClick={() => {
-                                            handleBlacklistDeletion(index)
-                                        }}
-                                        style={{ padding: '1px 2px 1px 2px', margin: '3px 2px 2px 5px', backgroundColor: 'green', color: 'white' }}
-                                    > 
-                                        x
-                                    </Button>
-                                </Badge> 
-                            </ul>
-                        )
-                    })}
-                </li> 
-            </Card>
+                onRemove={handleBlacklistDeletion}
+                onAdd={handleAdd}
+                addOnBlur={true}
+                addOnPaste={true} 
+            />
         </div>
     )
 }
 
-const IpAddressInput = ({ handleBlacklistAddition }) => {
-    const [currentIp, setCurrentIp] = useState('')
-    const [ipFormat, setIpFormat] = useState('ipv4')
+function isValidIpAddress(ipaddr) {
+    if(ipaddr.length < 3) return false;
+    return true; 
+}
 
-    const handleIpUpdate = (event) => setCurrentIp(event.target.value);
-    const handleIpFormatChange = (event) => setIpFormat(event.target.value);
-    const clearIpInput = () => setCurrentIp('');
+const IpAddressInput = ({ mutate }) => {
+    const [blacklist, setBlacklist] = useState([])
+
+    const handleBlacklistUpdate = (values) => {
+        setBlacklist(values);
+        mutate(values);
+    }
+
+    const validateRecentAddition = (values) => {
+        if(values.length) {
+            let recentlyAddedTag = values[values.length - 1] 
+            if(isValidIpAddress(recentlyAddedTag)) {
+                mutate(values);
+               return true; 
+            } else {
+                let validIpsArr = blacklist.splice(0, blacklist.length);
+                mutate(validIpsArr);
+                setBlacklist(validIpsArr);
+                toast.error(`Invalid IP Address: ${values[values.length - 1]}, maintaining list at: ${JSON.stringify(validIpsArr)}`)
+                return false; 
+            }
+        }
+    }
 
     return (
-        <Input 
+        <TagInput 
             label="IP Address"
-            value={currentIp}
-            onChange={(event) => {
-                handleIpUpdate(event) 
-            }}
-            actions={[
-                <Button 
-                    onClick={() => {
-                        handleBlacklistAddition(currentIp)
-                        clearIpInput()
-                    }}
-                    success
-                >
-                    Add to Blacklist
-                </Button>,
-            ]}
-            labelOptional={
-                <span className="relative z-0 inline-flex shadow-md rounded-md">
-                    <button
-                        value='ipv4'
-                        type="button"
-                        onClick={handleIpFormatChange}
-                        className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                    >
-                        IPv4
-                    </button>
-                    <button
-                        value='ipv6'
-                        type="button"
-                        onClick={handleIpFormatChange}
-                        className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500" 
-                    >
-                        IPv6
-                    </button>
-                </span>
-            }
-            className="mt-6"
+            values={blacklist}
+            onChange={handleBlacklistUpdate}
+            leftIcon="tag"
+            rightElement={<Icon icon="warning-sign" />}
+            placeholder="Enter a valid address to create a blacklist"
+            large={false}
+            intent="primary"
+            addOnPaste={true}
+            addOnBlur={true}
+            onAdd={validateRecentAddition}
         />
     )
 }
@@ -127,6 +155,16 @@ const IpBlacklist = () => {
         }); 
     }
 
+    const handleBlacklistAssign = (values) => {
+        dispatch({
+            type: 'assign_array',
+            payload: {
+                key: 'blacklist',
+                value: values,
+            }
+        }); 
+    }
+
     return (
         // todo: where should they be redirected to? default: http cat
         <div className="w-full flex-col justify-start align-stretch">
@@ -134,9 +172,15 @@ const IpBlacklist = () => {
                 title="IP Blacklist"
                 description="Enter the IP Addresses that shouldn't be allowed to view your webpage" 
                 children={
-                    <IpAddressInput 
-                        handleBlacklistAddition={handleBlacklistAddition} 
-                    />
+                    <>
+                        <IpAddressInput 
+                            mutate={handleBlacklistAssign} 
+                        />
+                        {/* <IpBlacklistDisplay 
+                            blacklist={state.blacklist}
+                            handleBlacklistDeletion={handleBlacklistDeletion} 
+                        /> */}
+                    </>
                 }
             />
         </div>

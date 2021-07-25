@@ -1,102 +1,74 @@
 import React from 'react';
-import { styled, keyframes } from '../stiches.config';
+import { styled, keyframes } from '@stitches/react';
+import { violet, blackA, mauve, green } from '@radix-ui/colors';
+import { Cross2Icon } from '@radix-ui/react-icons';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Cross1Icon } from '@radix-ui/react-icons';
-import { overlayStyles } from './Overlay';
-import { panelStyles } from './Panel';
-import { IconButton } from './IconButton';
 
-import type * as Polymorphic from '@radix-ui/react-polymorphic';
-
-const showOverlay = keyframes({
-    from: { opacity: 0 },
-    to: { opacity: 0.3 }
-  });
-  
-const showContent = keyframes({
-    from: { opacity: 0, transform: "translate(-50%, -50%) scale(0.85)" },
-    to: { opacity: 1, transform: "translate(-50%, -50%)" }
+const overlayShow = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
 });
 
-
-type DialogProps = React.ComponentProps<typeof DialogPrimitive.Root> & {
-  children: React.ReactNode;
-};
+const contentShow = keyframes({
+  '0%': { opacity: 0, transform: 'translate(-50%, -48%) scale(.96)' },
+  '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+});
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  ...overlayStyles,
-  opacity: 0.3,
-  position: "fixed",
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-  animation: `${showOverlay} 300ms ease-out`
+  backgroundColor: blackA.blackA9,
+  position: 'fixed',
+  inset: 0,
+  '@media (prefers-reduced-motion: no-preference)': {
+    animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
+  },
 });
 
-export function Dialog({ children, ...props }: DialogProps) {
+function Root({ children, ...props }) {
   return (
     <DialogPrimitive.Root {...props}>
-      <StyledOverlay />
+      <StyledOverlay  />
       {children}
     </DialogPrimitive.Root>
   );
 }
 
 const StyledContent = styled(DialogPrimitive.Content, {
-  ...panelStyles,
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 275,
-  padding: 10,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  background: 'gainsboro',
-  color: 'black',
+  backgroundColor: 'white',
   borderRadius: 6,
-  animation: `${showContent} 150ms ease-in-out`,
-  "&:focus": {
-    outline: "none"
-  }
+  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '90vw',
+  maxWidth: '450px',
+  maxHeight: '85vh',
+  padding: 25,
+  '@media (prefers-reduced-motion: no-preference)': {
+    animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
+    willChange: 'transform',
+  },
+  '&:focus': { outline: 'none' },
 });
 
-const StyledCloseButton = styled(IconButton, {
-    appearance: "none",
-    border: "0",
-    WebkitTapHighlightColor: "rgba(0, 0, 0, 0)",
-    padding: 0,
-    background: "none",
-    color: "white",
-    position: "absolute",
-    top: 20,
-    right: 20,
-    outline: "none",
-    "&:hover": {
-      transform: "scale(1.2)"
-    }
+const StyledTitle = styled(DialogPrimitive.Title, {
+  margin: 0,
+  fontWeight: 500,
+  color: mauve.mauve12,
+  fontSize: 17,
 });
 
-type DialogContentOwnProps = Polymorphic.OwnProps<typeof DialogPrimitive.Content> & {
-  css?: any;
-};
+const StyledDescription = styled(DialogPrimitive.Description, {
+  margin: '10px 0 20px',
+  color: mauve.mauve11,
+  fontSize: 15,
+  lineHeight: 1.5,
+});
 
-type DialogContentComponent = Polymorphic.ForwardRefComponent<
-  Polymorphic.IntrinsicElement<typeof DialogPrimitive.Content>,
-  DialogContentOwnProps
->;
-
-export const DialogContent = React.forwardRef(({ children, ...props }, forwardedRef) => (
-  <StyledContent {...props} ref={forwardedRef}>
-    {children}
-    <DialogPrimitive.Close as={StyledCloseButton} variant="ghost">
-      <Cross1Icon />
-    </DialogPrimitive.Close>
-  </StyledContent>
-)) as DialogContentComponent;
-
+// Exports
+export const Dialog = Root;
 export const DialogTrigger = DialogPrimitive.Trigger;
+export const DialogContent = StyledContent;
+export const DialogTitle = StyledTitle;
+export const DialogDescription = StyledDescription;
 export const DialogClose = DialogPrimitive.Close;
