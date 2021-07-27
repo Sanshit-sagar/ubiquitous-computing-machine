@@ -56,7 +56,8 @@ const OptionsBar = ({ bar, line, scatter, stacked, toggleFill }) => {
           <Tab id="scatter" title={<Button text="24/7 Scatterplot" icon="scatter-plot" minimal={true}/>} panel={scatter} />
           <Tab id="stacked" title={<Button text="Stacked" icon="stacked-chart" minimal={true}/>} panel={stacked} /> 
           <Tabs.Expander />
-          {/* <Tab id="action" 
+          
+          <Tab id="action" 
             title={
               <Popover2
                 interactionKind="click-target"
@@ -87,7 +88,7 @@ const OptionsBar = ({ bar, line, scatter, stacked, toggleFill }) => {
               </Popover2> 
             } 
             panel={null} 
-          />  */}
+          /> 
         </Tabs>   
       </div>
 

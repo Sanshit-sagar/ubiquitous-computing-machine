@@ -1,0 +1,34 @@
+.search-field {
+    display: flex;
+    flex-direction: column;
+}
+  
+  .search-field div {
+    background: slategray;
+    padding: 4px 0 4px 4px;
+    border-radius: 4px;
+    width: 250px;
+    display: flex;
+  }
+  
+  .search-field input {
+    flex: 1;
+    color: white;
+    font-size: 15px;
+  }
+  
+  .search-field input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .search-field input, .search-field button {
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+  
+  .search-field input::-webkit-search-cancel-button,
+  .search-field input::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }

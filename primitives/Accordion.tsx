@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { styled, keyframes } from '../stiches.config'
 
@@ -85,7 +85,7 @@ const StyledContentText = styled('div', {
   padding: '15px 20px',
 });
 
-const StyledChevron = styled(ChevronDownIcon, {
+export const StyledChevron = styled(ChevronDownIcon, {
   color: violet.violet10,
   transition: 'transform 300ms cubic-bezier(0.87, 0, 0.13, 1)',
   '[data-state=open] &': { transform: 'rotate(180deg)' },
@@ -94,21 +94,16 @@ const StyledChevron = styled(ChevronDownIcon, {
 export const Accordion = StyledAccordion;
 export const AccordionItem = StyledItem;
 export const AccordionTrigger = React.forwardRef(({ children, ...props }, forwardedRef) => (
-
-
-
-{/* <StyledHeader>
+  <StyledHeader>
     <StyledTrigger {...props} ref={forwardedRef}>
       {children}
-      <StyledChevron  />
+      <StyledChevron aria-hidden />
     </StyledTrigger>
   </StyledHeader>
 ));
 
 export const AccordionContent = React.forwardRef(({ children, ...props }, forwardedRef) => (
   <StyledContent {...props} ref={forwardedRef}>
-    <StyledContentText>
-      {children}
-    </StyledContentText>
+    <StyledContentText>{children}</StyledContentText>
   </StyledContent>
-)); */}
+));
