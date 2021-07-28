@@ -62,7 +62,7 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
                 
                 <Box css={{ mb: '$3', mt: '$1' }}>
                     <Heading size='$1'> {title} </Heading>
-                    <Box css={{ py: '$2', px: '$2', bc: '#fefefe' }}>
+                    <Box css={{ py: '$1', px: '$2' }}>
                         <Text size='$2'> {description} </Text>
                     </Box>
                 </Box>

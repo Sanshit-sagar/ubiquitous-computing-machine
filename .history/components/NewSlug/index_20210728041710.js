@@ -60,11 +60,9 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
         <Flex css={{ width: '100%', my: '$3', mx: '$2', padding: '$1', fd: 'column', jc: 'flex-start', ai: 'stretch' }}>    
             <Card interactive={false} style={{ padding: '20px', border: 'none', borderRadius: '2.5px' }}>
                 
-                <Box css={{ mb: '$3', mt: '$1' }}>
-                    <Heading size='$1'> {title} </Heading>
-                    <Box css={{ py: '$2', px: '$2', bc: '#fefefe' }}>
-                        <Text size='$2'> {description} </Text>
-                    </Box>
+                <Box css={{ mb: '$3' }}>
+                    <Heading size='$2'> {title} </Heading>
+                    <Text size='$2'> {description} </Text>
                 </Box>
 
                 <StyledSeparator />

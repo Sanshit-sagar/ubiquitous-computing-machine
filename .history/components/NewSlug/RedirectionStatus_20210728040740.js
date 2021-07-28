@@ -138,9 +138,9 @@ const DestinationUrl = ({ mutate }) => {
         <div className="w-full flex-col justify-start align-stretch">
             <InputElementCardWrapper
                 title='HTTP Status Code'
-                description={'Select the code that should be used to re-direct visitors'}
+                description={''}
                 children={
-                    <RadioGroup label="">
+                    <RadioGroup label="Your Preferred HTTP Status Code for re-directs">
                         <Radio value="301">301 (default) </Radio>
                         <Radio value="303">303</Radio>
                         <Radio value="307">307</Radio>

@@ -19,6 +19,7 @@
     "@nivo/line": "^0.71.0",
     "@nivo/pie": "^0.71.0",
     "@popperjs/core": "^2.9.2",
+    "@prisma/client": "^2.28.0",
     "@radix-ui/colors": "^0.1.7",
     "@radix-ui/react-accessible-icon": "^0.0.15",
     "@radix-ui/react-accordion": "^0.0.17",
@@ -57,7 +58,6 @@
     "@types/node": "^15.12.5",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
-    "@windmill/react-ui": "^0.6.0",
     "axios": "^0.21.1",
     "chart.js": "^3.4.1",
     "classnames": "^2.2.6",
@@ -113,6 +113,7 @@
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.0",
     "prettier": "2.3.2",
+    "prisma": "^2.28.0",
     "tailwindcss": "^2.0.4"
   }
 }

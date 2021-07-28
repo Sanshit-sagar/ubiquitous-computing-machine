@@ -18,7 +18,6 @@ import RedirectionStatus from './RedirectionStatus'
 import { AccessibleIcon } from '../../primitives/AccessibleIcon'
 import { Box } from '../../primitives/Box'
 import { Text } from '../../primitives/Text'
-import { Heading } from '../../primitives/Heading'
 import { Flex } from '../../primitives/Flex'
 import { Card } from '../../primitives/Card'
 import { Button } from '../../primitives/Button'
@@ -59,18 +58,14 @@ export const InputElementCardWrapper = ({ title, description, children }) => {
     return (
         <Flex css={{ width: '100%', my: '$3', mx: '$2', padding: '$1', fd: 'column', jc: 'flex-start', ai: 'stretch' }}>    
             <Card interactive={false} style={{ padding: '20px', border: 'none', borderRadius: '2.5px' }}>
-                
-                <Box css={{ mb: '$3', mt: '$1' }}>
-                    <Heading size='$1'> {title} </Heading>
-                    <Box css={{ py: '$2', px: '$2', bc: '#fefefe' }}>
-                        <Text size='$2'> {description} </Text>
-                    </Box>
-                </Box>
+                <Heading size='$2'> {title} </Heading>
 
-                <StyledSeparator />
+                <Text size='$2'> {description} </Text>
+
+                <StyledSeparator css={{ margin: '15px 0' }} />
                 
                 <Box css={{ mt: '$4' }}>
-                    <Text>
+                    <Text size='$1'> 
                         {children} 
                     </Text>
                 </Box>

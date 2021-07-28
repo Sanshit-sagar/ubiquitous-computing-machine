@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
-import { Button } from '@blueprintjs/core'
+import { Button } from '@supabase/ui'
 
 import { 
     KeyIconSvg, 
@@ -17,6 +17,7 @@ const AuthButton = () => {
 
     return (
         <Button 
+            layout="outline"
             disabled={loading} 
             onClick={() => {
                 router.push(session && session.user ? 'api/auth/signout' : 'api/auth/signin')

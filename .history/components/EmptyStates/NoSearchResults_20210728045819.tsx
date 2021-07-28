@@ -27,7 +27,8 @@ const NoResultsFoundSvg = () => {
     );
 }
 
-const NoSearchResults:React.FC<EmptyStateProps> = ({ cause }) => {
+const NoSearchResults:React.FC<EmptyStateProps> = (props) => {
+    const { cause } = props;
 
     return (
         <div className="EmptyState">
