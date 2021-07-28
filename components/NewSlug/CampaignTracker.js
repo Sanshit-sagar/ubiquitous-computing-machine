@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { NewSlugStore } from '../../store'
 import { InputElementCardWrapper } from './index'
 import { TagInput, Icon, FormGroup, InputGroup } from '@blueprintjs/core'
-import DropdownRadios from '../../primitives/DropdownRadios'
+// import DropdownRadios from '../../primitives/DropdownRadios'
 
 const TagsList = ({ handleDeletion }) => {
     const state = useContext(NewSlugStore.State)
@@ -178,7 +178,7 @@ const CampaignTracker = () => {
                    <div style={{ width: '100%',  display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', margin: '5px', padding: '2.5px'}}> 
                     
                     
-                      <DropdownRadios 
+                      {/* <DropdownRadios 
                         label="Tag Name" 
                         icon={<Icon icon="key" intent="primary" />} 
                         items={[
@@ -186,7 +186,7 @@ const CampaignTracker = () => {
                           { id: '2', title: 'name2' },
                           { id: '3', title: 'name3' },
                         ]}
-                      />
+                      /> */}
                     
                       <div style={{ marginLeft: '15px', width: '100%'}}>
                         <TagValue handleAddition={handleAddition} />

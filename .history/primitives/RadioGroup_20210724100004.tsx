@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '../stiches.config';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 

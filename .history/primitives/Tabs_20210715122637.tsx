@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '../stiches.config';
 import * as Tabs from '@radix-ui/react-tabs';
 

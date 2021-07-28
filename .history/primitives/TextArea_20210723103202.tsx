@@ -1,5 +1,3 @@
-//hi
-
 import React from 'react';
 import { styled, CSS, StitchesVariants } from '../stiches.config';
 

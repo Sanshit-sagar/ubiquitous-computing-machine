@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '../stiches.config'
 
 const ResponsiveBox = styled('div', {

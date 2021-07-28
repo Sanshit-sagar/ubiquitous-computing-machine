@@ -1,5 +1,3 @@
-//hi
-
 import { styled, keyframes } from '@stitches/react';
 import { violet } from '@radix-ui/colors';
 import * as PopoverPrimitive from '@radix-ui/react-popover';

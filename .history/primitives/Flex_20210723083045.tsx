@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '../stiches.config';
 
 export const Flex = styled('div', {

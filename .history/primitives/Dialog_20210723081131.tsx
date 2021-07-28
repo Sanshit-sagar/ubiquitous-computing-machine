@@ -1,5 +1,3 @@
-//hi
-
 import React from 'react';
 import { styled, keyframes } from '@stitches/react';
 import { violet, blackA, mauve, green } from '@radix-ui/colors';

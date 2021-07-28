@@ -1,4 +1,3 @@
-//hi
 
 import { styled } from '../stiches.config'
 import * as LabelPrimitive from '@radix-ui/react-label';

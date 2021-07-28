@@ -1,4 +1,3 @@
-//hi
 import React from 'react';
 import { styled } from '../stiches.config';
 import { blackA, violet } from '@radix-ui/colors'

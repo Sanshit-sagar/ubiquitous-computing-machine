@@ -1,5 +1,3 @@
-//hi
-
 
 import { styled } from '@stitches/react';
 import { violet, blackA } from '@radix-ui/colors';

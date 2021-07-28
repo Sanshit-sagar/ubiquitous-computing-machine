@@ -1,5 +1,3 @@
-//hi
-
 import { styled, CSS } from '../stiches.config';
 
 export const overlayStyles: CSS = {
