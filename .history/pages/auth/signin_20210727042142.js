@@ -36,21 +36,15 @@ const metadata = {
 }
 
 const AuthProviderButton = ({ id, name, icon }) => {
-
-  const handleSignIn = (event) => {
-    event.preventDefault();
-    signIn(); 
-  }
-
   return (
     <Button 
       color="gray" 
       outlined 
-      onClick={handleSignIn}
+      onClick={() => signIn(id)}
       css={{ width: '100%', py: '$1', my: '$1' }}
     >
       <Flex css={{ width: '100%', fd: 'row', jc: 'center', ai: 'center'}}>
-        <AccessibleIcon label={`Authentication`}> 
+        <AccessibleIcon label={`Auth with ${name}`}> 
           {icon}
         </AccessibleIcon>
         

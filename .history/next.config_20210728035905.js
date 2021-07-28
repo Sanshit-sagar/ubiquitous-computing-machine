@@ -15,6 +15,11 @@ module.exports = {
           destination: '/api/hashable/:slug',
           permanent: true,
         },
+        {
+          source: '/api/auth/signin',
+          destination: '/auth/signin',
+          permanent: true,
+        },
       ]
   },
 }

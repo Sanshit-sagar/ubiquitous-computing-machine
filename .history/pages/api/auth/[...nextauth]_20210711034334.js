@@ -1,9 +1,5 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import Adapters from "next-auth/adapters"
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
 
 const options = {
     providers: [
@@ -20,7 +16,6 @@ const options = {
             clientSecret: process.env.GOOGLE_SECRET,
         }),
     ],
-    adapter: Adapters.Prisma.Adapter({ prisma }),
     theme: 'light',
     debug: true,
 };

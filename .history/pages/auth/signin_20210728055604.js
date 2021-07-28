@@ -37,7 +37,7 @@ const metadata = {
 
 const AuthProviderButton = ({ id, name, icon }) => {
 
-  const handleSignIn = (event) => {
+  const handleSignIn = () => {
     event.preventDefault();
     signIn(); 
   }

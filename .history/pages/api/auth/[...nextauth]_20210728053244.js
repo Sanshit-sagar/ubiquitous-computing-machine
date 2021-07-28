@@ -20,7 +20,7 @@ const options = {
             clientSecret: process.env.GOOGLE_SECRET,
         }),
     ],
-    adapter: Adapters.Prisma.Adapter({ prisma }),
+    adapter: PrismaAdapter(prisma),
     theme: 'light',
     debug: true,
 };

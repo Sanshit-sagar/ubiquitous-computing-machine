@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import SlugProfileDialog from '../SlugProfile'
 
 import { IconButton } from '../../primitives/IconButton'
-import { StyledTooltip } from '../../primitives/Tooltip'
+import { Tooltip } from '../../primitives/Tooltip'
 import { 
     Dialog, 
     DialogTrigger, 
@@ -547,7 +547,7 @@ const getColumns = (key, email, cellsLoading) => {
             Cell: ({ value }) => {
                 const isSecure = value && value.length
                 return (
-                    <StyledTooltip
+                    <Tooltip
                         content={
                             <span className="inline-flex justify-between align-stretch w-full">
                                 <span className="text-xs font-extralight">
@@ -562,7 +562,7 @@ const getColumns = (key, email, cellsLoading) => {
                             icon={isSecure ? 'lock' : 'unlock'} 
                             intent={isSecure ? 'success' : 'warning'} 
                         />
-                    </StyledTooltip>
+                    </Tooltip>
                 );
             }
         },
