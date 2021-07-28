@@ -31,7 +31,7 @@ const TablelyticsWrapper:React.FC<ITablelyticsProps> = ({ metadata }) => {
     
     return (
         <StackedLayout pageMeta={metadata}>
-            <Card>
+            <Card ghost active={true}>
                 <Heading size='1'> Tablelytics </Heading>
                 
                 <Box css={{ my: '$2' }}>
