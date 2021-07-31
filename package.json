@@ -76,7 +76,7 @@
     "luxon": "^1.27.0",
     "namor": "^2.0.3",
     "next": "10.2.3",
-    "next-auth": "^3.27.0",
+    "next-auth": "^3.27.3",
     "next-themes": "0.0.14",
     "normalize.css": "^8.0.1",
     "npm": "^7.18.1",
