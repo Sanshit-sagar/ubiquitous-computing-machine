@@ -21,7 +21,7 @@ import { dispatchValidationUpdate } from '../../lib/dispatchers'
 
 
 const DestinationUrl = ({ mutate }) => {
-    var urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
+    const urlValidator = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi); 
     const state = useContext(NewSlugStore.State)
     const dispatch = useContext(NewSlugStore.Dispatch)
 

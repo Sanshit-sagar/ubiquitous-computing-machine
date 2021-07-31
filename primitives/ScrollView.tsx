@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '@stitches/react';
 import { violet, mauve, blackA } from '@radix-ui/colors';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';

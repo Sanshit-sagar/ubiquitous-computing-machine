@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '@stitches/react';
 import { blackA } from '@radix-ui/colors';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';

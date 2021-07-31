@@ -8,7 +8,7 @@ import SearchBar from '../components/SearchBar'
 const Header = () => {
   
     return (
-        <header className="w-90 mx-5 mb-4 shadow-md bg-white dark:bg-gray-700 items-center rounded-md">
+        <header className="w-90 mx-5 mb-4 py-1 shadow-md bg-white dark:bg-gray-700 items-center rounded-md">
             <div className="w-full inline-flex justify-between align-center h-full px-3 mx-auto flex-start">
                 
                 <div className="relative items-center pl-1 flex w-full lg:max-w-68 sm:pr-2 sm:ml-0">

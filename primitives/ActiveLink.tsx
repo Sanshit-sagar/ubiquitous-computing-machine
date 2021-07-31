@@ -1,17 +1,14 @@
-//hi
-
-
 import React from 'react'
 import Link from 'next/link';
 
-const ActiveLink = ({ href, children }) => {
+const ActiveLink = ({ href, ref, children }) => {
 
   const isInternalLink = href && href.startsWith('/');
 
   if (isInternalLink) {
     return (
       <Link href={href}>
-        <a>{children}</a>
+        <a ref={ref}>{children}</a>
       </Link>
     );
   }
@@ -21,6 +18,7 @@ const ActiveLink = ({ href, children }) => {
   return (
     <a 
         href={href} 
+        ref={ref}
         target="_blank" 
         rel="noopener noreferrer" 
         style={{ color: 'navy' }}

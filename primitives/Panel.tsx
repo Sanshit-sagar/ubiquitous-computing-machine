@@ -1,5 +1,3 @@
-//hi
-
 import { CSS, styled } from '../stiches.config';
 
 export const panelStyles: CSS = {
