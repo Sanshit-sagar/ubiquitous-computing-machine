@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:qu3y6036chG1XxvaFGBz@containers-us-west-11.railway.app:6531/railway"
+}
+
+model Account {
+  id                 Int       @id @default(autoincrement())
+  compoundId         String    @unique @map(name: "compound_id")
+  userId             Int       @map(name: "user_id")
+  providerType       String    @map(name: "provider_type")
+  providerId         String    @map(name: "provider_id")
+  providerAccountId  String    @map(name: "provider_account_id")
+  refreshToken       String?   @map(name: "refresh_token")
+  accessToken        String?   @map(name: "access_token")
+  accessTokenExpires DateTime? @map(name: "access_token_expires")
+  createdAt          DateTime  @default(now()) @map(name: "created_at")
+  updatedAt          DateTime  @default(now()) @map(name: "updated_at")
+
+  @@index([providerAccountId], name: "providerAccountId")
+  @@index([providerId], name: "providerId")
+  @@index([userId], name: "userId")
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           Int          @id @default(autoincrement())
+  userId       Int          @map(name: "user_id")
+  expires      DateTime
+  sessionToken String       @unique @map(name: "session_token")
+  accessToken  String       @unique @map(name: "access_token")
+  createdAt    DateTime     @default(now()) @map(name: "created_at")
+  updatedAt    DateTime     @default(now()) @map(name: "updated_at")
+
+  @@map(name: "sessions")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map(name: "email_verified")
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  slugs         Slug[]
+  clicks        Click[]   
+
+  @@map(name: "users")
+}
+
+model VerificationRequest {
+  id         Int        @id @default(autoincrement())
+  identifier String
+  token      String     @unique
+  expires    DateTime
+  createdAt  DateTime   @default(now()) @map(name: "created_at")
+  updatedAt  DateTime   @default(now()) @map(name: "updated_at")
+
+  @@map(name: "verification_requests")
+}
+
+model Slug {
+  id              Int           @default(autoincrement()) @id
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) 
+  slug            String        @unique
+  destination     String  
+  published       Boolean       @default(false)
+  userEmail       String?
+  active          Boolean       @default(false)
+  user            User?         @relation(fields: [userEmail], references: [email])
+  clicks          Click[]     
+
+  @@map(name: "slugs")
+}
+
+
+model Click {
+  id                Int         @id @default(autoincrement())
+  ipAddress         String  
+  location          String
+  statusCode        StatusCode  @default(HTTP_301)
+  timeTaken         Int 
+  timestamp         DateTime    @default(now())
+  user              User        @relation(fields: [userEmail], references: [email])
+  userEmail         String
+  slug              Slug        @relation(fields: [slugValue], references: [slug])
+  slugValue         String
+
+  @@map(name: "clicks")
+}
+
+enum StatusCode {
+  HTTP_200
+  HTTP_301
+  HTTP_303
+  HTTP_305
+  HTTP_307
+  HTTP_404
+  HTTP_500
+}
