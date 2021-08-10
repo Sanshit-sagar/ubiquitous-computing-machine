@@ -51,7 +51,7 @@ const StyledContent = styled(PopoverPrimitive.Content, {
     borderRadius: '2px',
     padding: '5px',
     width: '450px',
-    height: '450px',
+    maxHeight: '450px',
     border: 'thin solid black',
     backgroundColor: 'white',
     '@media (prefers-reduced-motion: no-preference)': {

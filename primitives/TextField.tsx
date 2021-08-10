@@ -13,12 +13,14 @@ const StyledTextField = styled(DEFAULT_TAG, {
   appearance: 'none',
   borderWidth: '0',
   boxSizing: 'border-box',
+  border: 'thin solid',
+  borderColor: '$hiContrast',
   fontFamily: 'inherit',
   margin: '0',
   outline: 'none',
   width: '100%',
   '&::placeholder': {
-    color: '$slate10',
+    color: '$hiContrast',
   },
 
   variants: {
@@ -26,6 +28,7 @@ const StyledTextField = styled(DEFAULT_TAG, {
       '1': {
         borderRadius: '$1',
         fontSize: '$1',
+        height: 32,
         px: '$1',
         py: '$1',
         '&:-webkit-autofill::first-line': {

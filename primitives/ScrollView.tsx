@@ -96,7 +96,7 @@ export const TableScrollView = ({ content }) => {
   
   return (
     <Box css={{ borderRadius: '5px', backgroundColor: '#efefef' }}>
-      <ScrollArea style={{ width: '1275px', height: '530px' }}>
+      <ScrollArea style={{ width: '1320px', height: '600px' }}>
 
         <ScrollAreaViewport css={{ backgroundColor: 'white' }}>
           <Box css={{ width: '100%', backgroundColor: darkTheme.colors.loContrast, color: darkTheme.colors.hiContrast }}>

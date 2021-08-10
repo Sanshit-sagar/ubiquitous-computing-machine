@@ -30,10 +30,11 @@ const useUserClickstream = ({ isPopoverOpen, email }) => {
 
 const SearchbarButton = () => {
     return (
-        <Box css={{ py: '$1', px: '$1', br: '$1', bc: '#fefefe', width: '200px' }}>
+        <Box css={{ width: '200px' }}>
             <Flex css={{ fd:'row', jc: 'flex-start', ai: 'center'}}>
-                <MagnifyingGlassIcon />
-                <Text css={{ ml: '$2' }}> Search... </Text> 
+                <TextField
+                    placeholder="Search..."
+                />
             </Flex>
         </Box>
     )
@@ -42,7 +43,7 @@ const SearchbarButton = () => {
 
 const ResultsSummary = ({ searchResults }) => {
     return (
-        <Box css={{ mx: '$1', pt: '$1', pb: '$1' }}>
+        <Box css={{ mx: '$1', pt: '$1', pb: '$1', bc: '$loContrast', border: 'thin solid', borderColor: '$hiContrast', color: '$loContrast', padding: '$1', br: '$2' }}>
             <Text>
                  {searchResults.length} results in TODO ms
             </Text>
@@ -111,13 +112,10 @@ const SearchBar = (props) => {
             onOpenChange={(updatedState) => setIsPopoverOpen(updatedState)}
         >
             <PopoverTrigger>
-                <Box css={{ mt: '$1' }}>
-                    <ToggleButton 
-                        isPressed={isPopoverOpen}
-                        handlePress={togglePopoverState}
-                        pressedElem={<ResultsSummary searchResults={searchResults} />} 
-                        unpressedElem={<SearchbarButton />}
-                    /> 
+                <Box>
+                    <button onClick={togglePopoverState}>
+                       {isPopoverOpen ? <ResultsSummary searchResults={searchResults} /> : <SearchbarButton />}
+                    </button> 
                 </Box>
             </PopoverTrigger>
 

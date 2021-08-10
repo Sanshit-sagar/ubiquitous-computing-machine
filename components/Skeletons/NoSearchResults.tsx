@@ -33,7 +33,7 @@ const NoSearchResults:React.FC<EmptyStateProps> = ({ cause }) => {
         <div className="EmptyState">
             <Flex css={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%' }}>
                 
-                <Box css={{ flexBasis: '0', flexGrow: 1, margin: '5px' }}>
+                <Box css={{ flexBasis: '0', flexGrow: 1, margin: '5px', br: '$3', bc: '$slate9' }}>
                     <NoResultsFoundSvg />
                 </Box>
                 
@@ -48,7 +48,7 @@ const NoSearchResults:React.FC<EmptyStateProps> = ({ cause }) => {
                     </Box>
                 </Flex>
 
-                <Box css={{ flexBasis: '0', flexGrow: 1, marginTop: '10px' }}>
+                {/* <Box css={{ flexBasis: '0', flexGrow: 1, marginTop: '10px' }}>
                     <Flex css={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '5px', width: '100%' }}>
                         
                         <Button color="black" outlined>
@@ -60,7 +60,7 @@ const NoSearchResults:React.FC<EmptyStateProps> = ({ cause }) => {
                         </Button>
                     
                     </Flex>
-                </Box>
+                </Box> */}
 
             </Flex>
         </div>

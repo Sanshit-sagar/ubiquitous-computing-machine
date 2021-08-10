@@ -4,26 +4,19 @@ import * as Toggle from '@radix-ui/react-toggle';
 import { darkTheme, styled, CSS, StitchesVariants } from '../stiches.config'
 
 const ControlButton = styled(Toggle.Root, {
-  height: '100%',
+  all: 'unset',
   backgroundColor: '$loContrast',
   color: '$hiContrast',
-  border: '1px solid',
-  borderRightColor: '$hiContrast',
-  padding: '$1 $2',
-  fontSize: 9,
-  lineHeight: 1,
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-  '&:disabled': {
-    backgroundColor: 'red',
-    color: 'white',
-    border: '2px solid gold',
-  },
-  '$:last-child': {
-    borderRightColor: 'transparent'
-  },
+  fontSize: 9,
+  padding: '$1 $2',
+  lineHeight: 1,
+  borderColor: 'transparent',
+  borderRight: 'thin solid $hiContrast',
+  borderRightRadius: '0px',
   '&:first-child': { 
     marginLeft: 0, 
     borderTopLeftRadius: 4, 
@@ -41,7 +34,15 @@ const ControlButton = styled(Toggle.Root, {
   '&[data-state=on]': { 
     backgroundColor: '$slate11',
     color: '$slate1',
-  }
+  },
+  '&[data-state=disabled]': { 
+    color: 'transparent',
+  },
+  '&:focus': { 
+    position: 'relative', 
+    color: mauve.mauve6, 
+    outline: 'none' 
+  },
 });
 
 const StyledToggleGroup = styled(ToggleGroupPrimitive.Root, {

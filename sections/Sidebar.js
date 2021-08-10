@@ -2,91 +2,100 @@
 
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router' 
-import { styled, darkTheme } from  '../stiches.config'
+import { styled } from  '../stiches.config'
 
 import { GlobalStore } from '../store'
 import ToggleButton from '../primitives/Toggle'
 import StyledTooltip from '../primitives/Tooltip'
+
+import { Text } from '../primitives/Text'
+import { AccessibleIcon } from '../primitives/AccessibleIcon'
 import { 
   FilePlusIcon, 
-  CursorArrowIcon, 
   TableIcon, 
   DashboardIcon, 
   BarChartIcon, 
   GearIcon
 } from '@radix-ui/react-icons'
-import {blackA, mauve } from '@radix-ui/colors'
+import { darkTheme, theme as lightTheme } from '../stiches.config'
 
 const StyledSidebar = styled('nav', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  backgroundColor: 'white',
-  color: blackA.blackA12,
-  border: `thin solid ${mauve.mauve10}`,
+  backgroundColor: '$loContrast',
+  color: '$hiContrast',
+  border: `thin solid`,
+  borderColor: '$hiContrast',
   gap: '$3',
   height: '65vh', 
   width: '60px',
   borderRadius: '$3',
   marginTop: '17.5vh',
   paddingTop: '5vh',
-
-  [`.${darkTheme} &`]: {
-    backgroundColor: blackA.blackA12,
-    color: 'white',
-    border: `thin solid silver`,
-  },
 })
 
+const SidebarIcon = ({ icon, label, invert }) => {
 
-const Sidebar = ({ handleNavigation }) => {
+  return (
+      <AccessibleIcon label={label} css={{ color: 'red' }}>
+        {icon}
+      </AccessibleIcon>
+  );
+}
 
+const Sidebar = () => {
     const router = useRouter(); 
-    const state = useContext(GlobalStore.State)
+    const uiState = useContext(GlobalStore.State)
 
     const sidebarNavigation = [
-        { name: 'Create', href: '/new', icon: FilePlusIcon },
-        { name: 'Clickstream', href: '/clickstream', icon: CursorArrowIcon },
-        { name: 'Your Links', href: '/links', icon: TableIcon },
-        { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
-        { name: 'Analytics', href: '/visualizer', icon: BarChartIcon },
-        { name: 'Account', href: '/account', icon: GearIcon },
+        { name: 'Create', href: '/new', icon: <FilePlusIcon /> },
+        { name: 'Clickstream', href: '/clickstream', icon: <TableIcon /> },
+        { name: 'Dashboard', href: '/dashboard', icon: <BarChartIcon /> },
+        { name: 'Analytics', href: '/visualizer', icon: <DashboardIcon /> },
+        { name: 'Account', href: '/account', icon: <GearIcon />},
     ];
 
     return (
-      <StyledSidebar>
-          {sidebarNavigation.map(function(item, index) {
-              return (
-                <StyledTooltip 
-                  content={
-                    <span className="text-sm font-extralight"> 
-                      {item.name}
-                    </span>
-                  }
-                  defaultOpen={false}
-                  key={index}
-                > 
+      <div className={uiState.darkMode ? darkTheme : lightTheme}>
+        
+        <StyledSidebar>
+            {sidebarNavigation.map(function(item, index) {
+                return (
+                  <StyledTooltip 
+                    content={<Text>{item.name}</Text>}
+                    defaultOpen={false}
+                    key={index}
+                  > 
                   <button>
                     <ToggleButton
-                      isPressed={state ? state.currentPage===item.name : false} 
+                      isPressed={uiState ? uiState.currentPage===item.name : false} 
                       handlePress={() => {
-                        if(!state) return; 
+                        if(!uiState) return; 
                         router.push(`${item.href}`)
                       }}
                       pressedElem={
-                        <span className="text-sm font-extralight text-black">
-                          <item.icon />
-                        </span>
+                        <SidebarIcon 
+                          icon={item.icon} 
+                          label={item.name}
+                          invert={true} 
+                        />
                       }
-                      unpressedElem={<item.icon />}
+                      unpressedElem={
+                        <SidebarIcon 
+                          icon={item.icon} 
+                          label={item.name} 
+                          invert={false}
+                        />
+                      }
                     />
-                  </button>
-                </StyledTooltip>
-              );
-          })}
-        </StyledSidebar>
-
+                    </button>
+                  </StyledTooltip>
+                );
+            })}
+          </StyledSidebar>
+        </div>
               
     )
 }

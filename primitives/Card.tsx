@@ -19,7 +19,6 @@ const StyledCard = styled(DEFAULT_TAG, {
   lineHeight: '1',
   outline: 'none',
   padding: 10,
-  minHeight: '175px', 
   textAlign: 'inherit',
   verticalAlign: 'middle',
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',

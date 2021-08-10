@@ -53,7 +53,7 @@ const StyledButton = styled(ToolbarPrimitive.Button, {
     justifyContent: 'center',
 
     '&:hover': { 
-        backgroundColor: blackA.blackA11, 
+        backgroundColor: '$slate9',
         color: 'gainsboro', 
     },
     '&:focus': { 

@@ -32,7 +32,7 @@ const DarkMode = () => {
     if(!mounted) return <Loader /> 
 
     return (
-        <div style={{ marginRight: '5px' }}>
+        <div>
             <ToggleButton 
                 isPressed={state.darkMode}
                 handlePress={toggleDarkMode}

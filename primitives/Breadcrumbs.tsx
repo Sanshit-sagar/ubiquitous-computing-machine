@@ -5,6 +5,7 @@ import {useBreadcrumbs, useBreadcrumbItem} from '@react-aria/breadcrumbs'
 
 import { Box } from './Box'
 import { Flex } from './Flex'
+import { Card } from './Card'
 import { Text } from './Text'
 import { Heading } from './Heading'
 import { AccessibleIcon } from './AccessibleIcon'
@@ -17,6 +18,8 @@ import {
     LapTimerIcon, 
     FilePlusIcon
 } from '@radix-ui/react-icons'
+
+import { darkTheme, theme as lightTheme } from '../stiches.config'
 
 
 function Breadcrumbs(props) {
@@ -85,9 +88,7 @@ function BreadcrumbItem(props) {
             </a>
             <Box css={{ ml: '$1', mr: '$1' }}>
                 <AccessibleIcon label={'Breadcrumb Separator'}>
-                    <Box css={{ color: 'white' }}>  
-                        <ChevronRightIcon css={{ color: 'white' }} />
-                    </Box>
+                    <ChevronRightIcon  css={{ color: '$hiContrast' }} />
                 </AccessibleIcon>
             </Box>
         </Flex>
@@ -100,20 +101,17 @@ function BreadcrumbItem(props) {
 const IconifiedCrumb = (props) => {
     
     return (
-   
-        <Flex css={{ width: '100%', fd: 'row', jc: 'space-between', ai: 'stretch' }}>
+        <Flex css={{ width: '100%', fd: 'row', jc: 'space-between', ai: 'center', color: '$hiContrast' }}>
             <Box> 
                 {props.icon && 
                     <AccessibleIcon label={props.text}>
-                        <div style={{ color: (props.isCurrent) ?'blue' : 'white' }}>
-                            {props.icon} 
-                        </div>  
+                        {props.icon} 
                     </AccessibleIcon>
                 }
             </Box> 
             
             <Link href={props.href}>
-                <Text css={{ mb: '$1', ml: '$1', color: 'white' }}> 
+                <Text css={{ mb: '$1', ml: '$1', color: '$hiContrast' }}> 
                     {`${props.text.charAt(0).toUpperCase()}${props.text.substring(1)}`} 
                 </Text>
             </Link>
@@ -122,43 +120,41 @@ const IconifiedCrumb = (props) => {
 }
   
 const BreadcrumbsHeader = () => {
-    const state = useContext(GlobalStore.State)
+    const uiState = useContext(GlobalStore.State)
 
     // TODO: maybe store the user input for the current element in the next crumb
     const crumbs = [
         { id: '1', href: '/', icon: <HomeIcon />, text: 'Home' },
-        { id: '2', href: '/', icon: <FilePlusIcon />, text: `${state.currentPage}` },
-        { id: '3', href: '/', icon: <LapTimerIcon />, text: `${state.currentTab}` }
+        { id: '2', href: '/', icon: <FilePlusIcon />, text: `${uiState.currentPage}` },
+        { id: '3', href: '/', icon: <LapTimerIcon />, text: `${uiState.currentTab}` }
     ];
 
     return (
-        <Box css={{ mt: '$2' }}>
-            <Heading size='1'>
-                <Breadcrumbs>
-                    {crumbs.map(function(crumb, index) {
-                        return (
-                            <BreadcrumbItem 
-                                key={index} 
-                                href={`#${crumb.href}`}
-                            >
-                                <IconifiedCrumb 
-                                    isCurrent={index=== crumbs.length}
-                                    icon={crumb.icon} 
-                                    text={crumb.text} 
-                                    href={crumb.href}
-                                />
-                            </BreadcrumbItem>
-                        )
-                    })}
-                </Breadcrumbs>
-                {/* <Box css={{ ml: '$1' }}>
-                    <AccessibleIcon label={'Action Log'}>
-                        <ChevronDownIcon />
-                    </AccessibleIcon>
+        // <div className={uiState.darkMode ? darkTheme : lightTheme}>
+            <Card css={{ height: '40px', backgroundColor:'$loContrast', color: '$hiContrast', border: `thin solid`, borderColor: '$hiContrast', br: '$1' }}>
+                <Box>
+                    <Heading size='1'>
+                        <Breadcrumbs>
+                            {crumbs.map(function(crumb, index) {
+                                return (
+                                    <BreadcrumbItem 
+                                        key={index} 
+                                        href={`#${crumb.href}`}
+                                    >
+                                        <IconifiedCrumb 
+                                            isCurrent={index=== crumbs.length}
+                                            icon={crumb.icon} 
+                                            text={crumb.text} 
+                                            href={crumb.href}
+                                        />
+                                    </BreadcrumbItem>
+                                )
+                            })}
+                        </Breadcrumbs>
+                    </Heading>
                 </Box>
-                <ChevronDownIcon /> */}
-            </Heading>
-        </Box>
+            </Card>
+        // </div>
     )
 }
 

@@ -15,15 +15,18 @@ import { Flex } from '../primitives/Flex'
 import { Text } from '../primitives/Text'
 import { Avatar, AvatarImage, AvatarFallback  } from '../primitives/Avatar'
 import Loader from '../components/Loader'
+import ToggleButton from '../primitives/Toggle';
 
 const IconButton = styled('button', {
   appearance: 'none',
-  backgroundColor: 'white',
+  backgroundColor: '$loContrast',
+  color: '$hiContrast',
   padding: '6.5px',
   boxShadow: 'inset 0 0 0 1px gainsboro',
   overflow: 'hidden',
   borderRadius: '4px',
   marginLeft: '10px',
+  height: 35,
   
   '&:focus': {
     outline: 'none',
@@ -90,7 +93,7 @@ function getInitials(name) {
 }
 
 const Dropdown = ({ label }) => {
-
+  const [open, setOpen] = React.useState(false)
   const router = useRouter(); 
   const [session, loading] = useSession(); 
 
@@ -105,22 +108,20 @@ const Dropdown = ({ label }) => {
     }
   }
 
+  const handlePress = () => {
+    setOpen(!open)
+  }
+
   return (
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger as={IconButton}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div> {
-                   session && !loading ? `Hi, ${session.user.name.split(' ')[0]}` 
-                : !loading ? ' ' 
-                : <Loader /> 
-              } 
-            </div>
-            <div style={{ marginLeft: !session ? '0px' : '10px', padding: '5px' }}>  
-             { session && !loading ? <HamburgerMenuIcon /> : !loading ? <LockClosedIcon /> : <Loader /> }
-            </div>
-          </div>
-        </DropdownMenu.Trigger>
-        
+      <DropdownMenu.Root open={open} onOpenChange={handlePress}>
+        <><DropdownMenu.Trigger>
+          <ToggleButton
+            isPressed={open}
+            handlePress={() => setOpen(!open)}
+            pressedElem={session && !loading ? <HamburgerMenuIcon /> : <LockClosedIcon />}
+            unpressedElem={session && !loading ? <HamburgerMenuIcon /> : <LockClosedIcon />}
+          />
+        </DropdownMenu.Trigger></>
         <StyledContent sideOffset={5} align="end">
 
           <StyledItem onSelect={() => console.log(`Clicked on the profile item`)}>  
