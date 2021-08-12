@@ -17,20 +17,10 @@ export default function HomePage({ metadata }) {
         <>
             <Head>
                 <title> analytic.ly </title>
-                <meta 
-                  property="og:title" 
-                  content="analyticly" 
-                  key="title" 
-                />
+                
                 <meta 
                   name="viewport" 
                   content="initial-scale=1.0, width=device-width" 
-                />
-                
-                <script 
-                  defer 
-                  src='https://static.cloudflareinsights.com/beacon.min.js' 
-                  data-cf-beacon='{"token": "d08fc063d1064064af71f7ac09369e34"}' 
                 />
                 
                 <link 

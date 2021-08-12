@@ -13,7 +13,6 @@ import {
     ToggleButtonItem 
 } from '../../primitives/ToggleGroup'
 
-// import { useAsyncDebounce } from 'react-table'
 import toast from 'react-hot-toast'
 
 import {  
@@ -158,8 +157,6 @@ const Toolbar = ({
     globalFilter,
     setGlobalFilter
  }) => {
-    // const uiState = useContext(GlobalStore.State)
-
     useEffect(() => { setPageSize(Number(15)) }, []); 
 
     return (

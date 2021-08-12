@@ -21,9 +21,6 @@ import {
     LockClosedIcon 
 } from '@radix-ui/react-icons' 
 
-import Trend from '../../Trendline'
-import useSWR from 'swr'
-
 const violetA = {
     violetA1: '#5805ab03',
     violetA2: '#3705ff05',
@@ -68,20 +65,7 @@ function formatTimestamp(ts) {
 }
 
 export const StyledHeader = ({ name, index }) => {
-    // const [sortApplied, setSortApplied] = useState(false)
-    // const [sortRowId, setSortRowId] = useState('')
-
-    // const applySort = (updatedSortRowId) => {
-    //     if(!sortApplied && !sortRowId===updatedSortRowId) {
-    //         setSortApplied(true);
-    //         setSortRowId(updatedSortRowId);
-    //     } else if(sortApplied && sortRowId===updatedSortRowId) {
-    //         setSortApplied(false);
-    //         setSortRowId('')
-    //     } else {
-    //         setRowId(updatedSortRowId);
-    //     }
-    // }
+ 
     let isFirstCol = name?.length && name==='#'
 
     return (
@@ -233,7 +217,14 @@ export const TrendlineCell = ({ value }) => {
 
 export const CountryCell = ({ value }) => {
     return (
-        <StyledCell value={getFlags(value)} short={true} /> 
+        <StyledCell 
+            value={
+                <Text size="1"> 
+                    {value} {getFlags(value)} 
+                </Text> 
+            } 
+            short={true} 
+        /> 
     )
 }
 

@@ -4,7 +4,7 @@ module.exports = {
       "avatars.githubusercontent.com",
     ],
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   trailingSlash: true,
   generateEtags: true,
   poweredByHeader: false,

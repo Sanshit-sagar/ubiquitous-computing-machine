@@ -155,7 +155,7 @@ const campaignParameters = [
 const ApiGateway = 'https://writer.hashably.workers.dev' 
 
 const initialState = {
-    doRefresh=false,
+    doRefresh: false,
     links: [],
     searchbar: {
         isOpen: false,

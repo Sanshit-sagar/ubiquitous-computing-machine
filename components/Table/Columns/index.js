@@ -88,7 +88,7 @@ export const getColumns = (datasetId) => {
         { 
             Header: 'Timestamp',
             accessor: 'timestamp',
-            Cell: ({ value }) => <StyledCell value={value} /> 
+            Cell: ({ value }) => <StyledCell value={value} long={true} /> 
         },
         {
             Header: 'Views',

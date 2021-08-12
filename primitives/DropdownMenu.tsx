@@ -14,7 +14,6 @@ import { Box } from '../primitives/Box'
 import { Flex } from '../primitives/Flex'
 import { Text } from '../primitives/Text'
 import { Avatar, AvatarImage, AvatarFallback  } from '../primitives/Avatar'
-import Loader from '../components/Loader'
 import ToggleButton from '../primitives/Toggle';
 
 const IconButton = styled('button', {

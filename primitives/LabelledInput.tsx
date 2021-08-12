@@ -1,5 +1,3 @@
-//hi
-
 import { styled } from '../stiches.config'
 import { blackA } from '@radix-ui/colors'
 

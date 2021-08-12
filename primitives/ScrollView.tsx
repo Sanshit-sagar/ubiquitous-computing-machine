@@ -18,9 +18,7 @@ const StyledViewport = styled(ScrollAreaPrimitive.Viewport, {
 
 const StyledScrollbar = styled(ScrollAreaPrimitive.Scrollbar, {
   display: 'flex',
-  // ensures no selection
   userSelect: 'none',
-  // disable browser handling of all panning and zooming gestures on touch devices
   touchAction: 'none',
   background: blackA.blackA6,
   transition: 'background 160ms ease-out',
@@ -36,7 +34,6 @@ const StyledThumb = styled(ScrollAreaPrimitive.Thumb, {
   flex: 1,
   background: mauve.mauve10,
   borderRadius: SCROLLBAR_SIZE,
-  // increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
   position: 'relative',
   '&::before': {
     content: '""',
@@ -55,7 +52,6 @@ const StyledCorner = styled(ScrollAreaPrimitive.Corner, {
   background: blackA.blackA8,
 });
 
-// Exports
 const ScrollArea = StyledScrollArea;
 const ScrollAreaViewport = StyledViewport;
 const ScrollAreaScrollbar = StyledScrollbar;

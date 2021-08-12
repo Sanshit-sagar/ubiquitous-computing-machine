@@ -8,15 +8,10 @@ import {
 
 import { Box } from '../../primitives/Box'
 import { Flex } from '../../primitives/Flex'
-// import { Text } from '../../primitives/Text'
 import { GraphStore } from '../../store'
 import AccessibleStyledButton from '../../primitives/AccessibleStyledButton'
 
-// import toast from 'react-hot-toast'
-
 const ToolbarMenu = ({ selected, handleSelectionChange }) => {
-  // const state = useContext(GraphStore.State)
-  // const dispatch = useContext(GraphStore.Dispatch)
 
   const items = [
     { id: 'bar', content: 'Bar Chart', label: 'frequency', icon: <BarChartIcon />},
@@ -50,7 +45,7 @@ const ToolbarMenu = ({ selected, handleSelectionChange }) => {
 }
 
 
-const GraphToolbar = ({ loading }) => {
+const GraphToolbar = () => {
     const state = useContext(GraphStore.State)
     const dispatch = useContext(GraphStore.Dispatch)
 

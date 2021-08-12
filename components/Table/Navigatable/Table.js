@@ -10,7 +10,6 @@ import {
 } from './Elements'
 import { useTableState } from '@react-stately/table';
 import  { useTable } from '@react-aria/table'
-
 import { GlobalStore } from '../../../store'
 
 const mauveA = {
@@ -55,6 +54,7 @@ function Table(props) {
   
     return (
       <table {...gridProps} ref={ref}>
+
         <TableRowGroup
           type="thead"
           style={{
@@ -83,14 +83,24 @@ function Table(props) {
             </TableHeaderRow>
           ))}
         </TableRowGroup>
+
         <TableRowGroup type="tbody">
           {[...collection.body.childNodes].map((row) => (
             <TableRow key={row.key} item={row} state={state}>
               {[...row.childNodes].map((cell) =>
                 cell.props.isSelectionCell ? (
-                  <TableCheckboxCell key={cell.key} cell={cell} state={state} style={{ backgroundColor: 'red' }} />
+                  <TableCheckboxCell 
+                    key={cell.key} 
+                    cell={cell} 
+                    state={state} 
+                    style={{ backgroundColor: 'red' }} 
+                  />
                 ) : (
-                  <TableCell key={cell.key} cell={cell} state={state} />
+                  <TableCell 
+                    key={cell.key} 
+                    cell={cell} 
+                    state={state} 
+                  />
                 )
               )}
             </TableRow>

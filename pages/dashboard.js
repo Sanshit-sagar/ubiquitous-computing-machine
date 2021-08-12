@@ -5,12 +5,6 @@ import { useSession } from 'next-auth/client'
 
 import { Box } from '../primitives/Box'
 import { Flex } from '../primitives/Flex'
-import { Text } from '../primitives/Text'
-import { Card } from '../primitives/Card'
-import { mauve } from '@radix-ui/colors'
-import { Heading } from '../primitives/Heading'
-import StyledSeparator from '../primitives/Separator'
-
 import Layout from '../sections/Layout'
 import Loader from '../components/Loader'
 
@@ -97,7 +91,6 @@ const StatTables = () => {
     if(error) return <p> Error! {error.message} </p>
 
     let datasets = [
-        // { id: 0, data: summary.clickstream, title: 'Recent Views', size: 'lg' },
         { id: 1, data: summary.slugsByPopularity, title: 'Most Views', size: 'md' },
         { id: 2, data: summary.ips, title: 'IP Addresses', size: 'md'},
         { id: 3, data: summary.destinations, title: 'Destinations', size: 'md'},
@@ -109,7 +102,6 @@ const StatTables = () => {
     return (
         <Box css={{ height: '100%', width: '100%', height: '575px', overflowY: 'hidden', overflowX: 'hidden', pt: '$1' }}>
             <Flex css={{ width: '100%', fd: 'row', jc: 'flex-start', ai: 'stretch', flexWrap: 'wrap', gap: '$2' }}>                
-                
                 {datasets.map(function(value, index) {
                     return (
                         <div key={index}> 
@@ -121,15 +113,12 @@ const StatTables = () => {
                         </div>
                     );
                 })}
-            
             </Flex>
         </Box>
     );
 }
 
-
 const DashboardPage = ({ metadata }) => {
-
     return (
         <Layout
             metadata={metadata}

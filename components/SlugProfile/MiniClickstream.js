@@ -2,8 +2,6 @@ import React from 'react';
 import useSWR from 'swr';
 
 import { LoadingSpinner } from '../Loader'
-
-import { Text } from '../../primitives/Text'
 import { Box } from '../../primitives/Box'
 import { Flex } from '../../primitives/Flex'
 
@@ -18,10 +16,6 @@ export const useClickstreamBySlug = (slug) => {
         loading: !data && !error,
         error
     };
-}
-
-const EmptySlugClickstream = () => {
-    return <Text> No clicks to show </Text>
 }
 
 const SlugClickstreamSkeleton = () => {

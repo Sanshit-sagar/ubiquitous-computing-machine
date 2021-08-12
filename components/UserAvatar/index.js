@@ -1,20 +1,10 @@
-import React, { useState } from 'react'
-import { useSession } from 'next-auth/client'
-import toast from 'react-hot-toast'
+import React from 'react'
 
-import Loader from '../Loader'
+import { LoadingSpinner } from '../Loader'
+import { useSession } from 'next-auth/client'
 import { Avatar, AvatarFallback, AvatarImage } from '../../primitives/Avatar'
 
-function getInitials(name) {
-  let nameArr = name.split(' ');  
-  if(!nameArr.length) return '';
-
-  let firstInitial = nameArr[0].charAt(1);
-  let secondInitial = nameArr[1]?.charAt(1) || ' '
-  let initialsStr = `${firstInitial}${secondInitial}`
-
-  return initialsStr.toUpperCase(); 
-}
+import toast from 'react-hot-toast'
 
 const UserAvatar = () => {
   const [session, loading] = useSession()
@@ -38,7 +28,7 @@ const UserAvatar = () => {
         : null } 
       </>
       <AvatarFallback delayMs={600}>
-        {getInitials(session.user.name)}
+        <LoadingSpinner />
       </AvatarFallback>
     </Avatar>
   );
