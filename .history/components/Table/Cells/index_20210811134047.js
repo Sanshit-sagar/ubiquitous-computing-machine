@@ -110,30 +110,26 @@ export const LifeLeftCell = ({ value }) => {
 }
 
 export const UrlCell = ({ value }) => {
-    try {
-        let hostname = new URL(value).hostname;
-        const uiState = useContext(GlobalStore.State)
+    let hostname = new URL(value).hostname;
+    const uiState = useContext(GlobalStore.State)
 
-        return (
-            <StyledCell 
-                long={true} 
-                value={
-                    <Flex css={{ fd: 'column', jc:'flex-start', ai: 'flex-start', gap: '$1' }}>
-                        <Link href={value}> 
-                            <Text size="1" css={{ color: uiState.darkMode ? violetDarkA.violetA12 : violetA.violetA12, cursor: 'alias'}} > 
-                            {hostname || value.substring(0, 20)} 
-                            </Text>
-                        </Link>
-                        <Text size="1"> 
-                            {value.substring(0,25)}... 
+    return (
+        <StyledCell 
+            long={true} 
+            value={
+                <Flex css={{ fd: 'column', jc:'flex-start', ai: 'flex-start', gap: '$1' }}>
+                    <Link href={value}> 
+                        <Text size="1" css={{ color: uiState.darkMode ? violetDarkA.violetA12 : violetA.violetA12, cursor: 'alias'}} > 
+                        {hostname || value.substring(0, 20)} 
                         </Text>
-                    </Flex>
-                } 
-            />
-        );
-    } catch (error) {
-        return value.substring(0,20); 
-    }
+                    </Link>
+                    <Text size="1"> 
+                        {value.substring(0,25)}... 
+                    </Text>
+                </Flex>
+            } 
+        />
+    );
 }
 
 export const TimestampCell = ({ value }) => {
